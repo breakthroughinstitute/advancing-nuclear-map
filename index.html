@@ -250,7 +250,7 @@ sL=L.geoJSON(GD,{style:{fillColor:"transparent",fillOpacity:0,weight:.8,color:"#
     onEachFeature:function(f,l){const a=N2A[f.properties.name]||"";
       l.bindTooltip(function(){return bST(a)},{className:"state-tip",sticky:true,opacity:1,direction:"top",offset:[0,-12]});
       l.on("mouseover",function(){var bs=getStateOverlayStyle(f);var fc=bs.fillColor==="transparent"?"#1e293b":bs.fillColor;this.setStyle({fillColor:fc,fillOpacity:(bs.fillOpacity||0)+.15,weight:2,color:"#475569",opacity:.7})});
-      l.on("mouseout",function(){this.setStyle(getStateOverlayStyle(f))});}else{this.setStyle({fillColor:"transparent",fillOpacity:0,weight:.8,color:"#cbd5e1",opacity:.3});}});
+      l.on("mouseout",function(){this.setStyle(getStateOverlayStyle(f))});
       l.on("dblclick",function(){var sn=f.properties.name;if(sn&&SC[cS]&&SC[cS][sn]){cSt=sn;document.getElementById("stateSelect").value=sn;document.querySelectorAll(".main-tab").forEach(function(x){x.classList.remove("active");if(x.dataset.tab==="dashboard")x.classList.add("active")});swT("dashboard")}})}}).addTo(map);
   gL=L.layerGroup().addTo(map);cL=L.layerGroup().addTo(map);
   bTg();bLg()}
