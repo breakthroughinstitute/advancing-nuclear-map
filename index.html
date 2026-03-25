@@ -249,7 +249,28 @@ function getStateOverlayStyle(feature){
   if(showMkt&&rd){var fc=rd.mkt==="Deregulated"?"#bfdbfe":"#fce7f3";return{fillColor:fc,fillOpacity:.4,weight:.8,color:"#cbd5e1",opacity:.3};}
   return{fillColor:"transparent",fillOpacity:0,weight:.8,color:"#cbd5e1",opacity:.3};
 }
-function applyStateOverlay(){if(!sL)return;sL.setStyle(getStateOverlayStyle);}
+function applyStateOverlay(){
+  if(!sL)return;
+  sL.setStyle(getStateOverlayStyle);
+  var showReg=document.getElementById("showRegulatory")&&document.getElementById("showRegulatory").checked;
+  var showMkt=document.getElementById("showMarket")&&document.getElementById("showMarket").checked;
+  var el=document.getElementById("overlayLegend");
+  if(!el)return;
+  if(showReg){
+    el.innerHTML='<div class="legend-section"><h3>Regulatory Climate</h3><div class="legend-grid">'+
+      '<div class="legend-item"><span class="legend-dot" style="background:#bbf7d0;border:1px solid #86efac;border-radius:2px;width:14px;height:14px"></span>Clear pathway</div>'+
+      '<div class="legend-item"><span class="legend-dot" style="background:#fef08a;border:1px solid #fde047;border-radius:2px;width:14px;height:14px"></span>Mixed / restrictions</div>'+
+      '<div class="legend-item"><span class="legend-dot" style="background:#fecaca;border:1px solid #fca5a5;border-radius:2px;width:14px;height:14px"></span>Restricted (moratorium)</div>'+
+      '</div></div>';
+  } else if(showMkt){
+    el.innerHTML='<div class="legend-section"><h3>Electricity Market</h3><div class="legend-grid">'+
+      '<div class="legend-item"><span class="legend-dot" style="background:#bfdbfe;border:1px solid #93c5fd;border-radius:2px;width:14px;height:14px"></span>Deregulated</div>'+
+      '<div class="legend-item"><span class="legend-dot" style="background:#fce7f3;border:1px solid #f9a8d4;border-radius:2px;width:14px;height:14px"></span>Regulated</div>'+
+      '</div></div>';
+  } else {
+    el.innerHTML='';
+  }
+}
 function toggleRegLayer(){var cb=document.getElementById("showMarket");if(cb&&document.getElementById("showRegulatory").checked)cb.checked=false;applyStateOverlay();}
 function toggleMarketLayer(){var cb=document.getElementById("showRegulatory");if(cb&&document.getElementById("showMarket").checked)cb.checked=false;applyStateOverlay();}
 
@@ -296,7 +317,7 @@ function uM(){gL.clearLayers();cL.clearLayers();const sd=DATA.g[cS];if(!sd)retur
 
 function bLg(){const p=document.getElementById("legend");let h='<h3>Technology Colors</h3><div class="legend-grid">';AT.forEach(t=>{h+='<div class="legend-item"><span class="legend-dot" style="background:'+COLORS[t]+'"></span>'+(TN[t]||t)+"</div>"});
   h+='</div><div class="legend-section"><h3>Circle Size (MW)</h3><div class="size-legend">';[{m:100,r:5},{m:500,r:7},{m:1e3,r:9},{m:2e3,r:12},{m:5e3,r:16}].forEach(s=>{h+='<div style="text-align:center"><div class="size-circle" style="width:'+s.r*2+"px;height:"+s.r*2+'px;margin:0 auto"></div><div class="size-label">'+s.m+"</div></div>"});
-  h+='</div></div><div class="legend-section" style="font-size:10px;color:#94a3b8">Thick border = coal conversion<br>Hover state for details</div>';p.innerHTML=h}
+  h+='</div></div><div class="legend-section" style="font-size:10px;color:#94a3b8">Thick border = coal conversion<br>Double-click state → Dashboard</div><div id="overlayLegend"></div>';p.innerHTML=h}
 
 const STK=["Coal","NG CC","NG GT","CCS","Nuclear","SMR","ARTES","HTGR","Wind","Offshore","Hydro","UPV","DPV","Geo/Bio","UtilStorage"];
 const SKC=["#252A2B","#6D7374","#C0C6C8","#D62728","#814DB1","#0D4459","#0DC3A8","#56A9D5","#2CA02C","#98DF8A","#003FFD","#FFDE20","#FF7F0E","#8C564B","#E82269"];
