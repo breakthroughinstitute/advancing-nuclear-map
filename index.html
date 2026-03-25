@@ -234,7 +234,7 @@ function initMap(){
   
 sL=L.geoJSON(GD,{style:{fillColor:"transparent",fillOpacity:0,weight:.8,color:"#cbd5e1",opacity:.3},bubblingMouseEvents:true,
     onEachFeature:function(f,l){const a=N2A[f.properties.name]||"";
-      l.bindTooltip(function(){return bST(a)},{className:"state-tip",sticky:true,opacity:1,direction:"top",offset:[0,-12]});
+      l.bindTooltip(function(){return bST(a,f.properties.name)},{className:"state-tip",sticky:true,opacity:1,direction:"top",offset:[0,-12]});
       l.on("mouseover",function(){var bs=getStateOverlayStyle(f);var fc=bs.fillColor==="transparent"?"#1e293b":bs.fillColor;this.setStyle({fillColor:fc,fillOpacity:(bs.fillOpacity||0)+.15,weight:2,color:"#475569",opacity:.7})});
       l.on("mouseout",function(){this.setStyle(getStateOverlayStyle(f))});
       l.on("dblclick",function(){var sn=f.properties.name;if(sn&&SC[cS]&&SC[cS][sn]){cSt=sn;document.getElementById("stateSelect").value=sn;document.querySelectorAll(".main-tab").forEach(function(x){x.classList.remove("active");if(x.dataset.tab==="dashboard")x.classList.add("active")});swT("dashboard")}})}}).addTo(map);
@@ -275,7 +275,7 @@ function toggleRegLayer(){var cb=document.getElementById("showMarket");if(cb&&do
 function toggleMarketLayer(){var cb=document.getElementById("showRegulatory");if(cb&&document.getElementById("showMarket").checked)cb.checked=false;applyStateOverlay();}
 
 
-function bST(a){const sd=(SD[cS]||{})[a]||{},d=sd[cY]||{},r=d.reactors||{},rt=(r.SMR||0)+(r.ARTES||0)+(r.HTGR||0);
+function bST(a,stateName){const sd=(SD[cS]||{})[a]||{},d=sd[cY]||{},r=d.reactors||{},rt=(r.SMR||0)+(r.ARTES||0)+(r.HTGR||0);
   let h='<div class="stt"><h4>'+a+" \u2014 "+cY+"</h4><div class=\"stt-section\"><div class=\"stt-label\">Advanced Nuclear Reactors</div>";
   if(rt>0){if(r.SMR)h+='<div class="stt-row"><span class="k"><span class="stt-dot" style="background:#0D4459"></span>SMR</span><span class="v">'+r.SMR+"</span></div>";
     if(r.ARTES)h+='<div class="stt-row"><span class="k"><span class="stt-dot" style="background:#0DC3A8"></span>ARTES</span><span class="v">'+r.ARTES+"</span></div>";
@@ -287,7 +287,7 @@ function bST(a){const sd=(SD[cS]||{})[a]||{},d=sd[cY]||{},r=d.reactors||{},rt=(r
   h+='<div class="stt-row"><span class="k">All Energy</span><span class="v">'+fD(d.capTotal)+'</span></div></div>';
   h+='<div class="stt-divider"></div><div class="stt-section"><div class="stt-label">Energy Jobs</div>';
   h+='<div class="stt-row"><span class="k">Adv Nuclear</span><span class="v">'+(d.jobsNuke||0).toLocaleString()+'</span></div>';
-  h+='<div class="stt-row"><span class="k">All Energy</span><span class="v">'+(d.jobsTotal||0).toLocaleString()+"</span></div></div>";var _sr=SR[a];if(_sr){var _ec=_sr.env==="Clear"?"#4ade80":_sr.env==="Mixed"?"#fbbf24":"#f87171";var _mc=_sr.mkt==="Deregulated"?"#93c5fd":"#f9a8d4";
+  h+='<div class="stt-row"><span class="k">All Energy</span><span class="v">'+(d.jobsTotal||0).toLocaleString()+"</span></div></div>";var _sr=SR[stateName]||SR[a];if(_sr){var _ec=_sr.env==="Clear"?"#4ade80":_sr.env==="Mixed"?"#fbbf24":"#f87171";var _mc=_sr.mkt==="Deregulated"?"#93c5fd":"#f9a8d4";
 h+='<div class="stt-divider"></div><div class="stt-section"><div class="stt-label">Policy &amp; Market</div>';
 h+='<div class="stt-row"><span class="k">Electricity Market</span><span class="v" style="color:'+_mc+'">'+_sr.mkt+'</span></div>';
 h+='<div class="stt-row"><span class="k">Uprate Pathway</span><span class="v" style="color:'+_ec+'">'+_sr.env+'</span></div>';
