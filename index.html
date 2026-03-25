@@ -246,7 +246,7 @@ function getStateOverlayStyle(feature){
   var showReg=document.getElementById("showRegulatory")&&document.getElementById("showRegulatory").checked;
   var showMkt=document.getElementById("showMarket")&&document.getElementById("showMarket").checked;
   if(showReg&&rd){var fc=rd.env==="Clear"?"#bbf7d0":rd.env==="Mixed"?"#fef08a":"#fecaca";return{fillColor:fc,fillOpacity:.4,weight:.8,color:"#cbd5e1",opacity:.3};}
-  if(showMkt&&rd){var fc=rd.mkt==="Deregulated"?"#bfdbfe":"#fce7f3";return{fillColor:fc,fillOpacity:.4,weight:.8,color:"#cbd5e1",opacity:.3};}
+  if(showMkt&&rd){var fc=rd.mkt==="Deregulated"?"#bfdbfe":"#fde8dd";return{fillColor:fc,fillOpacity:.4,weight:.8,color:"#cbd5e1",opacity:.3};}
   return{fillColor:"transparent",fillOpacity:0,weight:.8,color:"#cbd5e1",opacity:.3};
 }
 function applyStateOverlay(){
@@ -265,7 +265,7 @@ function applyStateOverlay(){
   } else if(showMkt){
     el.innerHTML='<div class="legend-section"><h3>Electricity Market</h3><div class="legend-grid">'+
       '<div class="legend-item"><span class="legend-dot" style="background:#bfdbfe;border:1px solid #93c5fd;border-radius:2px;width:14px;height:14px"></span>Deregulated</div>'+
-      '<div class="legend-item"><span class="legend-dot" style="background:#fce7f3;border:1px solid #f9a8d4;border-radius:2px;width:14px;height:14px"></span>Regulated</div>'+
+      '<div class="legend-item"><span class="legend-dot" style="background:#fde8dd;border:1px solid #EE5C36;border-radius:2px;width:14px;height:14px"></span>Regulated</div>'+
       '</div></div>';
   } else {
     el.innerHTML='';
@@ -287,7 +287,7 @@ function bST(a,stateName){const sd=(SD[cS]||{})[a]||{},d=sd[cY]||{},r=d.reactors
   h+='<div class="stt-row"><span class="k">All Energy</span><span class="v">'+fD(d.capTotal)+'</span></div></div>';
   h+='<div class="stt-divider"></div><div class="stt-section"><div class="stt-label">Energy Jobs</div>';
   h+='<div class="stt-row"><span class="k">Adv Nuclear</span><span class="v">'+(d.jobsNuke||0).toLocaleString()+'</span></div>';
-  h+='<div class="stt-row"><span class="k">All Energy</span><span class="v">'+(d.jobsTotal||0).toLocaleString()+"</span></div></div>";var _sr=SR[stateName]||SR[a];if(_sr){var _ec=_sr.env==="Clear"?"#4ade80":_sr.env==="Mixed"?"#fbbf24":"#f87171";var _mc=_sr.mkt==="Deregulated"?"#93c5fd":"#f9a8d4";h+='<div class="stt-divider"></div><div class="stt-section"><div class="stt-label">Policy &amp; Market</div><div class="stt-row"><span class="k">Electricity Market</span><span class="v" style="color:'+_mc+'">'+_sr.mkt+'</span></div><div class="stt-row"><span class="k">Uprate Pathway</span><span class="v" style="color:'+_ec+'">'+_sr.env+'</span></div>';if(_sr.mor&&_sr.mor!=="None")h+='<div class="stt-row"><span class="k">Moratorium</span><span class="v" style="color:#f87171">'+_sr.mor+'</span></div>';if(_sr.waste&&_sr.waste!=="None")h+='<div class="stt-row"><span class="k">Waste Policy</span><span class="v" style="color:#fbbf24">'+_sr.waste+'</span></div>';h+='</div>';}h+="</div>";return h}
+  h+='<div class="stt-row"><span class="k">All Energy</span><span class="v">'+(d.jobsTotal||0).toLocaleString()+"</span></div></div>";var _sr=SR[stateName]||SR[a];if(_sr){var _ec=_sr.env==="Clear"?"#4ade80":_sr.env==="Mixed"?"#fbbf24":"#f87171";var _mc=_sr.mkt==="Deregulated"?"#93c5fd":"#EE5C36";h+='<div class="stt-divider"></div><div class="stt-section"><div class="stt-label">Policy &amp; Market</div><div class="stt-row"><span class="k">Electricity Market</span><span class="v" style="color:'+_mc+'">'+_sr.mkt+'</span></div><div class="stt-row"><span class="k">Uprate Pathway</span><span class="v" style="color:'+_ec+'">'+_sr.env+'</span></div>';if(_sr.mor&&_sr.mor!=="None")h+='<div class="stt-row"><span class="k">Moratorium</span><span class="v" style="color:#f87171">'+_sr.mor+'</span></div>';if(_sr.waste&&_sr.waste!=="None")h+='<div class="stt-row"><span class="k">Waste Policy</span><span class="v" style="color:#fbbf24">'+_sr.waste+'</span></div>';h+='</div>';}h+="</div>";return h}
 
 function bTg(){const c=document.getElementById("layerToggles");
   [{l:"Fossil",t:["Coal","NGCC","NGCT","CCS"],c:"#252A2B"},{l:"Nuclear",t:["Nuclear","SMR","ARTES","HTGR"],c:"#814DB1"},{l:"Renew",t:["Wind","Offshore","UPV","DPV","CSP","Hydro","Geo/Bio"],c:"#2CA02C"},{l:"Storage",t:["Storage"],c:"#E82269"}].forEach(g=>{
