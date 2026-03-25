@@ -402,15 +402,17 @@ function uSD(){const sc=(SC[cS]||{})[cSt]||{},mix=sc[cY]||{};
   if(totalCap>0)sm+='Total energy capacity is <strong>'+(totalCap/1000).toFixed(0)+' GW</strong>, led by '+topTech+' ('+topPct+'%).';
   document.getElementById("stateSummary").innerHTML=sm;
   var banDiv=document.getElementById("banSection");
-  if(BAN_STATES.indexOf(cSt)>=0&&BAN_BY_STATE[cSt]){
-    var bSc=BAN_BY_STATE[cSt];
+  var BAN_NAME_MAP={"California":"CA","Connecticut":"CT","Illinois":"IL","Massachusetts":"MA","Maine":"ME","Minnesota":"MN","New Jersey":"NJ","Oregon":"OR","Rhode Island":"RI","Vermont":"VT"};
+  var cStAbbr=BAN_NAME_MAP[cSt]||cSt;
+  if(BAN_STATES.indexOf(cStAbbr)>=0&&BAN_BY_STATE[cStAbbr]){
+    var bSc=BAN_BY_STATE[cStAbbr];
     var yrs=[2020,2025,2030,2035,2040,2045,2050];
     var sCols=["#0D4459","#0DC3A8","#EE5C36","#F8B944"];
     var sLabs=["Low Cost / Low LR","Low Cost / High LR","High Cost / Low LR","High Cost / High LR"];
     var sKeys=["LowCost LowLR","LowCost HighLR","HighCost LowLR","HighCost HighLR"];
     var curVal=(bSc[cS]&&bSc[cS]["2050"])||0;
     document.getElementById("banText").innerHTML="<strong>"+cSt+"</strong> has a nuclear moratorium. Under the current scenario, this state has <strong>$"+curVal.toFixed(1)+"B</strong> in cumulative unrealized nuclear investment through 2050 across all advanced reactor types.";
-    var ds=sKeys.map(function(s,i){return{label:sLabs[i],data:yrs.map(function(y){return((bSc[s]||{})[y])||0;}),borderColor:sCols[i],backgroundColor:"transparent",borderWidth:2,pointRadius:3,tension:.3};});
+    var ds=sKeys.map(function(s,i){return{label:sLabs[i],data:yrs.map(function(y){return((bSc[s]||{})[String(y)])||0;}),borderColor:sCols[i],backgroundColor:"transparent",borderWidth:2,pointRadius:3,tension:.3};});
     if(chBan){chBan.data.labels=yrs;chBan.data.datasets=ds;chBan.update();}
     banDiv.style.display="block";
   }else{banDiv.style.display="none";}
