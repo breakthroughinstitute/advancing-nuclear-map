@@ -287,13 +287,7 @@ function bST(a,stateName){const sd=(SD[cS]||{})[a]||{},d=sd[cY]||{},r=d.reactors
   h+='<div class="stt-row"><span class="k">All Energy</span><span class="v">'+fD(d.capTotal)+'</span></div></div>';
   h+='<div class="stt-divider"></div><div class="stt-section"><div class="stt-label">Energy Jobs</div>';
   h+='<div class="stt-row"><span class="k">Adv Nuclear</span><span class="v">'+(d.jobsNuke||0).toLocaleString()+'</span></div>';
-  h+='<div class="stt-row"><span class="k">All Energy</span><span class="v">'+(d.jobsTotal||0).toLocaleString()+"</span></div></div>";var _sr=SR[stateName]||SR[a];if(_sr){var _ec=_sr.env==="Clear"?"#4ade80":_sr.env==="Mixed"?"#fbbf24":"#f87171";var _mc=_sr.mkt==="Deregulated"?"#93c5fd":"#f9a8d4";
-h+='<div class="stt-divider"></div><div class="stt-section"><div class="stt-label">Policy &amp; Market</div>';
-h+='<div class="stt-row"><span class="k">Electricity Market</span><span class="v" style="color:'+_mc+'">'+_sr.mkt+'</span></div>';
-h+='<div class="stt-row"><span class="k">Uprate Pathway</span><span class="v" style="color:'+_ec+'">'+_sr.env+'</span></div>';
-if(_sr.mor&&_sr.mor!=="None")h+='<div class="stt-row"><span class="k">Moratorium</span><span class="v" style="color:#f87171">'+_sr.mor+'</span></div>';
-if(_sr.waste&&_sr.waste!=="None")h+='<div class="stt-row"><span class="k">Waste Policy</span><span class="v" style="color:#fbbf24">'+_sr.waste+'</span></div>';
-h+='</div>';}h+="</div>";return h}
+  h+='<div class="stt-row"><span class="k">All Energy</span><span class="v">'+(d.jobsTotal||0).toLocaleString()+"</span></div></div>";var _sr=SR[stateName]||SR[a];if(_sr){var _ec=_sr.env==="Clear"?"#4ade80":_sr.env==="Mixed"?"#fbbf24":"#f87171";var _mc=_sr.mkt==="Deregulated"?"#93c5fd":"#f9a8d4";h+='<div class="stt-divider"></div><div class="stt-section"><div class="stt-label">Policy &amp; Market</div><div class="stt-row"><span class="k">Electricity Market</span><span class="v" style="color:'+_mc+'">'+_sr.mkt+'</span></div><div class="stt-row"><span class="k">Uprate Pathway</span><span class="v" style="color:'+_ec+'">'+_sr.env+'</span></div>';if(_sr.mor&&_sr.mor!=="None")h+='<div class="stt-row"><span class="k">Moratorium</span><span class="v" style="color:#f87171">'+_sr.mor+'</span></div>';if(_sr.waste&&_sr.waste!=="None")h+='<div class="stt-row"><span class="k">Waste Policy</span><span class="v" style="color:#fbbf24">'+_sr.waste+'</span></div>';h+='</div>';}h+="</div>";return h}
 
 function bTg(){const c=document.getElementById("layerToggles");
   [{l:"Fossil",t:["Coal","NGCC","NGCT","CCS"],c:"#252A2B"},{l:"Nuclear",t:["Nuclear","SMR","ARTES","HTGR"],c:"#814DB1"},{l:"Renew",t:["Wind","Offshore","UPV","DPV","CSP","Hydro","Geo/Bio"],c:"#2CA02C"},{l:"Storage",t:["Storage"],c:"#E82269"}].forEach(g=>{
