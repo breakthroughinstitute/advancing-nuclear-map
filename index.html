@@ -199,7 +199,7 @@
 <div class="chart-card"><h3>Advanced Nuclear Cost Learning ($/kW)</h3><canvas id="chartCosts"></canvas></div>
 <div class="chart-card"><h3>Power Sector CO&#8322; Emissions</h3><canvas id="chartEmissions"></canvas></div></div>
 <div class="chart-row" style="margin-top:16px">
-<div class="chart-card"><h3>Summer Week Dispatch Profile (2050)</h3><canvas id="chartDispatch" style="height:220px!important"></canvas></div>
+<div class="chart-card"><h3>Summer Week Dispatch Profile (2050)</h3><p id="dispatchSubtitle" style="font-size:11px;color:#64748b;margin:-8px 0 6px;"></p><canvas id="chartDispatch" style="height:220px!important"></canvas></div>
 <div class="chart-card"><h3>Retail Electricity Rate ($/MWh)</h3><canvas id="chartRetail"></canvas></div>
 <div class="chart-card"><h3>Total System Cost ($B/year)</h3><canvas id="chartSysCost"></canvas></div></div><div class="chart-row" style="margin-top:16px"><div class="chart-card" style="grid-column:span 2"><h3>Total Nuclear Capacity Projection (GW) &mdash; Advanced + Conventional</h3><canvas id="chartNucCap" style="height:240px!important"></canvas></div><div class="chart-card"><h3>National Nuclear Jobs</h3><canvas id="chartJobs"></canvas></div></div></div>
 </div>
@@ -326,7 +326,7 @@ function initDash(){
   const lo={responsive:true,maintainAspectRatio:false};
   ch1=new Chart(document.getElementById("chartCap"),{type:"bar",data:{labels:[],datasets:[]},options:{...lo,plugins:{legend:{display:true,position:"bottom",labels:{boxWidth:8,font:{size:9},padding:4}}},scales:{x:{stacked:true,grid:{display:false}},y:{stacked:true,grid:{color:"#f1f5f9"},title:{display:true,text:"GW",font:{size:10}}}}}});
   ch2=new Chart(document.getElementById("chartCosts"),{type:"line",data:{labels:[],datasets:[]},options:{...lo,plugins:{legend:{display:true,position:"bottom",labels:{boxWidth:8,font:{size:10}}}},scales:{x:{grid:{display:false}},y:{grid:{color:"#f1f5f9"},title:{display:true,text:"$/kW",font:{size:10}}}}}});
-  ch3=new Chart(document.getElementById("chartEmissions"),{type:"line",data:{labels:[],datasets:[]},options:{...lo,plugins:{legend:{display:false}},scales:{x:{grid:{display:false}},y:{grid:{color:"#f1f5f9"},title:{display:true,text:"Million Tons CO\u2082",font:{size:10}}}}}});
+  ch3=new Chart(document.getElementById("chartEmissions"),{type:"line",data:{labels:[],datasets:[]},options:{...lo,plugins:{legend:{display:true,position:"bottom",labels:{boxWidth:10,font:{size:9},padding:4}}},scales:{x:{grid:{display:false}},y:{grid:{color:"#f1f5f9"},title:{display:true,text:"Million Tons CO\u2082",font:{size:10}}}}}});
   ch4=new Chart(document.getElementById("chartStateMix"),{type:"doughnut",data:{labels:[],datasets:[]},options:{...lo,plugins:{legend:{display:true,position:"right",labels:{boxWidth:8,font:{size:9},padding:4}}}}});
   ch5=new Chart(document.getElementById("chartStateTime"),{type:"bar",data:{labels:[],datasets:[]},options:{...lo,plugins:{legend:{display:false}},scales:{x:{stacked:true,grid:{display:false}},y:{stacked:true,grid:{color:"#f1f5f9"},title:{display:true,text:"GW",font:{size:10}}}}}});
   ch6=new Chart(document.getElementById("chartDispatch"),{type:"line",data:{labels:[],datasets:[]},options:{...lo,plugins:{legend:{display:true,position:"bottom",labels:{boxWidth:8,font:{size:8},padding:4}}},scales:{x:{grid:{display:false},ticks:{maxTicksLimit:7,font:{size:9}}},y:{stacked:true,grid:{color:"#f1f5f9"},title:{display:true,text:"GW",font:{size:10}}}},elements:{point:{radius:0},line:{borderWidth:1}}}});
@@ -346,13 +346,14 @@ function uDash(){const nd=NAT[cS];if(!nd)return;
     {label:"ARTES",borderColor:"#0DC3A8",backgroundColor:"transparent",data:YEARS.map(y=>(nd.costs[y]||{}).ARTES||null),pointRadius:3,borderWidth:2,tension:.3},
     {label:"HTGR",borderColor:"#56A9D5",backgroundColor:"transparent",data:YEARS.map(y=>(nd.costs[y]||{}).HTGR||null),pointRadius:3,borderWidth:2,tension:.3},
     {label:"Traditional",borderColor:"#814DB1",backgroundColor:"transparent",data:YEARS.map(y=>(nd.costs[y]||{})["Traditional Nuclear"]||null),pointRadius:3,borderWidth:2,tension:.3,borderDash:[4,4]}]};ch2.update();
-  ch3.data={labels:YEARS,datasets:scenKeys.map((s,i)=>({label:scenLabels[i],borderColor:scenColors[i],backgroundColor:"transparent",data:YEARS.map(y=>Math.round(((NAT[s].emissions[y]||{}).CO2||0)/1e6)),pointRadius:3,borderWidth:s===cS?3:1.5,tension:.3,borderDash:s===cS?[]:[4,4]}))};ch3.update();
+  ch3.data={labels:YEARS,datasets:[{label:"All scenarios (carbon-constrained)",borderColor:"#64748b",backgroundColor:"rgba(100,116,139,0.1)",fill:true,data:YEARS.map(y=>Math.round(((nd.emissions[y]||{}).CO2||0)/1e6)),pointRadius:3,borderWidth:2,tension:.3}]};ch3.update();
   // Dispatch profile
   const dp=DISP[cS]||[];
   const dTechs=["UPV","DPV","Wind","Offshore","ARTES","SMR","HTGR","Nuclear","CCS","Hydro","Geo/Bio","Storage","NG CC","NG GT","Coal"];
   const dColors=["#FFDE20","#FF7F0E","#2CA02C","#98DF8A","#0DC3A8","#0D4459","#56A9D5","#814DB1","#D62728","#003FFD","#8C564B","#E82269","#6D7374","#C0C6C8","#252A2B"];
   const dLabels=dp.map((_,i)=>{const d=Math.floor(i/24)+1;const h=i%24;return d===1||h===0?"Day "+d:""});
   ch6.data={labels:dLabels,datasets:dTechs.map((t,i)=>({label:t,backgroundColor:dColors[i]+"cc",borderColor:dColors[i],fill:true,data:dp.map(h=>h[t]||0)}))};ch6.update();
+  var _dSub=document.getElementById("dispatchSubtitle");if(_dSub){var _scenFull={"LowCost LowLR":"Low Cost / Low Learning Rate","LowCost HighLR":"Low Cost / High Learning Rate","HighCost LowLR":"High Cost / Low Learning Rate","HighCost HighLR":"High Cost / High Learning Rate"};_dSub.textContent="Hourly generation (GW) for one summer week — Scenario: "+(_scenFull[cS]||cS)+". Shows how dispatchable sources balance solar & wind.";}
   // Retail rates - show all scenarios
   ch7.data={labels:YEARS,datasets:scenKeys.map((s,i)=>({label:scenLabels[i],borderColor:scenColors[i],backgroundColor:"transparent",data:YEARS.map(y=>(RETAIL[s]||{})[y]||null),pointRadius:3,borderWidth:s===cS?3:1.5,tension:.3,borderDash:s===cS?[]:[4,4]}))};ch7.update();
   // System cost - show all scenarios
