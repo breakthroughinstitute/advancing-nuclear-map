@@ -195,9 +195,9 @@
 </div>
 </div>
 <div class="dash-section"><h2>National Summary</h2><div class="chart-row">
-<div class="chart-card"><h3>Installed Capacity by Technology</h3><canvas id="chartCap"></canvas></div>
-<div class="chart-card"><h3>Advanced Nuclear Cost Learning ($/kW)</h3><canvas id="chartCosts"></canvas></div>
-<div class="chart-card"><h3>Power Sector CO&#8322; Emissions</h3><canvas id="chartEmissions"></canvas></div></div>
+<div class="chart-card"><h3>Installed Capacity by Technology &mdash; <span id="capScenLabel" style="font-weight:400;color:#64748b;font-size:12px"></span></h3><canvas id="chartCap"></canvas></div>
+<div class="chart-card"><h3>Advanced Nuclear Cost Learning ($/kW) &mdash; <span id="costScenLabel" style="font-weight:400;color:#64748b;font-size:12px"></span></h3><canvas id="chartCosts"></canvas></div>
+<div class="chart-card"><h3>Power Sector CO&#8322; Emissions &mdash; <span style="font-weight:400;color:#64748b;font-size:12px">All Scenarios</span></h3><canvas id="chartEmissions"></canvas></div></div>
 <div class="chart-row" style="margin-top:16px">
 <div class="chart-card"><h3>Summer Week Dispatch Profile (2050)</h3><p id="dispatchSubtitle" style="font-size:11px;color:#64748b;margin:-8px 0 6px;"></p><canvas id="chartDispatch" style="height:220px!important"></canvas></div>
 <div class="chart-card"><h3>Retail Electricity Rate ($/MWh)</h3><canvas id="chartRetail"></canvas></div>
@@ -342,6 +342,7 @@ function uDash(){const nd=NAT[cS];if(!nd)return;
   const scenColors=["#0d9488","#06b6d4","#f59e0b","#ef4444"];
   const scenLabels=["Low/Low","Low/High","High/Low","High/High"];
   ch1.data={labels:YEARS,datasets:STK.map((t,i)=>({label:t,backgroundColor:SKC[i],data:YEARS.map(y=>Math.round(((nd.cap[y]||{})[t]||0)/1000))})).filter(d=>d.data.some(v=>v>0))};ch1.update();
+  (function(){var _sf={"LowCost LowLR":"Low Cost / Low LR","LowCost HighLR":"Low Cost / High LR","HighCost LowLR":"High Cost / Low LR","HighCost HighLR":"High Cost / High LR"};var _sl=_sf[cS]||cS;var _e1=document.getElementById("capScenLabel");if(_e1)_e1.textContent=_sl;var _e2=document.getElementById("costScenLabel");if(_e2)_e2.textContent=_sl;})();
   ch2.data={labels:YEARS,datasets:[{label:"SMR",borderColor:"#0D4459",backgroundColor:"transparent",data:YEARS.map(y=>(nd.costs[y]||{}).SMR||null),pointRadius:3,borderWidth:2,tension:.3},
     {label:"ARTES",borderColor:"#0DC3A8",backgroundColor:"transparent",data:YEARS.map(y=>(nd.costs[y]||{}).ARTES||null),pointRadius:3,borderWidth:2,tension:.3},
     {label:"HTGR",borderColor:"#56A9D5",backgroundColor:"transparent",data:YEARS.map(y=>(nd.costs[y]||{}).HTGR||null),pointRadius:3,borderWidth:2,tension:.3},
