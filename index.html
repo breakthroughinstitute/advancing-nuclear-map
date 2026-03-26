@@ -338,6 +338,9 @@ function initDash(){
 
 function getNucCapDatasets(){var sKeys=["LowCost LowLR","LowCost HighLR","HighCost LowLR","HighCost HighLR"];var sLabels=["Low Cost / Low LR","Low Cost / High LR","High Cost / Low LR","High Cost / High LR"];var sColors=["#0DC3A8","#0D4459","#F8B944","#EE5C36"];var ds=sKeys.map(function(s,i){return {label:sLabels[i],borderColor:sColors[i],backgroundColor:"transparent",data:YEARS.map(function(y){var cap=(NAT[s]||{cap:{}}).cap[y]||{};return Math.round(((cap.Nuclear||0)+(cap.SMR||0)+(cap.ARTES||0)+(cap.HTGR||0))/1000);}),pointRadius:3,borderWidth:s===cS?3:1.5,tension:.3,borderDash:s===cS?[]:[4,4]};});ds.push({label:"COP Tripling Pledge: 35 GW by 2035",borderColor:"#64748b",backgroundColor:"#64748b",data:[null,null,null,35,null,null,null],pointRadius:8,pointStyle:"circle",borderWidth:0,showLine:false});ds.push({label:"Biden Goal: 200 GW by 2050",borderColor:"#3b82f6",backgroundColor:"#3b82f6",data:[null,null,null,null,null,null,200],pointRadius:8,pointStyle:"circle",borderWidth:0,showLine:false});ds.push({label:"Trump Goal: 300 GW by 2050",borderColor:"#ef4444",backgroundColor:"#ef4444",data:[null,null,null,null,null,null,300],pointRadius:8,pointStyle:"circle",borderWidth:0,showLine:false});return ds;}
 function uDash(){const nd=NAT[cS];if(!nd)return;
+  const scenKeys=["LowCost LowLR","LowCost HighLR","HighCost LowLR","HighCost HighLR"];
+  const scenColors=["#0d9488","#06b6d4","#f59e0b","#ef4444"];
+  const scenLabels=["Low/Low","Low/High","High/Low","High/High"];
   ch1.data={labels:YEARS,datasets:scenKeys.map((s,i)=>({label:scenLabels[i],borderColor:scenColors[i],backgroundColor:"transparent",data:YEARS.map(y=>Math.round(Object.values((NAT[s]||{cap:{}}).cap[y]||{}).reduce((a,v)=>a+v,0)/1000)),pointRadius:3,borderWidth:s===cS?3:1.5,tension:.3,borderDash:s===cS?[]:[4,4]}))};ch1.update();
   ch2.data={labels:YEARS,datasets:[{label:"SMR",borderColor:"#0D4459",backgroundColor:"transparent",data:YEARS.map(y=>(nd.costs[y]||{}).SMR||null),pointRadius:3,borderWidth:2,tension:.3},
     {label:"ARTES",borderColor:"#0DC3A8",backgroundColor:"transparent",data:YEARS.map(y=>(nd.costs[y]||{}).ARTES||null),pointRadius:3,borderWidth:2,tension:.3},
@@ -351,9 +354,6 @@ function uDash(){const nd=NAT[cS];if(!nd)return;
   const dLabels=dp.map((_,i)=>{const d=Math.floor(i/24)+1;const h=i%24;return d===1||h===0?"Day "+d:""});
   ch6.data={labels:dLabels,datasets:dTechs.map((t,i)=>({label:t,backgroundColor:dColors[i]+"cc",borderColor:dColors[i],fill:true,data:dp.map(h=>h[t]||0)}))};ch6.update();
   // Retail rates - show all scenarios
-  const scenKeys=["LowCost LowLR","LowCost HighLR","HighCost LowLR","HighCost HighLR"];
-  const scenColors=["#0d9488","#06b6d4","#f59e0b","#ef4444"];
-  const scenLabels=["Low/Low","Low/High","High/Low","High/High"];
   ch7.data={labels:YEARS,datasets:scenKeys.map((s,i)=>({label:scenLabels[i],borderColor:scenColors[i],backgroundColor:"transparent",data:YEARS.map(y=>(RETAIL[s]||{})[y]||null),pointRadius:3,borderWidth:s===cS?3:1.5,tension:.3,borderDash:s===cS?[]:[4,4]}))};ch7.update();
   // System cost - show all scenarios
   ch8.data={labels:YEARS,datasets:scenKeys.map((s,i)=>({label:scenLabels[i],borderColor:scenColors[i],backgroundColor:"transparent",data:YEARS.map(y=>(SYSCOST[s]||{})[y]||null),pointRadius:3,borderWidth:s===cS?3:1.5,tension:.3,borderDash:s===cS?[]:[4,4]}))};ch8.update();
