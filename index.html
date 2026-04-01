@@ -214,7 +214,7 @@
 <div class="dash-section"><h2>National Summary</h2><div class="chart-row" style="margin-top:0"><div class="chart-card"><h3>Total Nuclear Capacity Projection (GW) &mdash; Advanced + Conventional</h3><canvas id="chartNucCap" style="height:240px!important"></canvas></div><div class="chart-card"><h3>National Nuclear Jobs</h3><canvas id="chartJobs"></canvas></div><div class="chart-card"><h3>Nuclear Share of Total Capacity (%) &mdash; <span style="font-weight:400;color:#64748b;font-size:12px">All Scenarios</span></h3><canvas id="chartNucShare"></canvas></div></div><div class="chart-row" style="margin-top:16px"><div class="chart-card"><h3>Power Sector CO&#8322; Emissions &mdash; <span style="font-weight:400;color:#64748b;font-size:12px">All Scenarios</span></h3><canvas id="chartEmissions"></canvas></div><div class="chart-card"><h3>Installed Capacity by Technology &mdash; <span id="capScenLabel" style="font-weight:400;color:#64748b;font-size:12px"></span></h3><canvas id="chartCap"></canvas></div><div class="chart-card"><h3>Advanced Nuclear Cost Learning ($/kW) &mdash; <span id="costScenLabel" style="font-weight:400;color:#64748b;font-size:12px"></span></h3><canvas id="chartCosts"></canvas></div></div><div class="chart-row" style="margin-top:16px"><div class="chart-card"><h3>Retail Electricity Rate ($/MWh)</h3><canvas id="chartRetail"></canvas></div><div class="chart-card"><h3>Total System Cost ($B/year)</h3><canvas id="chartSysCost"></canvas></div><div class="chart-card"><h3>Summer Week Dispatch Profile (2050)</h3><p id="dispatchSubtitle" style="font-size:11px;color:#64748b;margin:-8px 0 6px;"></p><canvas id="chartDispatch" style="height:220px!important"></canvas></div></div></div>
 </div>
 <script>
-const COLORS={"Coal":"#252A2B","NGCC":"#6D7374","NGCT":"#C0C6C8","Storage":"#E82269","Nuclear":"#814DB1","Hydro":"#003FFD","Wind":"#2CA02C","Offshore":"#98DF8A","DPV":"#FF7F0E","UPV":"#FFDE20","CSP":"#FDFD4D","Geo/Bio":"#8C564B","CCS":"#D62728","SMR":"#0D4459","ARTES":"#0DC3A8","HTGR":"#56A9D5"};
+const COLORS={"Coal":"#252A2B","NGCC":"#6D7374","NGCT":"#C0C6C8","Storage":"#E82269","Nuclear":"#814DB1","Hydro":"#003FFD","Wind":"#2CA02C","Offshore":"#98DF8A","DPV":"#FF7F0E","UPV":"#FFDE20","CSP":"#FDFD4D","Geo/Bio":"#8C564B","CCS":"#D62728","SMR":"#0DC3A8","ARTES":"#0DC3A8","HTGR":"#0DC3A8"};
 const TN={"Coal":"Coal","NGCC":"Natural Gas CC","NGCT":"Natural Gas CT","Storage":"Storage","Nuclear":"Nuclear","Hydro":"Hydro","Wind":"Onshore Wind","Offshore":"Offshore Wind","DPV":"Rooftop Solar","UPV":"Utility Solar","CSP":"CSP","Geo/Bio":"Geo/Bio","CCS":"CCS","SMR":"SMR","ARTES":"ARTES","HTGR":"HTGR"};
 const CC={"NG CC":"#6D7374","NG GT":"#C0C6C8",UtilStorage:"#E82269",Nuclear:"#814DB1",Hydro:"#003FFD",Wind:"#2CA02C",Offshore:"#98DF8A",DPV:"#FF7F0E",UPV:"#FFDE20","Geo/Bio":"#8C564B",CCS:"#D62728",SMR:"#0DC3A8",ARTES:"#0DC3A8",HTGR:"#0DC3A8","Advanced Nuclear":"#0DC3A8",Coal:"#252A2B"};
 const YEARS=[2020,2025,2030,2035,2040,2045,2050],AT=Object.keys(COLORS);
@@ -383,18 +383,15 @@ function uSD(){const sc=(SC[cS]||{})[cSt]||{},mix=sc[cY]||{};
   const abbr=N2A[cSt]||"";
   const nd=(ND[cS]||{})[abbr]||{};
   const yd=nd[cY]||{};
-  const tks=[{k:"SMR",c:"#0D4459"},{k:"ARTES",c:"#0DC3A8"},{k:"HTGR",c:"#56A9D5"}];
+  const advR=(r.SMR||0)+(r.ARTES||0)+(r.HTGR||0);const advJ=((yd.SMR||{}).jobs||0)+((yd.ARTES||{}).jobs||0)+((yd.HTGR||{}).jobs||0);const advRv=((yd.SMR||{}).rev||0)+((yd.ARTES||{}).rev||0)+((yd.HTGR||{}).rev||0);const tks=[{k:"Advanced Nuclear",c:"#0DC3A8",r:advR,j:advJ,rv:advRv}];
   let h='<table class="nuke-tbl"><thead><tr><th>Type</th><th style="text-align:right">Reactors</th><th style="text-align:right">Jobs</th><th style="text-align:right">Revenue</th><th style="text-align:right">ROI</th></tr></thead><tbody>';
   let tR=0,tJ=0,tRv=0;
   tks.forEach(t=>{
-    const dd=yd[t.k]||{};const rc=r[t.k]||0;
-    const jobs=dd.jobs||0,rev=dd.rev||0,roi=dd.roi||0;
+    const rc=t.r,jobs=t.j,rev=t.rv;
     tR+=rc;tJ+=jobs;tRv+=rev;
-    const roiCls=roi>0?"roi-pos":roi<0?"roi-neg":"";
     h+='<tr><td><span class="tech-label"><span class="tech-dot" style="background:'+t.c+'"></span>'+t.k+'</span></td>';
     h+='<td class="num">'+rc+'</td><td class="num">'+(jobs?jobs.toLocaleString():"\u2014")+'</td>';
-    h+='<td class="num">'+fD(rev)+'</td>';
-    h+='<td class="num '+roiCls+'">'+(roi?roi.toFixed(1)+"%":"\u2014")+'</td></tr>';
+    h+='<td class="num">'+fD(rev)+'</td><td class="num">\u2014</td></tr>';
   });
   h+='<tr class="total-row"><td>Total</td><td class="num">'+tR+'</td><td class="num">'+(tJ?tJ.toLocaleString():"\u2014")+'</td>';
   h+='<td class="num">'+fD(tRv)+'</td><td></td></tr>';
@@ -402,18 +399,16 @@ function uSD(){const sc=(SC[cS]||{})[cSt]||{},mix=sc[cY]||{};
   document.getElementById("nukeTable").innerHTML=h;
   document.getElementById("nukeTableTitle").textContent="Advanced Nuclear Breakdown \u2014 "+cY;
   // Summary text
-  const totalCap=Object.values(mix).reduce((s,v)=>s+v,0);
+  const totalCap=Object.values(mixMerged).reduce((s,v)=>s+v,0);
   const topTech=me.length?me[0][0]:"";
   const topPct=totalCap>0?Math.round(me[0][1]/totalCap*100):0;
-  const nukePct=totalCap>0?Math.round(((mix.SMR||0)+(mix.ARTES||0)+(mix.HTGR||0)+(mix.Nuclear||0))/totalCap*100):0;
+  const nukePct=totalCap>0?Math.round(((mixMerged["Advanced Nuclear"]||0)+(mixMerged.Nuclear||0))/totalCap*100):0;
   var _sAbbr=N2A[cSt]||"";
   var _sr2=SR[cSt];
   // Line 1: deployment facts
   var sm1='<strong>'+cSt+'</strong> in <strong>'+cY+'</strong>: ';
   if(tR>0){
-    const parts=[];
-    if(r.SMR)parts.push(r.SMR+' SMR');if(r.ARTES)parts.push(r.ARTES+' ARTES');if(r.HTGR)parts.push(r.HTGR+' HTGR');
-    sm1+='deploys <strong>'+tR+' advanced nuclear reactors</strong> ('+parts.join(', ')+'), creating <strong>'+tJ.toLocaleString()+' nuclear jobs</strong>. ';
+    sm1+='deploys <strong>'+tR+' advanced nuclear reactors</strong>, creating <strong>'+tJ.toLocaleString()+' nuclear jobs</strong>. ';
     if(nukePct>0)sm1+='Nuclear provides <strong>'+nukePct+'%</strong> of ';
     else sm1+='Nuclear provides <strong>0%</strong> of ';
   }else{
