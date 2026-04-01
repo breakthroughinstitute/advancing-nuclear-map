@@ -66,14 +66,12 @@
 .rankings-table th:hover{color:#0d9488}.rankings-table th.sorted{color:#0d9488}
 .rankings-table td{padding:8px 14px;font-size:12px;color:#334155;border-bottom:1px solid #f1f5f9}
 .rankings-table tr:hover td{background:#f8fafc}.rankings-table td.num{text-align:right;font-weight:600;font-variant-numeric:tabular-nums}
-.nuke-tbl{width:100%;border-collapse:collapse;font-size:12px}
-.nuke-tbl th{text-align:left;font-size:10px;color:#94a3b8;font-weight:600;text-transform:uppercase;letter-spacing:.3px;padding:6px 8px;border-bottom:2px solid #e2e8f0}
-.nuke-tbl td{padding:6px 8px;border-bottom:1px solid #f1f5f9;color:#334155}
-.nuke-tbl td.num{text-align:right;font-weight:600;font-variant-numeric:tabular-nums}
-.nuke-tbl .tech-label{display:flex;align-items:center;gap:6px;font-weight:600}
-.nuke-tbl .tech-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
-.nuke-tbl tr.total-row td{border-top:2px solid #e2e8f0;font-weight:700;color:#1e293b}
-.nuke-tbl .roi-pos{color:#0d9488}.nuke-tbl .roi-neg{color:#e11d48}
+.stat-grid{display:flex;flex-direction:column;gap:0;padding:4px 0}
+.stat-item{display:flex;justify-content:space-between;align-items:center;padding:10px 14px;border-bottom:1px solid #f1f5f9}
+.stat-item:last-child{border-bottom:none}
+.stat-label{font-size:12px;font-weight:600;color:#64748b;text-transform:uppercase;letter-spacing:.04em}
+.stat-value{font-size:18px;font-weight:700;color:#1e293b}
+.stat-dot{width:10px;height:10px;border-radius:50%;background:#0DC3A8;display:inline-block;margin-right:6px;vertical-align:middle}
 .about-overlay{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(15,23,42,.6);z-index:2000;backdrop-filter:blur(4px);overflow-y:auto;padding:40px 20px}
 .about-overlay.active{display:flex;justify-content:center;align-items:flex-start}
 .about-panel{background:#fff;border-radius:14px;max-width:720px;width:100%;padding:32px 36px;box-shadow:0 8px 40px rgba(0,0,0,.2);position:relative;line-height:1.6;color:#334155}
@@ -208,7 +206,7 @@
 <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-bottom:16px">
   <div class="state-card"><h3 id="stateMixTitle">Energy Mix</h3><canvas id="chartStateMix"></canvas></div>
   <div class="state-card"><h3>Capacity Over Time</h3><canvas id="chartStateTime"></canvas></div>
-  <div class="state-card"><h3 id="nukeTableTitle">Advanced Nuclear Breakdown</h3><div id="nukeTable"></div></div>
+  <div class="state-card"><h3 id="nukeTableTitle">Advanced Nuclear Statistics</h3><div id="nukeTable"></div></div>
 </div>
 </div>
 <div class="dash-section"><h2>National Summary</h2><div class="chart-row" style="margin-top:0"><div class="chart-card"><h3>Total Nuclear Capacity Projection (GW) &mdash; Advanced + Conventional</h3><canvas id="chartNucCap" style="height:240px!important"></canvas></div><div class="chart-card"><h3>National Nuclear Jobs</h3><canvas id="chartJobs"></canvas></div><div class="chart-card"><h3>Nuclear Share of Total Capacity (%) &mdash; <span style="font-weight:400;color:#64748b;font-size:12px">All Scenarios</span></h3><canvas id="chartNucShare"></canvas></div></div><div class="chart-row" style="margin-top:16px"><div class="chart-card"><h3>Power Sector CO&#8322; Emissions &mdash; <span style="font-weight:400;color:#64748b;font-size:12px">All Scenarios</span></h3><canvas id="chartEmissions"></canvas></div><div class="chart-card"><h3>Installed Capacity by Technology &mdash; <span id="capScenLabel" style="font-weight:400;color:#64748b;font-size:12px"></span></h3><canvas id="chartCap"></canvas></div><div class="chart-card"><h3>Advanced Nuclear Cost Learning ($/kW) &mdash; <span id="costScenLabel" style="font-weight:400;color:#64748b;font-size:12px"></span></h3><canvas id="chartCosts"></canvas></div></div><div class="chart-row" style="margin-top:16px"><div class="chart-card"><h3>Retail Electricity Rate ($/MWh)</h3><canvas id="chartRetail"></canvas></div><div class="chart-card"><h3>Total System Cost ($B/year)</h3><canvas id="chartSysCost"></canvas></div><div class="chart-card"><h3>Summer Week Dispatch Profile (2050)</h3><p id="dispatchSubtitle" style="font-size:11px;color:#64748b;margin:-8px 0 6px;"></p><canvas id="chartDispatch" style="height:220px!important"></canvas></div></div></div>
@@ -383,21 +381,18 @@ function uSD(){const sc=(SC[cS]||{})[cSt]||{},mix=sc[cY]||{};
   const abbr=N2A[cSt]||"";
   const nd=(ND[cS]||{})[abbr]||{};
   const yd=nd[cY]||{};
-  const advR=(r.SMR||0)+(r.ARTES||0)+(r.HTGR||0);const advJ=((yd.SMR||{}).jobs||0)+((yd.ARTES||{}).jobs||0)+((yd.HTGR||{}).jobs||0);const advRv=((yd.SMR||{}).rev||0)+((yd.ARTES||{}).rev||0)+((yd.HTGR||{}).rev||0);const tks=[{k:"Advanced Nuclear",c:"#0DC3A8",r:advR,j:advJ,rv:advRv}];
-  let h='<table class="nuke-tbl"><thead><tr><th>Type</th><th style="text-align:right">Reactors</th><th style="text-align:right">Jobs</th><th style="text-align:right">Revenue</th><th style="text-align:right">ROI</th></tr></thead><tbody>';
-  let tR=0,tJ=0,tRv=0;
-  tks.forEach(t=>{
-    const rc=t.r,jobs=t.j,rev=t.rv;
-    tR+=rc;tJ+=jobs;tRv+=rev;
-    h+='<tr><td><span class="tech-label"><span class="tech-dot" style="background:'+t.c+'"></span>'+t.k+'</span></td>';
-    h+='<td class="num">'+rc+'</td><td class="num">'+(jobs?jobs.toLocaleString():"\u2014")+'</td>';
-    h+='<td class="num">'+fD(rev)+'</td><td class="num">\u2014</td></tr>';
-  });
-  h+='<tr class="total-row"><td>Total</td><td class="num">'+tR+'</td><td class="num">'+(tJ?tJ.toLocaleString():"\u2014")+'</td>';
-  h+='<td class="num">'+fD(tRv)+'</td><td></td></tr>';
-  h+='</tbody></table>';
+  const advR=(r.SMR||0)+(r.ARTES||0)+(r.HTGR||0);const advJ=((yd.SMR||{}).jobs||0)+((yd.ARTES||{}).jobs||0)+((yd.HTGR||{}).jobs||0);const advRv=((yd.SMR||{}).rev||0)+((yd.ARTES||{}).rev||0)+((yd.HTGR||{}).rev||0);
+  const tR=advR,tJ=advJ,tRv=advRv;
+  const _roiW=(((yd.SMR||{}).roi||0)*((yd.SMR||{}).rev||0))+(((yd.ARTES||{}).roi||0)*((yd.ARTES||{}).rev||0))+(((yd.HTGR||{}).roi||0)*((yd.HTGR||{}).rev||0));
+  const advRoi=advRv>0?_roiW/advRv:0;
+  let h='<div class="stat-grid">';
+  h+='<div class="stat-item"><span class="stat-label">Reactors</span><span class="stat-value"><span class="stat-dot"></span>'+tR+'</span></div>';
+  h+='<div class="stat-item"><span class="stat-label">Jobs</span><span class="stat-value">'+(tJ?tJ.toLocaleString():"\u2014")+'</span></div>';
+  h+='<div class="stat-item"><span class="stat-label">Revenue</span><span class="stat-value">'+fD(tRv)+'</span></div>';
+  h+='<div class="stat-item"><span class="stat-label">ROI</span><span class="stat-value">'+(advRoi?advRoi.toFixed(1)+"%":"\u2014")+'</span></div>';
+  h+='</div>';
   document.getElementById("nukeTable").innerHTML=h;
-  document.getElementById("nukeTableTitle").textContent="Advanced Nuclear Breakdown \u2014 "+cY;
+  document.getElementById("nukeTableTitle").textContent="Advanced Nuclear Statistics \u2014 "+cY;
   // Summary text
   const totalCap=Object.values(mixMerged).reduce((s,v)=>s+v,0);
   const topTech=me.length?me[0][0]:"";
