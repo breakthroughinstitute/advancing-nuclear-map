@@ -199,7 +199,7 @@
   </div>
 </div>
 <div id="mapView" style="position:relative;"><div id="map"><div class="legend-panel" id="legend"></div></div></div>
-<div id="dashboard">
+<div id="dashboard" style="display:none">
 <div class="dash-section"><h2>State Explorer</h2>
 <div style="margin-bottom:12px;display:flex;align-items:center;gap:16px">
   <div><label style="font-size:13px;font-weight:600;color:#475569;margin-right:8px">Select State</label><select class="state-select" id="stateSelect" style="width:220px"></select></div>
@@ -370,7 +370,7 @@ function uDash(){const nd=NAT[cS];if(!nd)return;
   ch7.data={labels:YEARS,datasets:scenKeys.map((s,i)=>({label:scenLabels[i],borderColor:scenColors[i],backgroundColor:"transparent",data:YEARS.map(y=>(RETAIL[s]||{})[y]||null),pointRadius:3,borderWidth:s===cS?3:1.5,tension:.3,borderDash:s===cS?[]:[4,4]}))};ch7.update();
   // System cost - show all scenarios
   ch8.data={labels:YEARS,datasets:scenKeys.map((s,i)=>({label:scenLabels[i],borderColor:scenColors[i],backgroundColor:"transparent",data:YEARS.map(y=>(SYSCOST[s]||{})[y]||null),pointRadius:3,borderWidth:s===cS?3:1.5,tension:.3,borderDash:s===cS?[]:[4,4]}))};ch8.update();
-  if(chNucCap){chNucCap.data.datasets=getNucCapDatasets();chNucCap.update();}
+  if(chNucCap){chNucCap.data={labels:YEARS,datasets:getNucCapDatasets()};chNucCap.update();}
   if(chJobs){chJobs.data={labels:YEARS,datasets:scenKeys.map((s,i)=>({label:scenLabels[i],borderColor:scenColors[i],backgroundColor:"transparent",data:YEARS.map(y=>NAT_JOBS[s]?NAT_JOBS[s][y]||0:0),pointRadius:3,borderWidth:s===cS?3:1.5,tension:.3,borderDash:s===cS?[]:[4,4]}))};chJobs.update();if(chNucShare){chNucShare.data={labels:YEARS,datasets:scenKeys.map((s,i)=>({label:scenLabels[i],borderColor:scenColors[i],backgroundColor:"transparent",data:YEARS.map(y=>{const cap=(NAT[s]||{cap:{}}).cap[y]||{};const nuc=(cap.Nuclear||0)+(cap.SMR||0)+(cap.ARTES||0)+(cap.HTGR||0);const tot=Object.values(cap).reduce((a,b)=>a+b,0);return tot>0?Math.round(nuc/tot*1000)/10:0;}),pointRadius:2,borderWidth:s===cS?2.5:1.5,tension:.3,borderDash:s===cS?[]:[4,4]}))};chNucShare.update();}}
   uSD()}
 
