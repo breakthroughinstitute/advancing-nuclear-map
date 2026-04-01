@@ -412,20 +412,6 @@
   </div>
 </div>
 <div id="mapView" style="position:relative;"><div id="map"><div class="legend-panel" id="legend"></div></div></div>
-<div id="dashboard">
-<div class="dash-section"><h2>State Explorer</h2>
-<div style="margin-bottom:12px;display:flex;align-items:center;gap:16px">
-  <div><label style="font-size:13px;font-weight:600;color:#475569;margin-right:8px">Select State</label><select class="state-select" id="stateSelect" style="width:220px"></select></div>
-</div>
-<div id="stateSummary" style="background:#fff;border-radius:10px;padding:14px 18px;margin-bottom:16px;box-shadow:0 1px 4px rgba(0,0,0,0.06);font-size:13px;color:#334155;line-height:1.7"></div>
-<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-bottom:16px">
-  <div class="state-card"><h3 id="stateMixTitle">Energy Mix</h3><canvas id="chartStateMix"></canvas></div>
-  <div class="state-card"><h3>Capacity Over Time</h3><canvas id="chartStateTime"></canvas></div>
-  <div class="state-card"><h3 id="nukeTableTitle">Advanced Nuclear Breakdown</h3><div id="nukeTable"></div></div>
-</div>
-</div>
-<div class="dash-section"><h2>National Summary</h2><div class="chart-row" style="margin-top:0"><div class="chart-card"><h3>Total Nuclear Capacity Projection (GW) &mdash; Advanced + Conventional</h3><canvas id="chartNucCap" style="height:240px!important"></canvas></div><div class="chart-card"><h3>National Nuclear Jobs</h3><canvas id="chartJobs"></canvas></div></div><div class="chart-row" style="margin-top:16px"><div class="chart-card"><h3>Power Sector CO&#8322; Emissions &mdash; <span style="font-weight:400;color:#64748b;font-size:12px">All Scenarios</span></h3><canvas id="chartEmissions"></canvas></div><div class="chart-card"><h3>Installed Capacity by Technology &mdash; <span id="capScenLabel" style="font-weight:400;color:#64748b;font-size:12px"></span></h3><canvas id="chartCap"></canvas></div><div class="chart-card"><h3>Advanced Nuclear Cost Learning ($/kW) &mdash; <span id="costScenLabel" style="font-weight:400;color:#64748b;font-size:12px"></span></h3><canvas id="chartCosts"></canvas></div></div><div class="chart-row" style="margin-top:16px"><div class="chart-card"><h3>Retail Electricity Rate ($/MWh)</h3><canvas id="chartRetail"></canvas></div><div class="chart-card"><h3>Total System Cost ($B/year)</h3><canvas id="chartSysCost"></canvas></div><div class="chart-card"><h3>Summer Week Dispatch Profile (2050)</h3><p id="dispatchSubtitle" style="font-size:11px;color:#64748b;margin:-8px 0 6px;"></p><canvas id="chartDispatch" style="height:220px!important"></canvas></div></div></div>
-</div>
 <script>
 const COLORS={"Coal":"#252A2B","NGCC":"#6D7374","NGCT":"#C0C6C8","Storage":"#E82269","Nuclear":"#814DB1","Hydro":"#003FFD","Wind":"#2CA02C","Offshore":"#98DF8A","DPV":"#FF7F0E","UPV":"#FFDE20","CSP":"#FDFD4D","Geo/Bio":"#8C564B","CCS":"#D62728","SMR":"#0D4459","ARTES":"#0DC3A8","HTGR":"#56A9D5"};
 const TN={"Coal":"Coal","NGCC":"Natural Gas CC","NGCT":"Natural Gas CT","Storage":"Storage","Nuclear":"Nuclear","Hydro":"Hydro","Wind":"Onshore Wind","Offshore":"Offshore Wind","DPV":"Rooftop Solar","UPV":"Utility Solar","CSP":"CSP","Geo/Bio":"Geo/Bio","CCS":"CCS","SMR":"SMR","ARTES":"ARTES","HTGR":"HTGR"};
