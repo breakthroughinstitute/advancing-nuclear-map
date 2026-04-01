@@ -563,7 +563,7 @@ function uDash(){const nd=NAT[cS];if(!nd)return;
   const dTechs=["UPV","DPV","Wind","Offshore","ARTES","SMR","HTGR","Nuclear","CCS","Hydro","Geo/Bio","Storage","NG CC","NG GT","Coal"];
   const dColors=["#FFDE20","#FF7F0E","#2CA02C","#98DF8A","#0DC3A8","#0D4459","#56A9D5","#814DB1","#D62728","#003FFD","#8C564B","#E82269","#6D7374","#C0C6C8","#252A2B"];
   const dLabels=dp.map((_,i)=>{const d=Math.floor(i/24)+1;const h=i%24;return d===1||h===0?"Day "+d:""});
-  ch6.data={labels:dLabels,datasets:dTechs.map((t,i)=>({label:t,backgroundColor:dColors[i]+"cc",borderColor:dColors[i],fill:true,data:dp.map(h=>h[t]||0)}))};ch6.update();
+  ch6.data={labels:dLabels,datasets:dTechs.map((t,i)=>({label:t,backgroundColor:dColors[i]+"cc",borderColor:dColors[i],fill:i===0?"origin":"-1",data:dp.map(h=>h[t]||0)}))};ch6.update();
   var _dSub=document.getElementById("dispatchSubtitle");if(_dSub){var _scenFull={"LowCost LowLR":"Low Cost / Low Learning Rate","LowCost HighLR":"Low Cost / High Learning Rate","HighCost LowLR":"High Cost / Low Learning Rate","HighCost HighLR":"High Cost / High Learning Rate"};_dSub.textContent="Hourly generation (GW) for one summer week — Scenario: "+(_scenFull[cS]||cS)+". Shows how dispatchable sources balance solar & wind.";}
   // Retail rates - show all scenarios
   ch7.data={labels:YEARS,datasets:scenKeys.map((s,i)=>({label:scenLabels[i],borderColor:scenColors[i],backgroundColor:"transparent",data:YEARS.map(y=>(RETAIL[s]||{})[y]||null),pointRadius:3,borderWidth:s===cS?3:1.5,tension:.3,borderDash:s===cS?[]:[4,4]}))};ch7.update();
@@ -656,4 +656,5 @@ document.querySelectorAll(".scenario-tab").forEach(b=>{b.addEventListener("click
 document.getElementById("yearSlider").addEventListener("input",function(){cY=String(YEARS[this.value]);document.getElementById("yearDisplay").textContent=cY;if(cT==="map")uM();else{uSD()}});
 document.getElementById("playBtn").addEventListener("click",tgA);document.getElementById("showConversions").addEventListener("change",uM);
 initMap();initDash();uM();
+window.addEventListener("load",function(){if(map)map.invalidateSize();});
 </script></body></html>
