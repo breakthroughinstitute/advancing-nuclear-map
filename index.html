@@ -84,6 +84,12 @@
 .about-close:hover{background:#e2e8f0}
 .about-panel .glossary-grid{display:grid;grid-template-columns:1fr 1fr;gap:4px 16px;font-size:12px;margin-bottom:10px}
 .about-panel .glossary-grid .g-item{display:flex;gap:6px}.about-panel .glossary-grid .g-label{font-weight:700;color:#1e293b;min-width:60px}
+#uprate-card{position:absolute;bottom:24px;right:24px;background:rgba(255,255,255,.96);border-radius:10px;padding:14px 16px;box-shadow:0 2px 12px rgba(0,0,0,.15);z-index:1000;width:250px;display:none}
+#uprate-card h3{font-size:12px;color:#814DB1;font-weight:700;margin-bottom:4px;display:flex;align-items:center;gap:6px}
+#uprate-card .uc-total{font-size:20px;font-weight:700;color:#1e293b;margin:6px 0 2px}
+#uprate-card .uc-sub{font-size:11px;color:#64748b;margin-bottom:10px}
+#uprate-card .uc-row{display:flex;justify-content:space-between;font-size:11px;padding:2px 0;color:#475569}
+#uprate-card .uc-note{font-size:9px;color:#94a3b8;margin-top:8px;padding-top:6px;border-top:1px solid #e2e8f0;line-height:1.5}
 </style></head><body>
 <div class="header"><div style="display:flex;align-items:center"><div><h1>Advancing Nuclear Energy</h1><div class="subtitle">The Breakthrough Institute</div></div>
 <div class="main-tabs"><button class="main-tab active" data-tab="map">Map</button><button class="main-tab" data-tab="dashboard">Dashboard</button></div></div>
@@ -200,7 +206,12 @@
     </p>
   </div>
 </div>
-<div id="mapView" style="position:relative;"><div id="map"><div class="legend-panel" id="legend"></div></div></div>
+<div id="mapView" style="position:relative;"><div id="map"><div class="legend-panel" id="legend"></div></div>
+<div id="uprate-card">
+  <h3><span style="width:10px;height:10px;border-radius:50%;border:2px dashed #814DB1;display:inline-block;flex-shrink:0"></span> Nuclear Uprate Potential</h3>
+  <div id="uprate-card-content"></div>
+</div>
+</div>
 <div id="dashboard" style="display:none">
 <div class="dash-section"><h2>State Explorer</h2>
 <div style="margin-bottom:12px;display:flex;align-items:center;gap:16px">
@@ -249,6 +260,27 @@ function fD(v){if(!v||v<=0)return"$0";if(v>=1e9)return"$"+(v/1e9).toFixed(1)+"B"
 function gR(m){if(m>=5000)return 12;if(m>=2000)return 9;if(m>=1000)return 7;if(m>=500)return 5.5;if(m>=100)return 4;return 2.5}
 function gUpR(addMWt){if(addMWt>=800)return 18;if(addMWt>=500)return 15;if(addMWt>=300)return 12;if(addMWt>=150)return 10;return 8;}
 
+function buildUprateCard(){
+  const groups={};let grandMWt=0,sites=0;
+  Object.values(UR).forEach(ur=>{
+    if(!ur.add||ur.add<=0)return;
+    sites++;grandMWt+=ur.add;
+    const g=ur.d.startsWith("GE")?"GE BWR":ur.d.startsWith("W ")?"Westinghouse PWR":ur.d.startsWith("CE")?"Combustion Engineering PWR":ur.d.startsWith("B&W")?"B&W PWR":"Other";
+    groups[g]=(groups[g]||0)+ur.add;
+  });
+  const grandMWe=Math.round(grandMWt/3);
+  let h='<div class="uc-total">+'+grandMWe.toLocaleString()+' MWe</div>';
+  h+='<div class="uc-sub">theoretical max across '+sites+' plant sites</div>';
+  Object.entries(groups).sort((a,b)=>b[1]-a[1]).forEach(([g,mwt])=>{
+    h+='<div class="uc-row"><span>'+g+'</span><span style="font-weight:600">+'+Math.round(mwt/3).toLocaleString()+' MWe</span></div>';
+  });
+  h+='<div class="uc-note">Uprates expand existing capacity without new sites — a near-term, low-cost pathway. Click any dashed ring on the map for plant-level details.<br>Source: FAI State Permitting Playbook (Nov 2025) &bull; INL/EXT-24-78810 &bull; NRC</div>';
+  document.getElementById("uprate-card-content").innerHTML=h;
+}
+function toggleUprateCard(){
+  const card=document.getElementById("uprate-card");
+  if(card)card.style.display=(showUprate&&cT==="map")?"block":"none";
+}
 function initMap(){
   map=L.map("map",{zoomControl:true,maxBounds:[[18,-135],[55,-60]],maxBoundsViscosity:1.0,minZoom:3}).setView([39,-96],4.5);
   L.tileLayer("https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png",{maxZoom:18}).addTo(map);
@@ -313,7 +345,7 @@ function bTg(){const c=document.getElementById("layerToggles");
   // Nuclear — on by default
   mkBtn(c,"Nuclear","#814DB1",function(){const ts=["Nuclear","SMR","ARTES","HTGR"],cl="#814DB1",aa=ts.every(t=>aT.has(t));ts.forEach(t=>aa?aT.delete(t):aT.add(t));if(!aa){this.classList.add("active");this.style.backgroundColor=cl;this.style.color="#fff"}else{this.classList.remove("active");this.style.backgroundColor="#fff";this.style.color=cl}uM();},true);
   // Uprate — on by default, purple dashed rings
-  mkBtn(c,"Uprate","#814DB1",function(){showUprate=!showUprate;if(showUprate){this.classList.add("active");this.style.backgroundColor="#814DB1";this.style.color="#fff"}else{this.classList.remove("active");this.style.backgroundColor="#fff";this.style.color="#814DB1"}uM();},true);
+  mkBtn(c,"Uprate","#814DB1",function(){showUprate=!showUprate;if(showUprate){this.classList.add("active");this.style.backgroundColor="#814DB1";this.style.color="#fff"}else{this.classList.remove("active");this.style.backgroundColor="#fff";this.style.color="#814DB1"}uM();toggleUprateCard();},true);
   // Conversion — on by default
   mkBtn(c,"Conversion","#0DC3A8",function(){showConvert=!showConvert;if(showConvert){this.classList.add("active");this.style.backgroundColor="#0DC3A8";this.style.color="#fff"}else{this.classList.remove("active");this.style.backgroundColor="#fff";this.style.color="#0DC3A8"}uM();},true);
   // Fossil, Renew, Storage — off by default
@@ -471,7 +503,7 @@ function uSD(){const sc=(SC[cS]||{})[cSt]||{},mix=sc[cY]||{};
 }
 
 function swT(t){cT=t;document.getElementById("mapView").style.display=t==="map"?"block":"none";document.getElementById("dashboard").style.display=t==="dashboard"?"block":"none";
-  document.getElementById("mapControls").style.display=t==="map"?"flex":"none";if(t==="map"){setTimeout(()=>map.invalidateSize(),100);uM()}else uDash()}
+  document.getElementById("mapControls").style.display=t==="map"?"flex":"none";if(t==="map"){setTimeout(()=>map.invalidateSize(),100);uM()}else uDash();toggleUprateCard();}
 function tgA(){const b=document.getElementById("playBtn");if(aI){clearInterval(aI);aI=null;b.innerHTML="\u25b6";return}
   b.innerHTML="\u25a0";aI=setInterval(()=>{const sl=document.getElementById("yearSlider");let v=(parseInt(sl.value)+1)%7;sl.value=v;cY=String(YEARS[v]);document.getElementById("yearDisplay").textContent=cY;
     if(cT==="map")uM();else{uSD()}},1500)}
@@ -480,6 +512,6 @@ document.querySelectorAll(".main-tab").forEach(b=>{b.addEventListener("click",fu
 document.querySelectorAll(".scenario-tab").forEach(b=>{b.addEventListener("click",function(){document.querySelectorAll(".scenario-tab").forEach(x=>x.classList.remove("active"));this.classList.add("active");cS=this.dataset.scen;if(cT==="map")uM();else uDash()})});
 document.getElementById("yearSlider").addEventListener("input",function(){cY=String(YEARS[this.value]);document.getElementById("yearDisplay").textContent=cY;if(cT==="map")uM();else{uSD()}});
 document.getElementById("playBtn").addEventListener("click",tgA);
-initMap();initDash();uM();
+initMap();initDash();uM();buildUprateCard();toggleUprateCard();
 window.addEventListener("load",function(){if(map)map.invalidateSize();});
 </script></body></html>
