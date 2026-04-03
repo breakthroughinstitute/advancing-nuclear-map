@@ -111,7 +111,7 @@
     <h3>What This Map Shows</h3>
     <p>Each circle on the map represents a power plant location. Circle <strong>size</strong> corresponds to installed capacity (MW), and <strong>color</strong> indicates the dominant generation technology. Use the year slider to see how the power grid evolves from 2020 to 2050, and switch between scenarios to compare outcomes under different assumptions.</p>
     <p><strong>Coal conversion sites</strong> (shown with thick white borders) represent existing fossil fuel or conventional nuclear plants that the model converts to advanced nuclear reactors. This repowering reuses existing transmission, cooling, and balance-of-plant infrastructure, supporting cost savings and a just transition for local communities. The model deploys advanced reactors at 146 to 254 existing plant sites nationwide across scenarios.</p>
-    <p><strong>Hover over any state</strong> to see a summary of advanced nuclear reactor counts, capital investment, and jobs. <strong>Double-click any state</strong> on the map to jump to the Dashboard with that state's full profile, including a per-technology breakdown of reactors, jobs, investment, revenue, and ROI for SMR, ARTES, and HTGR.</p>
+    <p><strong>Hover over any state</strong> to see a summary of advanced nuclear reactor counts, capital investment, and jobs. <strong>Double-click any state</strong> on the map to jump to the Dashboard with that state's full profile, including combined advanced nuclear statistics on reactors, jobs, revenue, and ROI.</p>
 
     <h3>The Four Scenarios</h3>
     <p>The study uses a bounding analysis with four scenarios that vary two key uncertainties about advanced nuclear technology:</p>
@@ -166,8 +166,8 @@
     <h3>Dashboard</h3>
     <p>The <strong>Dashboard</strong> tab provides two sections:</p>
     <ul>
-      <li><strong>State Explorer</strong> &mdash; Select any state to see an auto-generated summary, energy mix donut chart, capacity over time, and a detailed advanced nuclear breakdown table showing reactors, jobs, investment, revenue, and ROI for each technology (SMR, ARTES, HTGR). Click a state on the map to jump directly here.</li>
-      <li><strong>National Summary</strong> &mdash; Six charts covering installed capacity by technology, advanced nuclear cost learning curves, CO&#8322; emissions trajectory, a summer week dispatch profile showing how ARTES ramps to balance solar and wind, retail electricity rates across all scenarios, and total system cost trends.</li>
+      <li><strong>State Explorer</strong> &mdash; Select any state to see an auto-generated summary, energy mix donut chart, capacity over time, and combined advanced nuclear statistics (reactors, jobs, revenue, and ROI). Click a state on the map to jump directly here.</li>
+      <li><strong>National Summary</strong> &mdash; Nine charts covering additional advanced nuclear capacity with policy goal benchmarks, nuclear jobs, nuclear share of capacity and energy, installed capacity by technology, retail electricity rates, total system cost, a summer week dispatch profile, and CO&#8322; emissions trajectory across all scenarios.</li>
     </ul>
 
     <h3>Map Overlays: Regulatory Climate &amp; Electricity Market</h3>
@@ -212,7 +212,7 @@
   <div class="state-card"><h3 id="nukeTableTitle">Advanced Nuclear Statistics</h3><div id="nukeTable"></div></div>
 </div>
 </div>
-<div class="dash-section"><h2>National Summary</h2><div class="chart-row" style="margin-top:0"><div class="chart-card"><h3>Advanced Nuclear Capacity Projection (GW)</h3><canvas id="chartNucCap" style="height:240px!important"></canvas></div><div class="chart-card"><h3>National Nuclear Power Plant Jobs</h3><canvas id="chartJobs"></canvas></div><div class="chart-card"><h3>Nuclear Share of Total Capacity (%) &mdash; <span style="font-weight:400;color:#64748b;font-size:12px">All Scenarios</span></h3><canvas id="chartNucShare"></canvas></div></div><div class="chart-row" style="margin-top:16px"><div class="chart-card"><h3>Power Sector CO&#8322; Emissions &mdash; <span style="font-weight:400;color:#64748b;font-size:12px">All Scenarios</span></h3><canvas id="chartEmissions"></canvas></div><div class="chart-card"><h3>Installed Capacity by Technology &mdash; <span id="capScenLabel" style="font-weight:400;color:#64748b;font-size:12px"></span></h3><canvas id="chartCap"></canvas></div><div class="chart-card"><h3>Nuclear Share of Total Energy (%) &mdash; <span style="font-weight:400;color:#64748b;font-size:12px">All Scenarios</span></h3><canvas id="chartNucEnergy"></canvas></div></div><div class="chart-row" style="margin-top:16px"><div class="chart-card"><h3>Retail Electricity Rate ($/MWh)</h3><canvas id="chartRetail"></canvas></div><div class="chart-card"><h3>Total System Cost ($B/year)</h3><canvas id="chartSysCost"></canvas></div><div class="chart-card"><h3>Summer Week Dispatch Profile (2050)</h3><p id="dispatchSubtitle" style="font-size:11px;color:#64748b;margin:-8px 0 6px;"></p><canvas id="chartDispatch" style="height:220px!important"></canvas></div></div></div>
+<div class="dash-section"><h2>National Summary</h2><div class="chart-row" style="margin-top:0"><div class="chart-card"><h3>Additional Advanced Nuclear Capacity (GW)</h3><canvas id="chartNucCap" style="height:240px!important"></canvas></div><div class="chart-card"><h3>National Nuclear Power Plant Jobs</h3><canvas id="chartJobs"></canvas></div><div class="chart-card"><h3>Nuclear Share of Total Capacity (%) &mdash; <span style="font-weight:400;color:#64748b;font-size:12px">All Scenarios</span></h3><canvas id="chartNucShare"></canvas></div></div><div class="chart-row" style="margin-top:16px"><div class="chart-card"><h3>Nuclear Share of Total Energy (%) &mdash; <span style="font-weight:400;color:#64748b;font-size:12px">All Scenarios</span></h3><canvas id="chartNucEnergy"></canvas></div><div class="chart-card"><h3>Installed Capacity by Technology &mdash; <span id="capScenLabel" style="font-weight:400;color:#64748b;font-size:12px"></span></h3><canvas id="chartCap"></canvas></div><div class="chart-card"><h3>Retail Electricity Rate ($/MWh)</h3><canvas id="chartRetail"></canvas></div></div><div class="chart-row" style="margin-top:16px"><div class="chart-card"><h3>Total System Cost ($B/year)</h3><canvas id="chartSysCost"></canvas></div><div class="chart-card"><h3>Summer Week Dispatch Profile (2050)</h3><p id="dispatchSubtitle" style="font-size:11px;color:#64748b;margin:-8px 0 6px;"></p><canvas id="chartDispatch" style="height:220px!important"></canvas></div><div class="chart-card"><h3>Power Sector CO&#8322; Emissions &mdash; <span style="font-weight:400;color:#64748b;font-size:12px">All Scenarios</span></h3><canvas id="chartEmissions"></canvas></div></div></div>
 </div>
 <script>
 const COLORS={"Coal":"#252A2B","NGCC":"#6D7374","NGCT":"#C0C6C8","Storage":"#E82269","Nuclear":"#814DB1","Hydro":"#003FFD","Wind":"#2CA02C","Offshore":"#98DF8A","DPV":"#FF7F0E","UPV":"#FFDE20","CSP":"#FDFD4D","Geo/Bio":"#8C564B","CCS":"#D62728","SMR":"#0DC3A8","ARTES":"#0DC3A8","HTGR":"#0DC3A8"};
@@ -429,18 +429,21 @@ function uSD(){const sc=(SC[cS]||{})[cSt]||{},mix=sc[cY]||{};
   const topTech=me.length?me[0][0]:"";
   const topPct=totalCap>0?Math.round(me[0][1]/totalCap*100):0;
   const nukePct=totalCap>0?Math.round(((mixMerged["Advanced Nuclear"]||0)+(mixMerged.Nuclear||0))/totalCap*100):0;
+  const _CF2={"Coal":0.40,"NG CC":0.50,"NG GT":0.15,"CCS":0.50,"Nuclear":0.90,"Advanced Nuclear":0.90,"Wind":0.35,"Offshore":0.45,"UPV":0.22,"DPV":0.15,"Hydro":0.40,"Geo/Bio":0.80,"UtilStorage":0};
+  const totEnergy=Object.entries(mixMerged).reduce((s,[t,v])=>s+(v*(_CF2[t]||0.30)),0);
+  const nukeEnergy=((mixMerged["Advanced Nuclear"]||0)*0.90+(mixMerged.Nuclear||0)*0.90);
+  const nukeEnergyPct=totEnergy>0?Math.round(nukeEnergy/totEnergy*100):0;
   var _sAbbr=N2A[cSt]||"";
   var _sr2=SR[cSt];
   // Line 1: deployment facts
   var sm1='<strong>'+cSt+'</strong> in <strong>'+cY+'</strong>: ';
   if(tR>0){
     sm1+='deploys <strong>'+tR+' advanced nuclear reactors</strong>, creating <strong>'+tJ.toLocaleString()+' nuclear jobs</strong>. ';
-    if(nukePct>0)sm1+='Nuclear provides <strong>'+nukePct+'%</strong> of ';
-    else sm1+='Nuclear provides <strong>0%</strong> of ';
+    sm1+='Nuclear provides <strong>'+nukePct+'%</strong> of installed capacity and <strong>'+nukeEnergyPct+'%</strong> of total electricity generation. ';
   }else{
     sm1+='no advanced nuclear deployment yet. ';
   }
-  if(totalCap>0)sm1+='<strong>'+(totalCap/1000).toFixed(0)+' GW</strong> total capacity, led by '+topTech+' ('+topPct+'%).';
+  if(totalCap>0)sm1+='<strong>'+(totalCap/1000).toFixed(0)+' GW</strong> total grid capacity, led by '+topTech+' ('+topPct+'%).';
   // Line 2: policy context as badges + investment
   var sm2='';
   if(_sr2){
