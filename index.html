@@ -297,7 +297,7 @@ function toggleUprateCard(){
   if(card)card.style.display=(showUprate&&cT==="map")?"block":"none";
 }
 function initMap(){
-  map=L.map("map",{zoomControl:true,maxBounds:[[18,-135],[55,-60]],maxBoundsViscosity:1.0,minZoom:3}).setView([39,-96],4.5);
+  map=L.map("map",{zoomControl:true,attributionControl:false,maxBounds:[[18,-135],[55,-60]],maxBoundsViscosity:1.0,minZoom:3}).setView([39,-96],4.5);
   L.tileLayer("https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png",{maxZoom:18}).addTo(map);
   L.tileLayer("https://{s}.basemaps.cartocdn.com/light_only_labels/{z}/{x}/{y}{r}.png",{maxZoom:18,pane:"shadowPane"}).addTo(map);
   
