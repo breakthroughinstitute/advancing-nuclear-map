@@ -419,7 +419,7 @@ function uM(){gL.clearLayers();uL.clearLayers();cL.clearLayers();const sd=DATA.g
     ph+="</table>";
     if(dom==="Nuclear"&&UR[pnK]){var ur=UR[pnK];if(ur.retYear&&parseInt(cY)>=ur.retYear&&(!ur.restartYear||parseInt(cY)<ur.restartYear))return;ph+='<div style="margin-top:8px;padding-top:8px;border-top:1px solid #334155;font-size:11px;line-height:1.7">';ph+='<div><span style="color:#94a3b8">Reactor:</span> '+ur.d+(ur.u>1?' ×'+ur.u+' units':'')+'</div>';ph+='<div><span style="color:#94a3b8">Thermal capacity:</span> '+ur.mwt.toLocaleString()+' MWt</div>';if(ur.add>0){ph+='<div><span style="color:#94a3b8">Uprate potential:</span> <span style="color:#4ade80">+'+ur.add+' MWt (~+'+(Math.round(ur.add/3))+' MWe)</span></div>';}else{ph+='<div><span style="color:#94a3b8">Uprate potential:</span> <span style="color:#f87171">Already maximized</span></div>';}if(ur.note){ph+='<div><span style="color:#fbbf24">'+ur.note+'</span></div>';}ph+='</div>';
       // Uprate ring overlay
-      if(showUprate){const ring=L.circleMarker([lat,lon],ur.add>0?{radius:gUpR(ur.add),fillOpacity:0,color:"#814DB1",weight:2,opacity:.9,dashArray:"6,4"}:{radius:6,fillOpacity:0,color:"#94a3b8",weight:1.5,opacity:.7});
+      if(showUprate&&ur.add>0){const ring=L.circleMarker([lat,lon],{radius:gUpR(ur.add),fillOpacity:0,color:"#814DB1",weight:2,opacity:.9,dashArray:"6,4"});
         // Build detailed per-unit uprate popup
         const _units=ur.units||(function(){const pm=Math.round(ur.mwt/ur.u),pa=Math.round(ur.add/ur.u);const a=[];for(let i=0;i<ur.u;i++)a.push({mwt:pm,add:pa});return a;})();
         let up='<div class="popup-content"><h4>'+(pNm||"Nuclear Uprate Potential")+'</h4>';
