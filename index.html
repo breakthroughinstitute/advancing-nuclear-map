@@ -303,12 +303,20 @@ function showUprateDetail(ur,pNm,stateName){
   const capPct=getCapPct(siteD);
   let h='<div style="font-size:10px;color:#814DB1;cursor:pointer;margin-bottom:8px;font-weight:600" onclick="buildUprateCard()">\u2190 All plants</div>';
   h+='<div style="font-size:13px;font-weight:700;color:#1e293b;margin-bottom:2px">'+(pNm||"Nuclear Plant")+'</div>';
-  h+='<div style="font-size:11px;color:#814DB1;margin-bottom:6px">'+siteD+(ur.u>1?' &mdash; '+ur.u+' units':'')+' &bull; '+ur.mkt+(ur.add>0?' &bull; <span style="color:#4ade80">+'+Math.round(ur.add/3).toLocaleString()+' MWe</span>':'')+'</div>';
+  h+='<div style="font-size:11px;color:#814DB1;margin-bottom:6px">'+siteD+(ur.u>1?' &mdash; '+ur.u+' units':'')+(ur.add>0?' &bull; <span style="color:#4ade80">+'+Math.round(ur.add/3).toLocaleString()+' MWe</span>':'')+'</div>';
+  var _mktCol=ur.mkt==='Merch.'?'#fb923c':'#93c5fd';
+  var _mktBg=ur.mkt==='Merch.'?'rgba(251,146,60,.12)':'rgba(147,197,253,.12)';
+  var _mktLabel=ur.mkt==='Merch.'?'MERCHANT':'REGULATED';
+  h+='<div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:4px">';
   if(_sr){
     var _env=_sr.env||'Clear';
     var _badgeCol=_env==='Clear'?'#4ade80':_env==='Restricted'?'#f87171':'#fbbf24';
     var _badgeBg=_env==='Clear'?'rgba(74,222,128,.12)':_env==='Restricted'?'rgba(248,113,113,.12)':'rgba(251,191,36,.12)';
-    h+='<div style="display:inline-block;padding:2px 8px;border-radius:4px;font-size:10px;font-weight:700;color:'+_badgeCol+';background:'+_badgeBg+';margin-bottom:4px">'+_env.toUpperCase()+' PATH</div>';
+    h+='<span style="padding:2px 8px;border-radius:4px;font-size:10px;font-weight:700;color:'+_badgeCol+';background:'+_badgeBg+'">'+_env.toUpperCase()+' PATH</span>';
+  }
+  h+='<span style="padding:2px 8px;border-radius:4px;font-size:10px;font-weight:700;color:'+_mktCol+';background:'+_mktBg+'">'+_mktLabel+'</span>';
+  h+='</div>';
+  if(_sr){
     if(_sr.mor&&_sr.mor!=='None')h+='<div style="font-size:10px;color:#94a3b8;margin-bottom:4px">Barrier: '+_sr.mor+'</div>';
     if(_sr.waste&&_sr.waste!=='None')h+='<div style="font-size:10px;color:#94a3b8;margin-bottom:4px">Waste: '+_sr.waste+'</div>';
   }
