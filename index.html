@@ -303,7 +303,8 @@ function showUprateDetail(ur,pNm,stateName){
   const capPct=getCapPct(siteD);
   let h='<div style="font-size:10px;color:#814DB1;cursor:pointer;margin-bottom:8px;font-weight:600" onclick="buildUprateCard()">\u2190 All plants</div>';
   h+='<div style="font-size:13px;font-weight:700;color:#1e293b;margin-bottom:2px">'+(pNm||"Nuclear Plant")+'</div>';
-  h+='<div style="font-size:11px;color:#814DB1;margin-bottom:6px">'+siteD+(ur.u>1?' &mdash; '+ur.u+' units':'')+(ur.add>0?' &bull; <span style="color:#4ade80">+'+Math.round(ur.add/3).toLocaleString()+' MWe</span>':'')+'</div>';
+  if(ur.add>0){h+='<div style="font-size:22px;font-weight:800;color:#814DB1;line-height:1.1;margin-bottom:1px">+'+Math.round(ur.add/3).toLocaleString()+' <span style="font-size:13px;font-weight:600">MWe potential</span></div>';}
+  h+='<div style="font-size:11px;color:#94a3b8;margin-bottom:6px">'+siteD+(ur.u>1?' &mdash; '+ur.u+' units':'')+'</div>';
   var _mktCol=ur.mkt==='Merch.'?'#fb923c':'#93c5fd';
   var _mktBg=ur.mkt==='Merch.'?'rgba(251,146,60,.12)':'rgba(147,197,253,.12)';
   var _mktLabel=ur.mkt==='Merch.'?'MERCHANT':'REGULATED';
