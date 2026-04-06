@@ -369,7 +369,10 @@ function buildUprateCard(){
     if(_seen.has(rk))return;_seen.add(rk);
     if(ur.restart){restartMWt+=ur.mwt;return;}
     if(!ur.add||ur.add<=0)return;
-    upSites++;upUnits+=ur.u||1;grandMWt+=ur.add;
+    upSites++;
+    // Count only units with actual headroom (handles mixed sites like Vogtle, Millstone, Nine Mile)
+    upUnits+=ur.units?ur.units.filter(function(x){return x.add>0;}).length:(ur.u||1);
+    grandMWt+=ur.add;
   });
   const grandMWe=Math.round(grandMWt/3);
   const restartMWe=Math.round(restartMWt/3);
