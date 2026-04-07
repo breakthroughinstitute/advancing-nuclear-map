@@ -368,6 +368,7 @@ function buildUprateCard(){
   Object.entries(UR).forEach(([k,ur])=>{
     const rk=parseFloat(k.split(',')[0]).toFixed(1)+','+parseFloat(k.split(',')[1]).toFixed(1);
     if(_seen.has(rk))return;_seen.add(rk);
+    if(ur.retYear&&ur.retYear<=2025&&!ur.restart)return;
     if(ur.restart){restartMWt+=ur.mwt;return;}
     if(!ur.add||ur.add<=0)return;
     upSites++;
