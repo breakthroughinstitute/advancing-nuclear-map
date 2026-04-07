@@ -379,6 +379,7 @@ function buildUprateCard(){
   const restartMWe=Math.round(restartMWt/3);
   let h='<div class="uc-total">+'+grandMWe.toLocaleString()+' MWe</div>';
   h+='<div class="uc-sub">theoretical uprate potential &bull; '+upSites+' plant sites &bull; '+upUnits+' reactor units</div>';
+  h+='<div style="font-size:10px;color:#94a3b8;margin-bottom:4px">Based on fleet operating in <strong style="color:#814DB1">'+cY+'</strong> — excludes retired &amp; pre-restart plants</div>';
   if(restartMWe>0){
     h+='<div style="display:flex;align-items:center;gap:8px;margin:8px 0 4px;padding:6px 8px;background:rgba(251,191,36,.08);border-radius:6px;border:1px solid rgba(251,191,36,.2)">';
     h+='<span style="font-size:15px">↺</span>';
