@@ -173,9 +173,6 @@ def build_ur(units_by_key):
         rtype = clean_val(row.get("Reactor Type"))
         if rtype is not None:
             e["d"] = str(rtype)
-        u = clean_val(row.get("Uprate Potential (MWe, est.)"))
-        if u is not None:
-            e["u"] = float(u)
         mwt = clean_val(row.get("Thermal Capacity (MWt)"))
         if mwt is not None:
             e["mwt"] = float(mwt)
@@ -188,7 +185,7 @@ def build_ur(units_by_key):
         units_count = clean_val(row.get("Units"))
         if units_count is not None:
             try:
-                e["units"] = int(float(units_count))
+                e["u"] = int(float(units_count))
             except (TypeError, ValueError):
                 pass
         note = clean_val(row.get("Note"))
@@ -204,7 +201,7 @@ def build_ur(units_by_key):
         if restart_year is not None:
             e["restartYear"] = restart_year
         if key in units_by_key:
-            e["unitDetail"] = units_by_key[key]
+            e["units"] = units_by_key[key]
         UR[key] = e
     print(f"  UR: {len(UR)}")
     return UR
