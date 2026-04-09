@@ -54,6 +54,13 @@ SCENARIOS = ["LowCost LowLR", "LowCost HighLR", "HighCost LowLR", "HighCost High
 N_TO_YEAR = {1: "2020", 2: "2025", 3: "2030", 4: "2035", 5: "2040", 6: "2045", 7: "2050"}
 YEARS = ["2020", "2025", "2030", "2035", "2040", "2045", "2050"]
 
+# Tech columns to extract from "State Capacities" sheets — must match JS STK keys
+STATE_CAP_TECH_COLS = {
+    "Coal", "NG CC", "NG GT", "UtilStorage", "Nuclear", "Hydro",
+    "Wind", "Offshore", "DPV", "UPV", "CSP", "Geo/Bio", "CCS",
+    "SMR", "ARTES", "HTGR",
+}
+
 # Scenario key → underscore form used in filenames
 SCENARIO_FILE_KEY = {
     "LowCost LowLR":   "LowCost_LowLR",
@@ -447,6 +454,38 @@ def parse_jobs(xlsx_path):
     return combined
 
 
+def parse_state_capacities(xlsx_path):
+    """Read 'State Capacities YYYY' sheets → {state_name: {year: {tech: MW}}}
+    Sheet layout: row 0 = empty, row 1 = headers (State, Coal, NG CC, …), rows 2+ = data.
+    """
+    state_cap = {}
+    for year in YEARS:
+        sheet_name = f"State Capacities {year}"
+        df = pd.read_excel(xlsx_path, sheet_name=sheet_name, header=None)
+        # Build header map: col_index → tech name (keep only desired techs)
+        headers = {
+            c: str(df.iloc[1, c]).strip()
+            for c in range(df.shape[1])
+            if clean_val(df.iloc[1, c]) is not None
+               and str(df.iloc[1, c]).strip() in STATE_CAP_TECH_COLS
+        }
+        for row_idx in range(2, df.shape[0]):
+            state = clean_val(df.iloc[row_idx, 0])
+            if state is None:
+                continue
+            state = str(state).strip()
+            state_cap.setdefault(state, {})[year] = {}
+            for col_idx, tech in headers.items():
+                val = clean_val(df.iloc[row_idx, col_idx])
+                try:
+                    mw = float(val) if val is not None else 0.0
+                    if mw > 0:
+                        state_cap[state][year][tech] = round(mw, 1)
+                except (TypeError, ValueError):
+                    pass
+    return state_cap
+
+
 def build_sc():
     SC = {}
     for scenario in SCENARIOS:
@@ -457,34 +496,28 @@ def build_sc():
             SC[scenario] = {}
             continue
         print(f"  Parsing SC [{scenario}]...")
-        reactors  = parse_reactors_by_state(xlsx_path)
+        state_cap = parse_state_capacities(xlsx_path)
         cap_artes = parse_capital_investment(xlsx_path, "Capital Investment ARTES")
         cap_smr   = parse_capital_investment(xlsx_path, "Capital Investment SMR")
         cap_htgr  = parse_capital_investment(xlsx_path, "Capital Investment HTGR")
         jobs      = parse_jobs(xlsx_path)
-        all_states = set(reactors) | set(cap_artes) | set(cap_smr) | set(cap_htgr) | set(jobs)
+        all_states = set(state_cap) | set(cap_artes) | set(cap_smr) | set(cap_htgr) | set(jobs)
         scenario_sc = {}
         for state in sorted(all_states):
             state_data = {}
             for year in YEARS:
-                r = reactors.get(state, {}).get(year, {})
+                entry = dict(state_cap.get(state, {}).get(year, {}))  # MW by tech
                 cap_nuke = (
                     cap_artes.get(state, {}).get(year, 0.0)
                     + cap_smr.get(state, {}).get(year, 0.0)
                     + cap_htgr.get(state, {}).get(year, 0.0)
                 )
                 j = jobs.get(state, {}).get(year, {})
-                state_data[year] = {
-                    "reactors":  r.get("reactors", 0.0),
-                    "Nuclear":   r.get("Nuclear", 0.0),
-                    "SMR":       r.get("SMR", 0.0),
-                    "ARTES":     r.get("ARTES", 0.0),
-                    "HTGR":      r.get("HTGR", 0.0),
-                    "capNuke":   cap_nuke,
-                    "capTotal":  cap_nuke,  # NOTE: only advanced nuclear capital sheets available
-                    "jobsNuke":  j.get("jobsNuke", 0.0),
-                    "jobsTotal": j.get("jobsTotal", 0.0),
-                }
+                entry["capNuke"]   = cap_nuke
+                entry["capTotal"]  = cap_nuke  # NOTE: only advanced nuclear capital sheets available
+                entry["jobsNuke"]  = j.get("jobsNuke", 0.0)
+                entry["jobsTotal"] = j.get("jobsTotal", 0.0)
+                state_data[year] = entry
             scenario_sc[state] = state_data
         SC[scenario] = scenario_sc
         print(f"    SC [{scenario}]: {len(scenario_sc)} states")
