@@ -198,6 +198,8 @@ def build_ur(units_by_key):
         note = clean_val(row.get("Note"))
         if note is not None and not isinstance(note, float):
             e["note"] = str(note)
+            if "epu planned" in str(note).lower():
+                e["proposed"] = True
         restart = clean_val(row.get("Restart?"))
         if isinstance(restart, str) and restart.strip().lower() == "yes":
             e["restart"] = True

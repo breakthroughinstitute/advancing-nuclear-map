@@ -92,7 +92,7 @@
 #uprate-card .uc-note{font-size:9px;color:#94a3b8;margin-top:8px;padding-top:6px;border-top:1px solid #e2e8f0;line-height:1.5}
 </style><script src="data.js"></script></head><body>
 <div class="header"><div style="display:flex;align-items:center"><div><h1>Advancing Nuclear Energy</h1><div class="subtitle">The Breakthrough Institute</div></div>
-<div class="main-tabs"><button class="main-tab active" data-tab="map">Map</button><button class="main-tab" data-tab="dashboard">Dashboard</button></div></div>
+<div class="main-tabs"><button class="main-tab active" data-tab="map">Map</button><button class="main-tab" data-tab="uprate">Uprate</button><button class="main-tab" data-tab="dashboard">Dashboard</button></div></div>
 <div style="display:flex;align-items:center;gap:8px"><div class="scenario-tabs" id="scenarioTabs">
 <button class="scenario-tab active" data-scen="LowCost LowLR">Low Cost / Low LR</button><button class="scenario-tab" data-scen="LowCost HighLR">Low Cost / High LR</button>
 <button class="scenario-tab" data-scen="HighCost LowLR">High Cost / Low LR</button><button class="scenario-tab" data-scen="HighCost HighLR">High Cost / High LR</button></div>
@@ -210,6 +210,19 @@
 <div id="uprate-card">
   <h3><span style="width:10px;height:10px;border-radius:50%;border:2px dashed #814DB1;display:inline-block;flex-shrink:0"></span> Nuclear Uprate Potential</h3>
   <div id="uprate-card-content"></div>
+</div>
+<div class="legend-panel" id="uprateLegend" style="display:none;bottom:24px;left:24px">
+  <h3>Map Symbols</h3>
+  <div style="display:flex;flex-direction:column;gap:5px;margin-bottom:8px">
+    <div class="legend-item"><div class="legend-dot" style="background:#814DB1"></div> Nuclear plant (existing fleet)</div>
+    <div class="legend-item"><div style="width:14px;height:14px;border-radius:50%;border:2px dashed #f59e0b;flex-shrink:0"></div> Uprate potential</div>
+    <div class="legend-item"><div style="width:14px;height:14px;border-radius:50%;border:2.5px dashed #22c55e;flex-shrink:0"></div> EPU planned (official filing)</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#0d9488;border:2px dotted rgba(255,255,255,.9);box-shadow:0 0 0 2px rgba(13,148,136,.5)"></div> Plant restart (Palisades, Crane)</div>
+  </div>
+  <div class="legend-section">
+    <div class="legend-item" style="font-size:9px;color:#94a3b8">Circle size = capacity (MW) &bull; Ring size = uprate headroom (MWt)</div>
+  </div>
+  <div class="legend-section" style="font-size:9px;color:#94a3b8;line-height:1.5">Double-click state → Dashboard</div>
 </div>
 </div>
 <div id="dashboard" style="display:none">
@@ -368,7 +381,7 @@ function buildUprateCard(){
 }
 function toggleUprateCard(){
   const card=document.getElementById("uprate-card");
-  if(card)card.style.display=(showUprate&&cT==="map")?"block":"none";
+  if(card)card.style.display=(showUprate&&cT==="map")||cT==="uprate"?"block":"none";
 }
 function initMap(){
   map=L.map("map",{zoomControl:true,attributionControl:false,maxBounds:[[18,-135],[55,-60]],maxBoundsViscosity:1.0,minZoom:3}).setView([39,-96],4.5);
@@ -597,15 +610,53 @@ function uSD(){const sc=(SC[cS]||{})[cSt]||{},mix=sc[cY]||{};
   document.getElementById("stateSummary").innerHTML='<p style="margin:0 0 6px">'+sm1+'</p>'+(sm2?'<p style="margin:0">'+sm2+'</p>':'');
 }
 
-function swT(t){cT=t;document.getElementById("mapView").style.display=t==="map"?"block":"none";document.getElementById("dashboard").style.display=t==="dashboard"?"block":"none";
-  document.getElementById("mapControls").style.display=t==="map"?"flex":"none";if(t==="map"){setTimeout(()=>map.invalidateSize(),100);uM()}else uDash();toggleUprateCard();}
+function uU(){gL.clearLayers();uL.clearLayers();cL.clearLayers();const sd=DATA.g[cS];if(!sd)return;
+  const _nkDoms=new Set(["Nuclear","SMR","ARTES","HTGR"]);
+  (sd[cY]||[]).forEach(p=>{const[lat,lon,total,dom]=p;if(!_nkDoms.has(dom))return;
+    const pnK=lat.toFixed(3)+","+lon.toFixed(3);const pNm=PN[pnK]||null;const ur=UR[pnK];
+    if(ur&&ur.retYear&&parseInt(cY)>=ur.retYear&&(!ur.restartYear||parseInt(cY)<ur.restartYear))return;
+    const isRestart=ur&&ur.restart;const dotColor=isRestart?"#0d9488":"#814DB1";
+    const ci=L.circleMarker([lat,lon],{radius:gR(total),fillColor:dotColor,fillOpacity:.7,color:"#fff",weight:.5,opacity:.8});
+    let ph='<div class="popup-content"><h4>'+(pNm||"Nuclear Plant")+'</h4><div style="font-size:11px;color:#94a3b8;margin-bottom:6px">'+lat.toFixed(3)+", "+lon.toFixed(3)+' \u2022 '+Math.round(total)+' MW</div>';
+    if(ur){ph+='<div style="font-size:11px;line-height:1.7"><div><span style="color:#94a3b8">Reactor:</span> '+ur.d+(ur.u>1?' \xd7'+ur.u+' units':'')+'</div>';
+      if(isRestart)ph+='<div style="color:#0d9488;font-weight:600">'+(ur.note||"Restarting")+'</div>';
+      else if(ur.proposed)ph+='<div style="color:#22c55e;font-weight:600">EPU Planned</div><div style="font-size:10px;color:#475569;margin-top:2px">'+(ur.note||"")+'</div>';
+      else if(ur.add>0)ph+='<div><span style="color:#94a3b8">Uprate potential:</span> <span style="color:#f59e0b">+'+ur.add+' MWt (~+'+Math.round(ur.add/3)+' MWe)</span></div>';
+      else ph+='<div><span style="color:#94a3b8">Uprate:</span> <span style="color:#94a3b8">Already maximized</span></div>';
+      ph+='</div>';}
+    ph+='</div>';ci.bindPopup(ph,{className:"info-popup",maxWidth:300});
+    if(isRestart){const _r=gR(total)*2;uL.addLayer(L.marker([lat,lon],{interactive:false,icon:L.divIcon({className:'',html:'<div style="width:'+_r+'px;height:'+_r+'px;border-radius:50%;background:#0d9488;opacity:.85;border:2px dotted rgba(255,255,255,.9);box-shadow:0 0 0 3px rgba(13,148,136,.5),0 0 8px 2px rgba(13,148,136,.4);box-sizing:border-box"></div>',iconSize:[_r,_r],iconAnchor:[_r/2,_r/2]})}));}
+    if(!isRestart&&ur){
+      if(ur.proposed){const rad=ur.add>0?gUpR(ur.add):Math.max(gR(total)+5,12);
+        const ring=L.circleMarker([lat,lon],{radius:rad,fillOpacity:0,color:"#22c55e",weight:2.5,opacity:.9,dashArray:"5,3"});
+        ring.on('click',function(e){L.DomEvent.stopPropagation(e);showUprateDetail(ur,pNm,PSTATE[pnK]);});uL.addLayer(ring);}
+      else if(ur.add>0){const ring=L.circleMarker([lat,lon],{radius:gUpR(ur.add),fillOpacity:0,color:"#f59e0b",weight:2,opacity:.9,dashArray:"6,4"});
+        ring.on('click',function(e){L.DomEvent.stopPropagation(e);showUprateDetail(ur,pNm,PSTATE[pnK]);});uL.addLayer(ring);}
+    }
+    gL.addLayer(ci);});
+  const _rendK=new Set((sd[cY]||[]).filter(p=>_nkDoms.has(p[3])).map(p=>p[0].toFixed(3)+","+p[1].toFixed(3)));
+  Object.entries(ORPHAN).forEach(([pnK,od])=>{if(_rendK.has(pnK))return;const ur=UR[pnK];if(!ur)return;
+    const _yr=parseInt(cY);if(od.fromYear&&_yr<od.fromYear)return;if(od.toYear&&_yr>od.toYear)return;
+    const[latS,lonS]=pnK.split(",");const lat=parseFloat(latS),lon=parseFloat(lonS);const pNm=PN[pnK]||null;
+    const isRestart=ur.restart;const dotColor=isRestart?"#0d9488":"#814DB1";
+    const ci2=L.circleMarker([lat,lon],{radius:gR(od.mwe),fillColor:dotColor,fillOpacity:.7,color:"#fff",weight:.5,opacity:.8});
+    ci2.bindPopup('<div class="popup-content"><h4>'+(pNm||"Nuclear Plant")+'</h4></div>',{className:"info-popup",maxWidth:280});
+    if(!isRestart&&ur.add>0){const ring2=L.circleMarker([lat,lon],{radius:gUpR(ur.add),fillOpacity:0,color:ur.proposed?"#22c55e":"#f59e0b",weight:2,opacity:.9,dashArray:"6,4"});
+      ring2.on('click',function(e){L.DomEvent.stopPropagation(e);showUprateDetail(ur,pNm,PSTATE[pnK]);});uL.addLayer(ring2);}
+    gL.addLayer(ci2);});}
+
+function swT(t){cT=t;const _mv=t==="map"||t==="uprate";document.getElementById("mapView").style.display=_mv?"block":"none";document.getElementById("dashboard").style.display=t==="dashboard"?"block":"none";
+  document.getElementById("mapControls").style.display=t==="map"?"flex":"none";
+  const _ul=document.getElementById("uprateLegend"),_ml=document.getElementById("legend");
+  if(_ul)_ul.style.display=t==="uprate"?"block":"none";if(_ml)_ml.style.display=t==="uprate"?"none":"";
+  if(_mv){setTimeout(()=>map.invalidateSize(),100);if(t==="map")uM();else uU();}else uDash();toggleUprateCard();}
 function tgA(){const b=document.getElementById("playBtn");if(aI){clearInterval(aI);aI=null;b.innerHTML="\u25b6";return}
   b.innerHTML="\u25a0";aI=setInterval(()=>{const sl=document.getElementById("yearSlider");let v=(parseInt(sl.value)+1)%7;sl.value=v;cY=String(YEARS[v]);document.getElementById("yearDisplay").textContent=cY;
-    if(cT==="map")uM();else{uSD()}},1500)}
+    if(cT==="map")uM();else if(cT==="uprate")uU();else{uSD()}},1500)}
 
 document.querySelectorAll(".main-tab").forEach(b=>{b.addEventListener("click",function(){document.querySelectorAll(".main-tab").forEach(x=>x.classList.remove("active"));this.classList.add("active");swT(this.dataset.tab)})});
-document.querySelectorAll(".scenario-tab").forEach(b=>{b.addEventListener("click",function(){document.querySelectorAll(".scenario-tab").forEach(x=>x.classList.remove("active"));this.classList.add("active");cS=this.dataset.scen;if(cT==="map")uM();else uDash()})});
-document.getElementById("yearSlider").addEventListener("input",function(){cY=String(YEARS[this.value]);document.getElementById("yearDisplay").textContent=cY;if(cT==="map")uM();else{uSD()}});
+document.querySelectorAll(".scenario-tab").forEach(b=>{b.addEventListener("click",function(){document.querySelectorAll(".scenario-tab").forEach(x=>x.classList.remove("active"));this.classList.add("active");cS=this.dataset.scen;if(cT==="map")uM();else if(cT==="uprate")uU();else uDash()})});
+document.getElementById("yearSlider").addEventListener("input",function(){cY=String(YEARS[this.value]);document.getElementById("yearDisplay").textContent=cY;if(cT==="map")uM();else if(cT==="uprate")uU();else{uSD()}});
 document.getElementById("playBtn").addEventListener("click",tgA);
 initMap();initDash();uM();buildUprateCard();toggleUprateCard();
 window.addEventListener("load",function(){if(map)map.invalidateSize();});
