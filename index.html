@@ -532,7 +532,8 @@ function uDash(){const nd=NAT[cS];if(!nd)return;
 function uSD(){const sc=(SC[cS]||{})[cSt]||{},mix=sc[cY]||{};
   const sd=(SD[cS]||{})[N2A[cSt]||""]||{},d=sd[cY]||{},r=d.reactors||{};
   document.getElementById("stateMixTitle").textContent=cSt+" Energy Mix \u2014 "+cY;
-  const advNuc=(mix.SMR||0)+(mix.ARTES||0)+(mix.HTGR||0);const mixMerged={...mix};delete mixMerged.SMR;delete mixMerged.ARTES;delete mixMerged.HTGR;if(advNuc>0)mixMerged["Advanced Nuclear"]=advNuc;const me=Object.entries(mixMerged).filter(([_,v])=>v>0).sort((a,b)=>b[1]-a[1]);
+  const _MIX_TECHS=new Set(["Coal","NG CC","NG GT","CCS","Nuclear","SMR","ARTES","HTGR","Wind","Offshore","Hydro","UPV","DPV","Geo/Bio","UtilStorage"]);
+  const advNuc=(mix.SMR||0)+(mix.ARTES||0)+(mix.HTGR||0);const mixMerged={};for(const[k,v]of Object.entries(mix)){if(_MIX_TECHS.has(k))mixMerged[k]=v;}delete mixMerged.SMR;delete mixMerged.ARTES;delete mixMerged.HTGR;if(advNuc>0)mixMerged["Advanced Nuclear"]=advNuc;const me=Object.entries(mixMerged).filter(([_,v])=>v>0).sort((a,b)=>b[1]-a[1]);
   ch4.data={labels:me.map(([t])=>t),datasets:[{data:me.map(([_,v])=>v),backgroundColor:me.map(([t])=>CC[t]||"#94a3b8"),borderWidth:1}]};ch4.update();
   ch5.data={labels:YEARS,datasets:STK.map((t,i)=>({label:t,backgroundColor:SKC[i],data:YEARS.map(y=>{const c=sc[y]||{};const v=t==="Advanced Nuclear"?(c.SMR||0)+(c.ARTES||0)+(c.HTGR||0):c[t]||0;return Math.round(v/1000);})})).filter(d=>d.data.some(v=>v>0))};ch5.update();
   // Nuclear breakdown table
