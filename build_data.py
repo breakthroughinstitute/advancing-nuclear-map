@@ -42,7 +42,7 @@ SPREADSHEETS_BASE = (
     "WISdom outputs/Spreadsheets/"
 )
 
-OUTPUT_JS = "/private/tmp/advancing-nuclear-map/data.js"
+OUTPUT_JS = "/Users/joyjiang/advancing-nuclear-map/data.js"
 
 # ─────────────────────────────────────────────────────────────────────────────
 # Scenario / year constants
