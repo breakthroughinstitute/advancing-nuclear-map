@@ -277,6 +277,9 @@ let ch1,ch2,ch3,ch4,ch5,ch6,ch7,ch8,chNucCap,chJobs,chNucShare,chNucEnergy,sC="r
 function fD(v){if(!v||v<=0)return"$0";if(v>=1e9)return"$"+(v/1e9).toFixed(1)+"B";if(v>=1e6)return"$"+Math.round(v/1e6)+"M";return"$"+Math.round(v/1e3)+"K"}
 function gR(m){if(m>=5000)return 12;if(m>=2000)return 9;if(m>=1000)return 7;if(m>=500)return 5.5;if(m>=100)return 4;return 2.5}
 function gUpR(addMWe){return Math.round(8+addMWe*0.03);}
+// Use dark stroke for light-filled dots so they're visible on the light basemap
+const _DARK_STROKE=new Set(["NGCT","NG GT","UPV","CSP","Offshore"]);
+function dotStroke(dom){return _DARK_STROKE.has(dom)?"#64748b":"#fff";}
 
 function getCapPct(d){
   if(!d)return null;
@@ -476,7 +479,7 @@ function bTg(){const c=document.getElementById("layerToggles");
 
 function uM(){gL.clearLayers();uL.clearLayers();cL.clearLayers();const sd=DATA.g[cS];if(!sd)return;
   (sd[cY]||[]).forEach(p=>{const[lat,lon,total,dom,techs]=p;if(!aT.has(dom))return;
-    const ci=L.circleMarker([lat,lon],{radius:gR(total),fillColor:COLORS[dom],fillOpacity:.7,color:"#fff",weight:.5,opacity:.8});
+    const ci=L.circleMarker([lat,lon],{radius:gR(total),fillColor:COLORS[dom],fillOpacity:.7,color:dotStroke(dom),weight:1,opacity:.9});
     var isNk=["Nuclear","SMR","ARTES","HTGR"].indexOf(dom)>=0;var pnK=lat.toFixed(3)+","+lon.toFixed(3);var pNm=isNk&&PN[pnK]?PN[pnK]:null;
     let ph='<div class="popup-content"><h4>'+(pNm||"Plant Location")+'</h4><div style="font-size:11px;color:#94a3b8;margin-bottom:6px">'+lat.toFixed(3)+", "+lon.toFixed(3)+" \u2022 "+Math.round(total)+' MW</div><table>';
     const mTechs={};Object.entries(techs).forEach(([t,mw])=>{const k=(t==="SMR"||t==="ARTES"||t==="HTGR")?"Advanced Nuclear":t;mTechs[k]=(mTechs[k]||0)+mw;});Object.entries(mTechs).sort((a,b)=>b[1]-a[1]).forEach(([t,mw])=>{ph+='<tr><td><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:'+(COLORS[t]||"#0DC3A8")+'"></span> '+(TN[t]||t)+"</td><td class=\"mw\">"+Math.round(mw)+" MW</td></tr>";});
@@ -616,7 +619,7 @@ function uU(){gL.clearLayers();uL.clearLayers();cL.clearLayers();const sd=DATA.g
     if(ur&&ur.retYear&&parseInt(_uY)>=ur.retYear&&(!ur.restartYear||parseInt(_uY)<ur.restartYear))return;
     const isRestart=ur&&ur.restart;const dotColor=isRestart?"#0d9488":"#814DB1";
     const _dotMWe=ur?Math.round(ur.mwt/3):Math.round(total);
-    const ci=L.circleMarker([lat,lon],{radius:gR(_dotMWe),fillColor:dotColor,fillOpacity:.7,color:"#fff",weight:.5,opacity:.8});
+    const ci=L.circleMarker([lat,lon],{radius:gR(_dotMWe),fillColor:dotColor,fillOpacity:.7,color:"#fff",weight:1,opacity:.9});
     let ph='<div class="popup-content"><h4>'+(pNm||"Nuclear Plant")+'</h4><div style="font-size:11px;color:#94a3b8;margin-bottom:6px">'+lat.toFixed(3)+", "+lon.toFixed(3)+' \u2022 '+_dotMWe.toLocaleString()+' MWe</div>';
     if(ur){ph+='<div style="font-size:11px;line-height:1.7"><div><span style="color:#94a3b8">Reactor:</span> '+ur.d+(ur.u>1?' \xd7'+ur.u+' units':'')+'</div>';
       if(isRestart)ph+='<div style="color:#0d9488;font-weight:600">'+(ur.note||"Restarting")+'</div>';
@@ -639,7 +642,7 @@ function uU(){gL.clearLayers();uL.clearLayers();cL.clearLayers();const sd=DATA.g
     const _yr=parseInt(_uY);if(od.fromYear&&_yr<od.fromYear)return;if(od.toYear&&_yr>od.toYear)return;
     const[latS,lonS]=pnK.split(",");const lat=parseFloat(latS),lon=parseFloat(lonS);const pNm=PN[pnK]||null;
     const isRestart=ur.restart;const dotColor=isRestart?"#0d9488":"#814DB1";
-    const ci2=L.circleMarker([lat,lon],{radius:gR(od.mwe),fillColor:dotColor,fillOpacity:.7,color:"#fff",weight:.5,opacity:.8});
+    const ci2=L.circleMarker([lat,lon],{radius:gR(od.mwe),fillColor:dotColor,fillOpacity:.7,color:"#fff",weight:1,opacity:.9});
     ci2.bindPopup('<div class="popup-content"><h4>'+(pNm||"Nuclear Plant")+'</h4></div>',{className:"info-popup",maxWidth:280});
     if(!isRestart&&ur.add>0){const ring2=L.circleMarker([lat,lon],{radius:gUpR(Math.round(ur.add/3)),fillOpacity:0,color:ur.proposed?"#22c55e":"#f59e0b",weight:2,opacity:.9,dashArray:"6,4"});
       ring2.on('click',function(e){L.DomEvent.stopPropagation(e);showUprateDetail(ur,pNm,PSTATE[pnK]);});uL.addLayer(ring2);}
