@@ -304,10 +304,10 @@ function showUprateDetail(ur,pNm,stateName){
   h+='<table style="width:100%;font-size:10px;border-collapse:collapse">';
   h+='<tr style="border-bottom:1px solid #e2e8f0">';
   h+='<th style="text-align:left;padding:2px 3px;color:#64748b">Unit</th>';
-  h+='<th style="text-align:right;padding:2px 3px;color:#64748b">Orig.</th>';
-  h+='<th style="text-align:right;padding:2px 3px;color:#94a3b8">Done</th>';
-  h+='<th style="text-align:right;padding:2px 3px;color:#1e293b">Now</th>';
-  h+='<th style="text-align:right;padding:2px 3px;color:#4ade80">Left</th>';
+  h+='<th style="text-align:right;padding:2px 3px;color:#64748b">Orig. MWt</th>';
+  h+='<th style="text-align:right;padding:2px 3px;color:#94a3b8">Done MWt</th>';
+  h+='<th style="text-align:right;padding:2px 3px;color:#1e293b">Now MWt</th>';
+  h+='<th style="text-align:right;padding:2px 3px;color:#4ade80">Left MWt</th>';
   h+='</tr>';
   var tRef=0,tDone=0,tNow=0,tLeft=0;
   _units.forEach(function(u,i){
@@ -337,7 +337,7 @@ function showUprateDetail(ur,pNm,stateName){
   h+='<td style="text-align:right;padding:3px 3px;color:#4ade80">+'+tLeft.toLocaleString()+' <span style="font-size:9px">('+tRemPct+'%)</span></td>';
   h+='</tr></table>';
   if(ur.note)h+='<div style="font-size:10px;color:#fbbf24;margin-top:3px">'+ur.note+'</div>';
-  h+='<div class="uc-note">Source: FAI State Permitting Playbook (Nov 2025) &bull; INL/EXT-24-78810 &bull; NRC</div>';
+  h+='<div class="uc-note">Plant-level headroom in MWt (thermal). MWe headline = MWt &divide; 3 (assumes ~33% thermal efficiency, per DOE/INL methodology).<br>Source: FAI State Permitting Playbook (Nov 2025) &bull; INL/EXT-24-78810 &bull; NRC</div>';
   document.getElementById("uprate-card-content").innerHTML=h;
 }
 function buildUprateCard(){
@@ -375,7 +375,7 @@ function buildUprateCard(){
   h+='<div style="font-size:10px;font-weight:600;color:#94a3b8;margin-top:1px">DOE UPRISE Target</div>';
   h+='<div style="font-size:9px;color:#64748b;margin-top:2px">Uprates &amp; restarts by 2029, fed. cost-share</div></div>';
   h+='</div>';
-  h+='<div class="uc-note">Based on fleet operating in 2026 — excludes retired &amp; pre-restart plants.<br>Uprate headroom uses FAI/INL cap methodology. Click any dashed ring on the map for plant-level details.<br>Source: FAI State Permitting Playbook (Nov 2025) &bull; INL/EXT-24-78810 &bull; NRC</div>';
+  h+='<div class="uc-note">Based on fleet operating in 2026 — excludes retired &amp; pre-restart plants.<br>MWe headline = MWt &divide; 3 (assumes ~33% thermal efficiency, per DOE/INL methodology). Uprate headroom uses FAI/INL cap methodology. Click any dashed ring for plant-level details.<br>Source: FAI State Permitting Playbook (Nov 2025) &bull; INL/EXT-24-78810 &bull; NRC</div>';
   document.getElementById("uprate-card-content").innerHTML=h;
 }
 function toggleUprateCard(){
