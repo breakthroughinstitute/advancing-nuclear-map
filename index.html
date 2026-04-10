@@ -261,7 +261,7 @@ let map,gL,uL,cL,sL,cY="2020",cS="LowCost LowLR",cT="map",cSt="California",aT=ne
 let ch1,ch2,ch3,ch4,ch5,ch6,ch7,ch8,chNucCap,chJobs,chNucShare,chNucEnergy,sC="reactors",sA=false;
 function fD(v){if(!v||v<=0)return"$0";if(v>=1e9)return"$"+(v/1e9).toFixed(1)+"B";if(v>=1e6)return"$"+Math.round(v/1e6)+"M";return"$"+Math.round(v/1e3)+"K"}
 function gR(m){if(m>=5000)return 12;if(m>=2000)return 9;if(m>=1000)return 7;if(m>=500)return 5.5;if(m>=100)return 4;return 2.5}
-function gUpR(addMWt){if(addMWt>=800)return 18;if(addMWt>=500)return 15;if(addMWt>=300)return 12;if(addMWt>=150)return 10;return 8;}
+function gUpR(addMWe){if(addMWe>=267)return 18;if(addMWe>=167)return 15;if(addMWe>=100)return 12;if(addMWe>=50)return 10;return 8;}
 
 function getCapPct(d){
   if(!d)return null;
@@ -603,10 +603,10 @@ function uU(){gL.clearLayers();uL.clearLayers();cL.clearLayers();const sd=DATA.g
     ph+='</div>';ci.bindPopup(ph,{className:"info-popup",maxWidth:300});
     if(isRestart){const _r=gR(total)*2;uL.addLayer(L.marker([lat,lon],{interactive:false,icon:L.divIcon({className:'',html:'<div style="width:'+_r+'px;height:'+_r+'px;border-radius:50%;background:#0d9488;opacity:.85;border:2px dotted rgba(255,255,255,.9);box-shadow:0 0 0 3px rgba(13,148,136,.5),0 0 8px 2px rgba(13,148,136,.4);box-sizing:border-box"></div>',iconSize:[_r,_r],iconAnchor:[_r/2,_r/2]})}));}
     if(!isRestart&&ur){
-      if(ur.proposed){const rad=ur.add>0?gUpR(ur.add):Math.max(gR(total)+5,12);
+      if(ur.proposed){const rad=ur.add>0?gUpR(Math.round(ur.add/3)):Math.max(gR(total)+5,12);
         const ring=L.circleMarker([lat,lon],{radius:rad,fillOpacity:0,color:"#22c55e",weight:2.5,opacity:.9,dashArray:"5,3"});
         ring.on('click',function(e){L.DomEvent.stopPropagation(e);showUprateDetail(ur,pNm,PSTATE[pnK]);});uL.addLayer(ring);}
-      else if(ur.add>0){const ring=L.circleMarker([lat,lon],{radius:gUpR(ur.add),fillOpacity:0,color:"#f59e0b",weight:2,opacity:.9,dashArray:"6,4"});
+      else if(ur.add>0){const ring=L.circleMarker([lat,lon],{radius:gUpR(Math.round(ur.add/3)),fillOpacity:0,color:"#f59e0b",weight:2,opacity:.9,dashArray:"6,4"});
         ring.on('click',function(e){L.DomEvent.stopPropagation(e);showUprateDetail(ur,pNm,PSTATE[pnK]);});uL.addLayer(ring);}
     }
     gL.addLayer(ci);});
@@ -617,7 +617,7 @@ function uU(){gL.clearLayers();uL.clearLayers();cL.clearLayers();const sd=DATA.g
     const isRestart=ur.restart;const dotColor=isRestart?"#0d9488":"#814DB1";
     const ci2=L.circleMarker([lat,lon],{radius:gR(od.mwe),fillColor:dotColor,fillOpacity:.7,color:"#fff",weight:.5,opacity:.8});
     ci2.bindPopup('<div class="popup-content"><h4>'+(pNm||"Nuclear Plant")+'</h4></div>',{className:"info-popup",maxWidth:280});
-    if(!isRestart&&ur.add>0){const ring2=L.circleMarker([lat,lon],{radius:gUpR(ur.add),fillOpacity:0,color:ur.proposed?"#22c55e":"#f59e0b",weight:2,opacity:.9,dashArray:"6,4"});
+    if(!isRestart&&ur.add>0){const ring2=L.circleMarker([lat,lon],{radius:gUpR(Math.round(ur.add/3)),fillOpacity:0,color:ur.proposed?"#22c55e":"#f59e0b",weight:2,opacity:.9,dashArray:"6,4"});
       ring2.on('click',function(e){L.DomEvent.stopPropagation(e);showUprateDetail(ur,pNm,PSTATE[pnK]);});uL.addLayer(ring2);}
     gL.addLayer(ci2);});}
 
