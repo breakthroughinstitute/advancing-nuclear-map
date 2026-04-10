@@ -358,7 +358,6 @@ function buildUprateCard(){
   const restartMWe=Math.round(restartMWt/3);
   let h='<div class="uc-total">+'+grandMWe.toLocaleString()+' MWe</div>';
   h+='<div class="uc-sub">theoretical uprate potential &bull; '+upSites+' plant sites &bull; '+upUnits+' reactor units</div>';
-  h+='<div style="font-size:10px;color:#94a3b8;margin-bottom:4px">Based on fleet operating in <strong style="color:#814DB1">2025</strong> — excludes retired &amp; pre-restart plants</div>';
   if(restartMWe>0){
     h+='<div style="display:flex;align-items:center;gap:8px;margin:8px 0 4px;padding:6px 8px;background:rgba(251,191,36,.08);border-radius:6px;border:1px solid rgba(251,191,36,.2)">';
     h+='<span style="font-size:15px">↺</span>';
@@ -376,7 +375,7 @@ function buildUprateCard(){
   h+='<div style="font-size:10px;font-weight:600;color:#94a3b8;margin-top:1px">DOE UPRISE Target</div>';
   h+='<div style="font-size:9px;color:#64748b;margin-top:2px">Uprates &amp; restarts by 2029, fed. cost-share</div></div>';
   h+='</div>';
-  h+='<div class="uc-note">Uprate headroom uses FAI/INL cap methodology. Click any dashed ring on the map for plant-level details.<br>Source: FAI State Permitting Playbook (Nov 2025) &bull; INL/EXT-24-78810 &bull; NRC</div>';
+  h+='<div class="uc-note">Based on fleet operating in 2026 — excludes retired &amp; pre-restart plants.<br>Uprate headroom uses FAI/INL cap methodology. Click any dashed ring on the map for plant-level details.<br>Source: FAI State Permitting Playbook (Nov 2025) &bull; INL/EXT-24-78810 &bull; NRC</div>';
   document.getElementById("uprate-card-content").innerHTML=h;
 }
 function toggleUprateCard(){
@@ -587,7 +586,7 @@ function uSD(){const sc=(SC[cS]||{})[cSt]||{},mix=sc[cY]||{};
 }
 
 function uU(){gL.clearLayers();uL.clearLayers();cL.clearLayers();const sd=DATA.g[cS];if(!sd)return;
-  const _uY="2025";
+  const _uY="2026";
   const _nkDoms=new Set(["Nuclear","SMR","ARTES","HTGR"]);
   (sd[_uY]||[]).forEach(p=>{const[lat,lon,total,dom]=p;if(!_nkDoms.has(dom))return;
     const pnK=lat.toFixed(3)+","+lon.toFixed(3);const pNm=PN[pnK]||null;const ur=UR[pnK];
