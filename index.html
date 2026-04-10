@@ -256,7 +256,7 @@
 </div>
 <script>
 const COLORS={"Coal":"#252A2B","NGCC":"#6D7374","NGCT":"#C0C6C8","NG CC":"#6D7374","NG GT":"#C0C6C8","Storage":"#E82269","Nuclear":"#814DB1","Hydro":"#003FFD","Wind":"#2CA02C","Offshore":"#98DF8A","DPV":"#FF7F0E","UPV":"#FFDE20","CSP":"#FDFD4D","Geo/Bio":"#8C564B","CCS":"#D62728","SMR":"#0DC3A8","ARTES":"#0DC3A8","HTGR":"#0DC3A8"};
-const TN={"Coal":"Coal","NGCC":"Natural Gas CC","NGCT":"Natural Gas CT","Storage":"Storage","Nuclear":"Nuclear","Hydro":"Hydro","Wind":"Onshore Wind","Offshore":"Offshore Wind","DPV":"Rooftop Solar","UPV":"Utility Solar","CSP":"CSP","Geo/Bio":"Geo/Bio","CCS":"CCS","SMR":"Advanced Nuclear","ARTES":"Advanced Nuclear","HTGR":"Advanced Nuclear"};
+const TN={"Coal":"Coal","NGCC":"Natural Gas CC","NGCT":"Natural Gas CT","NG CC":"Natural Gas CC","NG GT":"Natural Gas CT","Storage":"Storage","Nuclear":"Nuclear","Hydro":"Hydro","Wind":"Onshore Wind","Offshore":"Offshore Wind","DPV":"Rooftop Solar","UPV":"Utility Solar","CSP":"CSP","Geo/Bio":"Geo/Bio","CCS":"CCS","SMR":"Advanced Nuclear","ARTES":"Advanced Nuclear","HTGR":"Advanced Nuclear"};
 const CC={"NG CC":"#6D7374","NG GT":"#C0C6C8",UtilStorage:"#E82269",Nuclear:"#814DB1",Hydro:"#003FFD",Wind:"#2CA02C",Offshore:"#98DF8A",DPV:"#FF7F0E",UPV:"#FFDE20","Geo/Bio":"#8C564B",CCS:"#D62728",SMR:"#0DC3A8",ARTES:"#0DC3A8",HTGR:"#0DC3A8","Advanced Nuclear":"#0DC3A8",Coal:"#252A2B"};
 const YEARS=[2020,2025,2030,2035,2040,2045,2050],AT=Object.keys(COLORS);
 const N2A={"Alabama":"AL","Alaska":"AK","Arizona":"AZ","Arkansas":"AR","California":"CA","Colorado":"CO","Connecticut":"CT","Delaware":"DE","Florida":"FL","Georgia":"GA","Hawaii":"HI","Idaho":"ID","Illinois":"IL","Indiana":"IN","Iowa":"IA","Kansas":"KS","Kentucky":"KY","Louisiana":"LA","Maine":"ME","Maryland":"MD","Massachusetts":"MA","Michigan":"MI","Minnesota":"MN","Mississippi":"MS","Missouri":"MO","Montana":"MT","Nebraska":"NE","Nevada":"NV","New Hampshire":"NH","New Jersey":"NJ","New Mexico":"NM","New York":"NY","North Carolina":"NC","North Dakota":"ND","Ohio":"OH","Oklahoma":"OK","Oregon":"OR","Pennsylvania":"PA","Rhode Island":"RI","South Carolina":"SC","South Dakota":"SD","Tennessee":"TN","Texas":"TX","Utah":"UT","Vermont":"VT","Virginia":"VA","Washington":"WA","West Virginia":"WV","Wisconsin":"WI","Wyoming":"WY","District of Columbia":"DC","Puerto Rico":"PR"};
@@ -518,9 +518,27 @@ function uM(){gL.clearLayers();uL.clearLayers();cL.clearLayers();const sd=DATA.g
     const sz=Math.max(10,Math.min(22,gR(newCap)*2));
     const m=L.marker([lat,lon],{icon:L.divIcon({className:"",html:'<div style="width:'+sz+'px;height:'+sz+'px;transform:rotate(45deg);background:'+col+';border:2px solid rgba(255,255,255,.9);box-shadow:0 1px 4px rgba(0,0,0,.4);opacity:.92"></div>',iconSize:[sz,sz],iconAnchor:[sz/2,sz/2],popupAnchor:[0,-sz/2]})});
     m.bindPopup('<div class="popup-content"><h4>'+name+'</h4><div style="font-size:11px;color:#94a3b8;margin-bottom:6px">'+state+" \u2022 Repowered in "+Math.round(parseFloat(conv))+'</div><table><tr><td style="color:#94a3b8">Original</td><td class="mw">'+origTech+'</td><td class="mw">'+Math.round(origCap)+' MW</td></tr><tr><td style="color:'+col+';font-weight:700">\u2192 '+dispNew+'</td><td></td><td class="mw" style="color:'+col+'">'+Math.round(newCap)+" MW</td></tr></table></div>",{className:"info-popup",maxWidth:280});cL.addLayer(m)});}}
-function bLg(){const p=document.getElementById("legend");let h='<h3>Technology Colors</h3><div class="legend-grid">';const _seen=new Set();AT.forEach(t=>{const lbl=TN[t]||t;if(_seen.has(lbl))return;_seen.add(lbl);h+='<div class="legend-item"><span class="legend-dot" style="background:'+COLORS[t]+'"></span>'+lbl+"</div>";});
-  h+='</div><div class="legend-section"><h3>Circle Size (MW)</h3><div class="size-legend">';[{m:100,r:5},{m:500,r:7},{m:1e3,r:9},{m:2e3,r:12},{m:5e3,r:16}].forEach(s=>{h+='<div style="text-align:center"><div class="size-circle" style="width:'+s.r*2+"px;height:"+s.r*2+'px;margin:0 auto"></div><div class="size-label">'+s.m+"</div></div>"});
-  h+='</div></div><div class="legend-section"><h3>Map Symbols</h3><div style="font-size:11px;color:#475569;display:flex;flex-direction:column;gap:5px"><div style="display:flex;align-items:center;gap:7px"><span style="display:inline-block;width:13px;height:13px;transform:rotate(45deg);background:#0DC3A8;border:2px solid rgba(255,255,255,.9)"></span><span>Conversion site (coal→advanced nuclear)</span></div></div></div><div class="legend-section" style="font-size:10px;color:#94a3b8;margin-top:4px">Double-click state → Dashboard</div><div id="overlayLegend"></div>';p.innerHTML=h}
+function bLg(){
+  const p=document.getElementById("legend");
+  // dot swatch — matches actual map dot appearance (opacity + border)
+  function sw(col,dark){const b=dark?"1px solid #64748b":"1px solid rgba(255,255,255,.8)";return'<span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:'+col+';opacity:.85;border:'+b+';flex-shrink:0"></span>';}
+  function grp(label,col,rows){
+    return'<div class="legend-section"><div style="font-size:10px;font-weight:700;color:'+col+';text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px">'+label+'</div>'
+      +'<div style="display:flex;flex-direction:column;gap:3px">'+rows.map(([c,lbl,dark])=>'<div class="legend-item">'+sw(c,dark)+' '+lbl+'</div>').join('')+'</div></div>';
+  }
+  let h='';
+  h+=grp('Nuclear','#814DB1',[['#814DB1','Conventional Nuclear'],['#0DC3A8','Advanced Nuclear']]);
+  h+=grp('Fossil','#252A2B',[['#252A2B','Coal'],['#6D7374','Natural Gas CC',true],['#C0C6C8','Natural Gas CT',true],['#D62728','CCS (w/ gas)']]);
+  h+=grp('Renewables','#2CA02C',[['#2CA02C','Onshore Wind'],['#98DF8A','Offshore Wind',true],['#FFDE20','Utility Solar',true],['#FF7F0E','Rooftop Solar'],['#003FFD','Hydro'],['#8C564B','Geo / Bio']]);
+  h+=grp('Storage','#E82269',[['#E82269','Battery Storage']]);
+  h+='<div class="legend-section"><h3>Circle Size (MWe)</h3><div class="size-legend">';
+  [{m:100,r:4},{m:500,r:5.5},{m:1e3,r:7},{m:2e3,r:9},{m:5e3,r:12}].forEach(s=>{h+='<div style="text-align:center"><div class="size-circle" style="width:'+s.r*2+'px;height:'+s.r*2+'px;margin:0 auto"></div><div class="size-label">'+s.m+'</div></div>';});
+  h+='</div></div>';
+  h+='<div class="legend-section"><div style="font-size:11px;color:#475569;display:flex;align-items:center;gap:7px"><span style="display:inline-block;width:13px;height:13px;transform:rotate(45deg);background:#0DC3A8;border:2px solid rgba(255,255,255,.9)"></span>Conversion site (coal→nuclear)</div></div>';
+  h+='<div class="legend-section" style="font-size:10px;color:#94a3b8">Double-click state → Dashboard</div>';
+  h+='<div id="overlayLegend"></div>';
+  p.innerHTML=h;
+}
 
 const STK=["Coal","NG CC","NG GT","CCS","Nuclear","Advanced Nuclear","Wind","Offshore","Hydro","UPV","DPV","Geo/Bio","UtilStorage"];
 const SKC=["#252A2B","#6D7374","#C0C6C8","#D62728","#814DB1","#0DC3A8","#2CA02C","#98DF8A","#003FFD","#FFDE20","#FF7F0E","#8C564B","#E82269"];
