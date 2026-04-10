@@ -33,7 +33,7 @@
 .legend-grid{display:grid;grid-template-columns:1fr 1fr;gap:2px 10px}
 .legend-item{display:flex;align-items:center;gap:5px;font-size:10px;color:#475569}
 .legend-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0}
-.legend-section{margin-top:8px;padding-top:6px;border-top:1px solid #e2e8f0}
+.legend-section{margin-top:8px;padding-top:6px;border-top:1px solid #e2e8f0}.legend-section:first-child{border-top:none;margin-top:0;padding-top:0}
 .size-legend{display:flex;align-items:flex-end;gap:6px;margin-top:4px}
 .size-circle{border-radius:50%;border:1.5px solid #64748b;background:rgba(100,116,139,.1)}
 .size-label{font-size:9px;color:#94a3b8;text-align:center}
@@ -531,7 +531,7 @@ function bLg(){
   h+=grp('Fossil','#252A2B',[['#252A2B','Coal'],['#6D7374','Natural Gas CC',true],['#C0C6C8','Natural Gas CT',true],['#D62728','NG w/ CCS']]);
   h+=grp('Renewables','#2CA02C',[['#2CA02C','Onshore Wind'],['#98DF8A','Offshore Wind',true],['#FFDE20','Utility Solar',true],['#FF7F0E','Rooftop Solar'],['#003FFD','Hydro'],['#8C564B','Geo / Bio']]);
   h+=grp('Storage','#E82269',[['#E82269','Utility Storage']]);
-  h+='<div class="legend-section"><h3>Circle Size (MWe)</h3><div class="size-legend">';
+  h+='<div class="legend-section"><h3>Circle Size (MW)</h3><div class="size-legend">';
   [{m:100,r:4},{m:500,r:5.5},{m:1e3,r:7},{m:2e3,r:9},{m:5e3,r:12}].forEach(s=>{h+='<div style="text-align:center"><div class="size-circle" style="width:'+s.r*2+'px;height:'+s.r*2+'px;margin:0 auto"></div><div class="size-label">'+s.m+'</div></div>';});
   h+='</div></div>';
   h+='<div class="legend-section"><div style="font-size:11px;color:#475569;display:flex;align-items:center;gap:7px"><span style="display:inline-block;width:13px;height:13px;transform:rotate(45deg);background:#0DC3A8;border:2px solid rgba(255,255,255,.9)"></span>Conversion site (coal→nuclear)</div></div>';
