@@ -384,8 +384,9 @@ function toggleUprateCard(){
 }
 function initMap(){
   map=L.map("map",{zoomControl:true,attributionControl:false,maxBounds:[[18,-135],[55,-60]],maxBoundsViscosity:1.0,minZoom:3}).setView([39,-96],4.5);
+  map.createPane('labelsPane');map.getPane('labelsPane').style.zIndex=250;map.getPane('labelsPane').style.pointerEvents='none';
   L.tileLayer("https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png",{maxZoom:18}).addTo(map);
-  L.tileLayer("https://{s}.basemaps.cartocdn.com/light_only_labels/{z}/{x}/{y}{r}.png",{maxZoom:18,pane:"shadowPane"}).addTo(map);
+  L.tileLayer("https://{s}.basemaps.cartocdn.com/light_only_labels/{z}/{x}/{y}{r}.png",{maxZoom:18,pane:"labelsPane"}).addTo(map);
   
 var GD_CONUS={type:"FeatureCollection",features:GD.features.filter(function(f){return f.properties.name!=="Alaska"&&f.properties.name!=="Hawaii";})};sL=L.geoJSON(GD_CONUS,{style:{fillColor:"transparent",fillOpacity:0,weight:.8,color:"#cbd5e1",opacity:.3},bubblingMouseEvents:true,
     onEachFeature:function(f,l){const a=N2A[f.properties.name]||"";
