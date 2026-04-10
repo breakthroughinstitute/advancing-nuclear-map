@@ -97,7 +97,7 @@
 <button class="scenario-tab active" data-scen="LowCost LowLR">Low Cost / Low LR</button><button class="scenario-tab" data-scen="LowCost HighLR">Low Cost / High LR</button>
 <button class="scenario-tab" data-scen="HighCost LowLR">High Cost / Low LR</button><button class="scenario-tab" data-scen="HighCost HighLR">High Cost / High LR</button></div>
 <button class="about-btn" onclick="document.getElementById('aboutOverlay').classList.add('active')">About</button></div></div>
-<div class="controls"><button class="play-btn" id="playBtn" title="Animate">&#9654;</button>
+<div class="controls" id="mainControls"><button class="play-btn" id="playBtn" title="Animate">&#9654;</button>
 <div class="year-slider-container"><label style="font-size:13px;font-weight:600;color:#475569">Year</label>
 <input type="range" class="year-slider" id="yearSlider" min="0" max="6" step="1" value="0"><div class="year-display" id="yearDisplay">2020</div></div>
 <div id="mapControls" style="display:flex;align-items:center;gap:8px"><label style="font-size:13px;font-weight:600;color:#475569">Layers</label>
@@ -381,7 +381,7 @@ function buildUprateCard(){
 }
 function toggleUprateCard(){
   const card=document.getElementById("uprate-card");
-  if(card)card.style.display=(showUprate&&cT==="map")||cT==="uprate"?"block":"none";
+  if(card)card.style.display=cT==="uprate"?"block":"none";
 }
 function initMap(){
   map=L.map("map",{zoomControl:true,attributionControl:false,maxBounds:[[18,-135],[55,-60]],maxBoundsViscosity:1.0,minZoom:3}).setView([39,-96],4.5);
@@ -446,8 +446,6 @@ function mkBtn(c,lbl,col,onClick,on){const b=document.createElement("button");b.
 function bTg(){const c=document.getElementById("layerToggles");
   // Nuclear — on by default
   mkBtn(c,"Nuclear","#814DB1",function(){const ts=["Nuclear","SMR","ARTES","HTGR"],cl="#814DB1",aa=ts.every(t=>aT.has(t));ts.forEach(t=>aa?aT.delete(t):aT.add(t));if(!aa){this.classList.add("active");this.style.backgroundColor=cl;this.style.color="#fff"}else{this.classList.remove("active");this.style.backgroundColor="#fff";this.style.color=cl}uM();},true);
-  // Uprate — on by default, purple dashed rings
-  mkBtn(c,"Uprate","#814DB1",function(){showUprate=!showUprate;if(showUprate){this.classList.add("active");this.style.backgroundColor="#814DB1";this.style.color="#fff"}else{this.classList.remove("active");this.style.backgroundColor="#fff";this.style.color="#814DB1"}uM();toggleUprateCard();},true);
   // Conversion — on by default
   mkBtn(c,"Conversion","#0DC3A8",function(){showConvert=!showConvert;if(showConvert){this.classList.add("active");this.style.backgroundColor="#0DC3A8";this.style.color="#fff"}else{this.classList.remove("active");this.style.backgroundColor="#fff";this.style.color="#0DC3A8"}uM();},true);
   // Fossil, Renew, Storage — off by default
@@ -461,33 +459,11 @@ function uM(){gL.clearLayers();uL.clearLayers();cL.clearLayers();const sd=DATA.g
     let ph='<div class="popup-content"><h4>'+(pNm||"Plant Location")+'</h4><div style="font-size:11px;color:#94a3b8;margin-bottom:6px">'+lat.toFixed(3)+", "+lon.toFixed(3)+" \u2022 "+Math.round(total)+' MW</div><table>';
     const mTechs={};Object.entries(techs).forEach(([t,mw])=>{const k=(t==="SMR"||t==="ARTES"||t==="HTGR")?"Advanced Nuclear":t;mTechs[k]=(mTechs[k]||0)+mw;});Object.entries(mTechs).sort((a,b)=>b[1]-a[1]).forEach(([t,mw])=>{ph+='<tr><td><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:'+(COLORS[t]||"#0DC3A8")+'"></span> '+(TN[t]||t)+"</td><td class=\"mw\">"+Math.round(mw)+" MW</td></tr>";});
     ph+="</table>";
-    if(dom==="Nuclear"&&UR[pnK]){var ur=UR[pnK];if(ur.retYear&&parseInt(cY)>=ur.retYear&&(!ur.restartYear||parseInt(cY)<ur.restartYear))return;ph+='<div style="margin-top:8px;padding-top:8px;border-top:1px solid #334155;font-size:11px;line-height:1.7">';ph+='<div><span style="color:#94a3b8">Reactor:</span> '+ur.d+(ur.u>1?' ×'+ur.u+' units':'')+'</div>';ph+='<div><span style="color:#94a3b8">Thermal capacity:</span> '+ur.mwt.toLocaleString()+' MWt</div>';if(ur.add>0){ph+='<div><span style="color:#94a3b8">Uprate potential:</span> <span style="color:#4ade80">+'+ur.add+' MWt (~+'+(Math.round(ur.add/3))+' MWe)</span></div>';}else{ph+='<div><span style="color:#94a3b8">Uprate potential:</span> <span style="color:#f87171">Already maximized</span></div>';}if(ur.note){ph+='<div><span style="color:#fbbf24">'+ur.note+'</span></div>';}ph+='</div>';
-      // Restart marker — hatch pattern over the nuclear dot
-      if(showUprate&&ur.restart){const _r=gR(total)*2;const _rm=L.marker([lat,lon],{interactive:false,icon:L.divIcon({className:'',html:'<div style="width:'+_r+'px;height:'+_r+'px;border-radius:50%;background:#814DB1;opacity:.85;border:2px dotted rgba(255,255,255,.9);box-shadow:0 0 0 3px rgba(129,77,177,.5),0 0 8px 2px rgba(129,77,177,.4);box-sizing:border-box"></div>',iconSize:[_r,_r],iconAnchor:[_r/2,_r/2]})});uL.addLayer(_rm);}
-      // Uprate ring overlay
-      if(showUprate&&ur.add>0&&!ur.restart){const ring=L.circleMarker([lat,lon],{radius:gUpR(ur.add),fillOpacity:0,color:"#814DB1",weight:2,opacity:.9,dashArray:"6,4"});
-        // Build detailed per-unit uprate popup
-        const _units=ur.units||(function(){const pm=Math.round(ur.mwt/ur.u),pa=Math.round(ur.add/ur.u);const a=[];for(let i=0;i<ur.u;i++)a.push({mwt:pm,add:pa});return a;})();
-        let up='<div class="popup-content"><h4>'+(pNm||"Nuclear Uprate Potential")+'</h4>';
-        up+='<div style="font-size:11px;color:#94a3b8;margin-bottom:6px">'+lat.toFixed(3)+", "+lon.toFixed(3)+'</div>';
-        up+='<div style="font-size:11px;font-weight:600;color:#814DB1;margin-bottom:6px">'+ur.d+(ur.u>1?' &mdash; '+ur.u+' units':'')+'</div>';
-        up+='<table style="width:100%;font-size:11px;border-collapse:collapse">';
-        up+='<tr style="border-bottom:1px solid #e2e8f0"><th style="text-align:left;padding:3px 4px;color:#64748b;font-weight:600">Unit</th><th style="text-align:right;padding:3px 4px;color:#64748b;font-weight:600">Current (MWt)</th><th style="text-align:right;padding:3px 4px;color:#64748b;font-weight:600">Uprated (MWt)</th><th style="text-align:right;padding:3px 4px;color:#64748b;font-weight:600">Added</th></tr>';
-        _units.forEach(function(u,i){up+='<tr style="border-bottom:1px solid #f1f5f9"><td style="padding:3px 4px;color:#334155">'+(u.name||'Unit '+(i+1))+'</td><td style="text-align:right;padding:3px 4px">'+u.mwt.toLocaleString()+'</td><td style="text-align:right;padding:3px 4px;color:#4ade80">'+(u.mwt+u.add).toLocaleString()+'</td><td style="text-align:right;padding:3px 4px;color:#4ade80">+'+(u.add).toLocaleString()+'</td></tr>';});
-        up+='<tr style="font-weight:700;border-top:2px solid #e2e8f0"><td style="padding:4px 4px;color:#1e293b">Total</td><td style="text-align:right;padding:4px 4px">'+ur.mwt.toLocaleString()+'</td><td style="text-align:right;padding:4px 4px;color:#4ade80">'+(ur.mwt+ur.add).toLocaleString()+'</td><td style="text-align:right;padding:4px 4px;color:#4ade80">+'+ur.add.toLocaleString()+'</td></tr>';
-        up+='</table>';
-        up+='<div style="margin-top:6px;font-size:10px;color:#94a3b8">Theoretical cap: '+(ur.mwt+ur.add).toLocaleString()+' MWt (~'+(Math.round((ur.mwt+ur.add)/3)).toLocaleString()+' MWe total) &bull; Market: '+ur.mkt+'</div>';
-        if(ur.note)up+='<div style="font-size:10px;color:#fbbf24;margin-top:2px">'+ur.note+'</div>';
-        up+='<div style="font-size:9px;color:#94a3b8;margin-top:6px;padding-top:4px;border-top:1px solid #f1f5f9">Source: FAI State Permitting Playbook (Nov 2025) &bull; INL/EXT-24-78810 &bull; NRC</div>';
-        up+='</div>';
-        ring.on('click',function(e){L.DomEvent.stopPropagation(e);showUprateDetail(ur,pNm,PSTATE[pnK]);});uL.addLayer(ring);}
-    }
+    if(dom==="Nuclear"&&UR[pnK]){var ur=UR[pnK];if(ur.retYear&&parseInt(cY)>=ur.retYear&&(!ur.restartYear||parseInt(cY)<ur.restartYear))return;}
     ph+="</div>";ci.bindPopup(ph,{className:"info-popup",maxWidth:280});
-    if(showUprate&&dom==="Nuclear"&&UR[pnK]&&!UR[pnK].restart){const _ur=UR[pnK],_pst=PSTATE[pnK];ci.on('click',function(e){L.DomEvent.stopPropagation(e);showUprateDetail(_ur,pNm,_pst);});}
     gL.addLayer(ci)});
   // Orphan nuclear plants: in UR data but absent from DATA.g (rendered separately)
-  if(aT.has("Nuclear")){const _rendK=new Set((sd[cY]||[]).filter(p=>p[3]==="Nuclear").map(p=>p[0].toFixed(3)+","+p[1].toFixed(3)));Object.entries(ORPHAN).forEach(([pnK,od])=>{if(_rendK.has(pnK))return;const ur=UR[pnK];if(!ur)return;const mwe=od.mwe;const _yr=parseInt(cY);if(od.fromYear&&_yr<od.fromYear)return;if(od.toYear&&_yr>od.toYear)return;const[latS,lonS]=pnK.split(",");const lat=parseFloat(latS),lon=parseFloat(lonS);const pNm=PN[pnK]||null;const ci2=L.circleMarker([lat,lon],{radius:gR(mwe),fillColor:COLORS["Nuclear"],fillOpacity:.7,color:"#fff",weight:.5,opacity:.8});let ph2='<div class="popup-content"><h4>'+(pNm||"Nuclear Plant")+'</h4><div style="font-size:11px;color:#94a3b8;margin-bottom:6px">'+lat.toFixed(3)+", "+lon.toFixed(3)+" \u2022 "+mwe+' MWe</div><table><tr><td><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:'+COLORS["Nuclear"]+'"></span> Nuclear</td><td class="mw">'+mwe+' MW</td></tr></table>';ph2+='<div style="margin-top:8px;padding-top:8px;border-top:1px solid #334155;font-size:11px;line-height:1.7">';ph2+='<div><span style="color:#94a3b8">Reactor:</span> '+ur.d+'</div>';ph2+='<div><span style="color:#94a3b8">Thermal capacity:</span> '+ur.mwt.toLocaleString()+' MWt</div>';if(ur.add>0){ph2+='<div><span style="color:#94a3b8">Uprate potential:</span> <span style="color:#4ade80">+'+ur.add+' MWt (~+'+(Math.round(ur.add/3))+' MWe)</span></div>';}else{ph2+='<div><span style="color:#94a3b8">Uprate potential:</span> <span style="color:#f87171">Already maximized</span></div>';}if(ur.note){ph2+='<div><span style="color:#fbbf24">'+ur.note+'</span></div>';}ph2+='</div></div>';ci2.bindPopup(ph2,{className:"info-popup",maxWidth:280});gL.addLayer(ci2);if(showUprate&&!ur.restart){ci2.on('click',function(e){L.DomEvent.stopPropagation(e);showUprateDetail(ur,pNm,PSTATE[pnK]);});}if(showUprate&&ur.restart){const _r2=gR(mwe)*2;const _rm2=L.marker([lat,lon],{interactive:false,icon:L.divIcon({className:'',html:'<div style="width:'+_r2+'px;height:'+_r2+'px;border-radius:50%;background:#814DB1;opacity:.85;border:2px dotted rgba(255,255,255,.9);box-shadow:0 0 0 3px rgba(129,77,177,.5),0 0 8px 2px rgba(129,77,177,.4);box-sizing:border-box"></div>',iconSize:[_r2,_r2],iconAnchor:[_r2/2,_r2/2]})});uL.addLayer(_rm2);}
-if(showUprate&&ur.add>0&&!ur.restart){const ring2=L.circleMarker([lat,lon],{radius:gUpR(ur.add),fillOpacity:0,color:"#814DB1",weight:2,opacity:.9,dashArray:"6,4"});const _u2=ur.units||(function(){const pm=Math.round(ur.mwt/ur.u),pa=Math.round(ur.add/ur.u);const a=[];for(let i=0;i<ur.u;i++)a.push({mwt:pm,add:pa});return a;})();let up2='<div class="popup-content"><h4>'+(pNm||"Nuclear Uprate Potential")+'</h4><div style="font-size:11px;color:#94a3b8;margin-bottom:6px">'+lat.toFixed(3)+", "+lon.toFixed(3)+'</div><div style="font-size:11px;font-weight:600;color:#814DB1;margin-bottom:6px">'+ur.d+(ur.u>1?' &mdash; '+ur.u+' units':'')+'</div><table style="width:100%;font-size:11px;border-collapse:collapse"><tr style="border-bottom:1px solid #e2e8f0"><th style="text-align:left;padding:3px 4px;color:#64748b;font-weight:600">Unit</th><th style="text-align:right;padding:3px 4px;color:#64748b;font-weight:600">Current (MWt)</th><th style="text-align:right;padding:3px 4px;color:#64748b;font-weight:600">Uprated (MWt)</th><th style="text-align:right;padding:3px 4px;color:#64748b;font-weight:600">Added</th></tr>';_u2.forEach(function(u,i){up2+='<tr style="border-bottom:1px solid #f1f5f9"><td style="padding:3px 4px;color:#334155">Unit '+(i+1)+'</td><td style="text-align:right;padding:3px 4px">'+u.mwt.toLocaleString()+'</td><td style="text-align:right;padding:3px 4px;color:#4ade80">'+(u.mwt+u.add).toLocaleString()+'</td><td style="text-align:right;padding:3px 4px;color:#4ade80">+'+(u.add).toLocaleString()+'</td></tr>';});up2+='<tr style="font-weight:700;border-top:2px solid #e2e8f0"><td style="padding:4px 4px;color:#1e293b">Total</td><td style="text-align:right;padding:4px 4px">'+ur.mwt.toLocaleString()+'</td><td style="text-align:right;padding:4px 4px;color:#4ade80">'+(ur.mwt+ur.add).toLocaleString()+'</td><td style="text-align:right;padding:4px 4px;color:#4ade80">+'+ur.add.toLocaleString()+'</td></tr></table><div style="margin-top:6px;font-size:10px;color:#94a3b8">Theoretical cap: '+(ur.mwt+ur.add).toLocaleString()+' MWt (~'+(Math.round((ur.mwt+ur.add)/3)).toLocaleString()+' MWe total) &bull; Market: '+ur.mkt+'</div>';if(ur.note)up2+='<div style="font-size:10px;color:#fbbf24;margin-top:2px">'+ur.note+'</div>';up2+='<div style="font-size:9px;color:#94a3b8;margin-top:6px;padding-top:4px;border-top:1px solid #f1f5f9">Source: FAI State Permitting Playbook (Nov 2025) &bull; INL/EXT-24-78810 &bull; NRC</div></div>';ring2.on('click',function(e){L.DomEvent.stopPropagation(e);showUprateDetail(ur,pNm,PSTATE[pnK]);});uL.addLayer(ring2);}});}
+  if(aT.has("Nuclear")){const _rendK=new Set((sd[cY]||[]).filter(p=>p[3]==="Nuclear").map(p=>p[0].toFixed(3)+","+p[1].toFixed(3)));Object.entries(ORPHAN).forEach(([pnK,od])=>{if(_rendK.has(pnK))return;const ur=UR[pnK];if(!ur)return;const mwe=od.mwe;const _yr=parseInt(cY);if(od.fromYear&&_yr<od.fromYear)return;if(od.toYear&&_yr>od.toYear)return;const[latS,lonS]=pnK.split(",");const lat=parseFloat(latS),lon=parseFloat(lonS);const pNm=PN[pnK]||null;const ci2=L.circleMarker([lat,lon],{radius:gR(mwe),fillColor:COLORS["Nuclear"],fillOpacity:.7,color:"#fff",weight:.5,opacity:.8});ci2.bindPopup('<div class="popup-content"><h4>'+(pNm||"Nuclear Plant")+'</h4><div style="font-size:11px;color:#94a3b8">'+lat.toFixed(3)+", "+lon.toFixed(3)+" \u2022 "+mwe+' MWe</div></div>',{className:"info-popup",maxWidth:280});gL.addLayer(ci2);});}
   if(showConvert){const yi=parseInt(cY);(DATA.c[cS]||[]).forEach(c=>{const[lat,lon,name,state,origCap,newCap,origTech,newTech,decom,conv]=c;
     if(!aT.has(newTech)||parseFloat(conv)>yi)return;const col="#0DC3A8";const dispNew=(["SMR","ARTES","HTGR"].indexOf(newTech)>=0)?"Advanced Nuclear":newTech;
     const sz=Math.max(10,Math.min(22,gR(newCap)*2));
@@ -611,10 +587,11 @@ function uSD(){const sc=(SC[cS]||{})[cSt]||{},mix=sc[cY]||{};
 }
 
 function uU(){gL.clearLayers();uL.clearLayers();cL.clearLayers();const sd=DATA.g[cS];if(!sd)return;
+  const _uY="2025";
   const _nkDoms=new Set(["Nuclear","SMR","ARTES","HTGR"]);
-  (sd[cY]||[]).forEach(p=>{const[lat,lon,total,dom]=p;if(!_nkDoms.has(dom))return;
+  (sd[_uY]||[]).forEach(p=>{const[lat,lon,total,dom]=p;if(!_nkDoms.has(dom))return;
     const pnK=lat.toFixed(3)+","+lon.toFixed(3);const pNm=PN[pnK]||null;const ur=UR[pnK];
-    if(ur&&ur.retYear&&parseInt(cY)>=ur.retYear&&(!ur.restartYear||parseInt(cY)<ur.restartYear))return;
+    if(ur&&ur.retYear&&parseInt(_uY)>=ur.retYear&&(!ur.restartYear||parseInt(_uY)<ur.restartYear))return;
     const isRestart=ur&&ur.restart;const dotColor=isRestart?"#0d9488":"#814DB1";
     const ci=L.circleMarker([lat,lon],{radius:gR(total),fillColor:dotColor,fillOpacity:.7,color:"#fff",weight:.5,opacity:.8});
     let ph='<div class="popup-content"><h4>'+(pNm||"Nuclear Plant")+'</h4><div style="font-size:11px;color:#94a3b8;margin-bottom:6px">'+lat.toFixed(3)+", "+lon.toFixed(3)+' \u2022 '+Math.round(total)+' MW</div>';
@@ -634,9 +611,9 @@ function uU(){gL.clearLayers();uL.clearLayers();cL.clearLayers();const sd=DATA.g
         ring.on('click',function(e){L.DomEvent.stopPropagation(e);showUprateDetail(ur,pNm,PSTATE[pnK]);});uL.addLayer(ring);}
     }
     gL.addLayer(ci);});
-  const _rendK=new Set((sd[cY]||[]).filter(p=>_nkDoms.has(p[3])).map(p=>p[0].toFixed(3)+","+p[1].toFixed(3)));
+  const _rendK=new Set((sd[_uY]||[]).filter(p=>_nkDoms.has(p[3])).map(p=>p[0].toFixed(3)+","+p[1].toFixed(3)));
   Object.entries(ORPHAN).forEach(([pnK,od])=>{if(_rendK.has(pnK))return;const ur=UR[pnK];if(!ur)return;
-    const _yr=parseInt(cY);if(od.fromYear&&_yr<od.fromYear)return;if(od.toYear&&_yr>od.toYear)return;
+    const _yr=parseInt(_uY);if(od.fromYear&&_yr<od.fromYear)return;if(od.toYear&&_yr>od.toYear)return;
     const[latS,lonS]=pnK.split(",");const lat=parseFloat(latS),lon=parseFloat(lonS);const pNm=PN[pnK]||null;
     const isRestart=ur.restart;const dotColor=isRestart?"#0d9488":"#814DB1";
     const ci2=L.circleMarker([lat,lon],{radius:gR(od.mwe),fillColor:dotColor,fillOpacity:.7,color:"#fff",weight:.5,opacity:.8});
@@ -647,16 +624,18 @@ function uU(){gL.clearLayers();uL.clearLayers();cL.clearLayers();const sd=DATA.g
 
 function swT(t){cT=t;const _mv=t==="map"||t==="uprate";document.getElementById("mapView").style.display=_mv?"block":"none";document.getElementById("dashboard").style.display=t==="dashboard"?"block":"none";
   document.getElementById("mapControls").style.display=t==="map"?"flex":"none";
+  const _mc=document.getElementById("mainControls");if(_mc)_mc.style.display=t==="uprate"?"none":"";
+  const _st=document.getElementById("scenarioTabs");if(_st)_st.style.display=t==="uprate"?"none":"flex";
   const _ul=document.getElementById("uprateLegend"),_ml=document.getElementById("legend");
   if(_ul)_ul.style.display=t==="uprate"?"block":"none";if(_ml)_ml.style.display=t==="uprate"?"none":"";
   if(_mv){setTimeout(()=>map.invalidateSize(),100);if(t==="map")uM();else uU();}else uDash();toggleUprateCard();}
 function tgA(){const b=document.getElementById("playBtn");if(aI){clearInterval(aI);aI=null;b.innerHTML="\u25b6";return}
   b.innerHTML="\u25a0";aI=setInterval(()=>{const sl=document.getElementById("yearSlider");let v=(parseInt(sl.value)+1)%7;sl.value=v;cY=String(YEARS[v]);document.getElementById("yearDisplay").textContent=cY;
-    if(cT==="map")uM();else if(cT==="uprate")uU();else{uSD()}},1500)}
+    if(cT==="map")uM();else{uSD()}},1500)}
 
 document.querySelectorAll(".main-tab").forEach(b=>{b.addEventListener("click",function(){document.querySelectorAll(".main-tab").forEach(x=>x.classList.remove("active"));this.classList.add("active");swT(this.dataset.tab)})});
-document.querySelectorAll(".scenario-tab").forEach(b=>{b.addEventListener("click",function(){document.querySelectorAll(".scenario-tab").forEach(x=>x.classList.remove("active"));this.classList.add("active");cS=this.dataset.scen;if(cT==="map")uM();else if(cT==="uprate")uU();else uDash()})});
-document.getElementById("yearSlider").addEventListener("input",function(){cY=String(YEARS[this.value]);document.getElementById("yearDisplay").textContent=cY;if(cT==="map")uM();else if(cT==="uprate")uU();else{uSD()}});
+document.querySelectorAll(".scenario-tab").forEach(b=>{b.addEventListener("click",function(){document.querySelectorAll(".scenario-tab").forEach(x=>x.classList.remove("active"));this.classList.add("active");cS=this.dataset.scen;if(cT==="map")uM();else uDash()})});
+document.getElementById("yearSlider").addEventListener("input",function(){cY=String(YEARS[this.value]);document.getElementById("yearDisplay").textContent=cY;if(cT==="map")uM();else{uSD()}});
 document.getElementById("playBtn").addEventListener("click",tgA);
 initMap();initDash();uM();buildUprateCard();toggleUprateCard();
 window.addEventListener("load",function(){if(map)map.invalidateSize();});
