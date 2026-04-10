@@ -5,8 +5,18 @@ Auto-generates data.js from source Excel/CSV files.
 
 Usage:
     python3 build_data.py
+
+Data sources (Google Drive):
+    Interactive_Tool folder: https://drive.google.com/drive/folders/1ITSogikHNLEUrgxF3dE8WKgNFvd4pXXj
+    WISdom outputs folder:   https://drive.google.com/drive/folders/1DnWkTxKrAfuexpmnBYSwpItFDbw0g-GJ
+
+The script auto-detects your Google Drive mount point. If it fails, set
+GDRIVE_ROOT as an environment variable pointing to your Google Drive folder
+that contains "Shared drives/".
+    Example: export GDRIVE_ROOT="/Volumes/GoogleDrive"
 """
 
+import glob
 import json
 import math
 import os
@@ -15,34 +25,51 @@ from datetime import datetime
 import pandas as pd
 
 # ─────────────────────────────────────────────────────────────────────────────
-# Paths
+# Google Drive root auto-detection
 # ─────────────────────────────────────────────────────────────────────────────
 
-XLSX_INTERACTIVE = (
-    "/Users/joyjiang/Library/CloudStorage/GoogleDrive-joy@thebreakthrough.org/"
-    "Shared drives/Nuclear/Projects/2022/Advancing Nuclear Report (2022)/"
-    "Interactive_Tool/nuclear_interactive_tool_data.xlsx"
-)
+def find_gdrive_root():
+    """Return the Google Drive mount root containing 'Shared drives/'."""
+    # 1. Explicit env var override
+    env = os.environ.get("GDRIVE_ROOT")
+    if env and os.path.isdir(os.path.join(env, "Shared drives")):
+        return env
 
-SITING_IMAGES_BASE = (
-    "/Users/joyjiang/Library/CloudStorage/GoogleDrive-joy@thebreakthrough.org/"
-    "Shared drives/Nuclear/Projects/2022/Advancing Nuclear Report (2022)/"
-    "WISdom outputs/Siting/Siting Images/"
-)
+    # 2. Mac: ~/Library/CloudStorage/GoogleDrive-*/
+    candidates = glob.glob(os.path.expanduser("~/Library/CloudStorage/GoogleDrive-*/"))
+    for c in candidates:
+        if os.path.isdir(os.path.join(c, "Shared drives")):
+            return c.rstrip("/")
 
-SITING_CONV_BASE = (
-    "/Users/joyjiang/Library/CloudStorage/GoogleDrive-joy@thebreakthrough.org/"
-    "Shared drives/Nuclear/Projects/2022/Advancing Nuclear Report (2022)/"
-    "WISdom outputs/Siting/"
-)
+    # 3. Common mounted drive locations (Linux / other Mac setups)
+    for path in ["/Volumes/GoogleDrive", os.path.expanduser("~/Google Drive")]:
+        if os.path.isdir(os.path.join(path, "Shared drives")):
+            return path
 
-SPREADSHEETS_BASE = (
-    "/Users/joyjiang/Library/CloudStorage/GoogleDrive-joy@thebreakthrough.org/"
-    "Shared drives/Nuclear/Projects/2022/Advancing Nuclear Report (2022)/"
-    "WISdom outputs/Spreadsheets/"
-)
+    raise RuntimeError(
+        "Could not find Google Drive mount. "
+        "Set GDRIVE_ROOT env var to the folder containing 'Shared drives/'.\n"
+        "  Example: export GDRIVE_ROOT=\"/Users/yourname/Library/CloudStorage/GoogleDrive-you@example.com\""
+    )
 
-OUTPUT_JS = "/Users/joyjiang/advancing-nuclear-map/data.js"
+GDRIVE_ROOT = find_gdrive_root()
+NUCLEAR_BASE = os.path.join(
+    GDRIVE_ROOT,
+    "Shared drives/Nuclear/Projects/2022/Advancing Nuclear Report (2022)"
+)
+print(f"Google Drive root: {GDRIVE_ROOT}")
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Paths  (all derived from GDRIVE_ROOT — no hardcoded user paths)
+# ─────────────────────────────────────────────────────────────────────────────
+
+XLSX_INTERACTIVE   = os.path.join(NUCLEAR_BASE, "Interactive_Tool/nuclear_interactive_tool_data.xlsx")
+SITING_IMAGES_BASE = os.path.join(NUCLEAR_BASE, "WISdom outputs/Siting/Siting Images")
+SITING_CONV_BASE   = os.path.join(NUCLEAR_BASE, "WISdom outputs/Siting")
+SPREADSHEETS_BASE  = os.path.join(NUCLEAR_BASE, "WISdom outputs/Spreadsheets")
+
+# Output: always writes data.js next to this script (i.e. the repo root)
+OUTPUT_JS = os.path.join(os.path.dirname(os.path.abspath(__file__)), "data.js")
 
 # ─────────────────────────────────────────────────────────────────────────────
 # Scenario / year constants
