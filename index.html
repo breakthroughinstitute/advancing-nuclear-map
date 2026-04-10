@@ -214,7 +214,8 @@
 <div class="legend-panel" id="uprateLegend" style="display:none;bottom:24px;left:24px">
   <h3>Map Symbols</h3>
   <div style="display:flex;flex-direction:column;gap:5px;margin-bottom:8px">
-    <div class="legend-item"><div class="legend-dot" style="background:#814DB1"></div> Nuclear plant (existing fleet)</div>
+    <div class="legend-item"><div style="width:14px;height:14px;border-radius:50%;background:#814DB1;flex-shrink:0;display:flex;align-items:center;justify-content:center"><div style="width:8px;height:8px;border-radius:50%;background:#4a1d7a"></div></div> Current capacity (ring = uprates done)</div>
+    <div class="legend-item"><div style="width:14px;height:14px;border-radius:50%;background:#4a1d7a;flex-shrink:0"></div> Original capacity</div>
     <div class="legend-item"><div style="width:14px;height:14px;border-radius:50%;border:2px dashed #f59e0b;flex-shrink:0"></div> Uprate potential</div>
     <div class="legend-item"><div style="width:14px;height:14px;border-radius:50%;border:2.5px dashed #22c55e;flex-shrink:0"></div> EPU planned (official filing)</div>
     <div class="legend-item"><div class="legend-dot" style="background:#0d9488;border:2px dotted rgba(255,255,255,.9);box-shadow:0 0 0 2px rgba(13,148,136,.5)"></div> Plant restart (Palisades, Crane)</div>
@@ -659,9 +660,11 @@ function uU(){gL.clearLayers();uL.clearLayers();cL.clearLayers();const sd=DATA.g
   (sd[_uY]||[]).forEach(p=>{const[lat,lon,total,dom]=p;if(!_nkDoms.has(dom))return;
     const pnK=lat.toFixed(3)+","+lon.toFixed(3);const pNm=PN[pnK]||null;const ur=UR[pnK];
     if(ur&&ur.retYear&&parseInt(_uY)>=ur.retYear&&(!ur.restartYear||parseInt(_uY)<ur.restartYear))return;
-    const isRestart=ur&&ur.restart;const dotColor=isRestart?"#0d9488":"#814DB1";
+    const isRestart=ur&&ur.restart;
     const _dotMWe=ur?Math.round(ur.mwt/3):Math.round(total);
-    const ci=L.circleMarker([lat,lon],{radius:gR(_dotMWe),fillColor:dotColor,fillOpacity:.7,color:"#fff",weight:1,opacity:.9});
+    const ci=L.circleMarker([lat,lon],{radius:gR(_dotMWe),fillColor:isRestart?"#0d9488":"#814DB1",fillOpacity:.75,color:"#fff",weight:1,opacity:.9});
+    const _capPct=(!isRestart&&ur)?getCapPct(ur.d):null;
+    const _origMWe=(_capPct!==null&&ur.add>0)?Math.round((ur.mwt+ur.add)/(1+_capPct)/3):null;
     let ph='<div class="popup-content"><h4>'+(pNm||"Nuclear Plant")+'</h4><div style="font-size:11px;color:#94a3b8;margin-bottom:6px">'+lat.toFixed(3)+", "+lon.toFixed(3)+' \u2022 '+_dotMWe.toLocaleString()+' MWe</div>';
     if(ur){ph+='<div style="font-size:11px;line-height:1.7"><div><span style="color:#94a3b8">Reactor:</span> '+ur.d+(ur.u>1?' \xd7'+ur.u+' units':'')+'</div>';
       if(isRestart)ph+='<div style="color:#0d9488;font-weight:600">'+(ur.note||"Restarting")+'</div>';
@@ -678,7 +681,9 @@ function uU(){gL.clearLayers();uL.clearLayers();cL.clearLayers();const sd=DATA.g
       else if(ur.add>0){const ring=L.circleMarker([lat,lon],{radius:gUpR(Math.round(ur.add/3)),fillOpacity:0,color:"#f59e0b",weight:2,opacity:.9,dashArray:"6,4"});
         ring.on('click',function(e){L.DomEvent.stopPropagation(e);showUprateDetail(ur,pNm,PSTATE[pnK]);});uL.addLayer(ring);}
     }
-    gL.addLayer(ci);});
+    gL.addLayer(ci);
+    if(_origMWe&&_origMWe<_dotMWe){const _rO=gR(_origMWe)<gR(_dotMWe)?gR(_origMWe):Math.max(2,gR(_dotMWe)-1.5);const ciO=L.circleMarker([lat,lon],{radius:_rO,fillColor:"#4a1d7a",fillOpacity:.88,color:"#fff",weight:1,opacity:.9,interactive:false});gL.addLayer(ciO);}
+    });
   const _rendK=new Set((sd[_uY]||[]).filter(p=>_nkDoms.has(p[3])).map(p=>p[0].toFixed(3)+","+p[1].toFixed(3)));
   Object.entries(ORPHAN).forEach(([pnK,od])=>{if(_rendK.has(pnK))return;const ur=UR[pnK];if(!ur)return;
     const _yr=parseInt(_uY);if(od.fromYear&&_yr<od.fromYear)return;if(od.toYear&&_yr>od.toYear)return;
