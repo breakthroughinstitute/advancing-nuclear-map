@@ -463,9 +463,16 @@ function bTg(){const c=document.getElementById("layerToggles");
   mkBtn(c,"Nuclear","#814DB1",function(){const ts=["Nuclear","SMR","ARTES","HTGR"],cl="#814DB1",aa=ts.every(t=>aT.has(t));ts.forEach(t=>aa?aT.delete(t):aT.add(t));if(!aa){this.classList.add("active");this.style.backgroundColor=cl;this.style.color="#fff"}else{this.classList.remove("active");this.style.backgroundColor="#fff";this.style.color=cl}uM();},true);
   // Conversion — on by default
   mkBtn(c,"Conversion","#0DC3A8",function(){showConvert=!showConvert;if(showConvert){this.classList.add("active");this.style.backgroundColor="#0DC3A8";this.style.color="#fff"}else{this.classList.remove("active");this.style.backgroundColor="#fff";this.style.color="#0DC3A8"}uM();},true);
-  // Fossil, Renew, Storage — off by default
-  [{l:"Fossil",t:["Coal","NG CC","NG GT","CCS"],c:"#252A2B"},{l:"Renew",t:["Wind","Offshore","UPV","DPV","CSP","Hydro","Geo/Bio"],c:"#2CA02C"},{l:"Storage",t:["Storage"],c:"#E82269"}].forEach(g=>{
-    mkBtn(c,g.l,g.c,function(){const ts=g.t,cl=g.c,aa=ts.every(t=>aT.has(t));ts.forEach(t=>aa?aT.delete(t):aT.add(t));if(!aa){this.classList.add("active");this.style.backgroundColor=cl;this.style.color="#fff"}else{this.classList.remove("active");this.style.backgroundColor="#fff";this.style.color=cl}uM();},false);});}
+  // Fossil group toggle
+  const fBtn=mkBtn(c,"Fossil","#252A2B",function(){const ts=["Coal","NG CC","NG GT","CCS"],cl="#252A2B",aa=ts.every(t=>aT.has(t));ts.forEach(t=>aa?aT.delete(t):aT.add(t));if(!aa){this.classList.add("active");this.style.backgroundColor=cl;this.style.color="#fff";fSub.style.display="flex";}else{this.classList.remove("active");this.style.backgroundColor="#fff";this.style.color=cl;}uM();},false);
+  const fSub=document.createElement("div");fSub.style.cssText="display:none;gap:3px;align-items:center";
+  [{l:"Coal",t:"Coal",c:"#252A2B"},{l:"NG CC",t:"NG CC",c:"#6D7374"},{l:"NG GT",t:"NG GT",c:"#C0C6C8"},{l:"CCS",t:"CCS",c:"#D62728"}].forEach(g=>{mkBtn(fSub,g.l,g.c,function(){const aa=aT.has(g.t);aa?aT.delete(g.t):aT.add(g.t);if(!aa){this.classList.add("active");this.style.backgroundColor=g.c;this.style.color="#fff"}else{this.classList.remove("active");this.style.backgroundColor="#fff";this.style.color=g.c}uM();},false);});c.appendChild(fSub);
+  // Renew group toggle + individual sub-buttons
+  const rBtn=mkBtn(c,"Renew","#2CA02C",function(){const ts=["Wind","Offshore","UPV","DPV","CSP","Hydro","Geo/Bio"],cl="#2CA02C",aa=ts.every(t=>aT.has(t));ts.forEach(t=>aa?aT.delete(t):aT.add(t));if(!aa){this.classList.add("active");this.style.backgroundColor=cl;this.style.color="#fff";rSub.style.display="flex";}else{this.classList.remove("active");this.style.backgroundColor="#fff";this.style.color=cl;}uM();},false);
+  const rSub=document.createElement("div");rSub.style.cssText="display:none;gap:3px;align-items:center";
+  [{l:"Wind",t:"Wind",c:"#2CA02C"},{l:"Offshore",t:"Offshore",c:"#98DF8A"},{l:"Util Solar",t:"UPV",c:"#FFDE20"},{l:"Roof Solar",t:"DPV",c:"#FF7F0E"},{l:"Hydro",t:"Hydro",c:"#003FFD"},{l:"Geo/Bio",t:"Geo/Bio",c:"#8C564B"}].forEach(g=>{mkBtn(rSub,g.l,g.c,function(){const aa=aT.has(g.t);aa?aT.delete(g.t):aT.add(g.t);if(!aa){this.classList.add("active");this.style.backgroundColor=g.c;this.style.color=g.t==="UPV"?"#1e293b":"#fff"}else{this.classList.remove("active");this.style.backgroundColor="#fff";this.style.color=g.c}uM();},false);});c.appendChild(rSub);
+  // Storage
+  mkBtn(c,"Storage","#E82269",function(){const aa=aT.has("Storage");aa?aT.delete("Storage"):aT.add("Storage");if(!aa){this.classList.add("active");this.style.backgroundColor="#E82269";this.style.color="#fff"}else{this.classList.remove("active");this.style.backgroundColor="#fff";this.style.color="#E82269"}uM();},false);}
 
 function uM(){gL.clearLayers();uL.clearLayers();cL.clearLayers();const sd=DATA.g[cS];if(!sd)return;
   (sd[cY]||[]).forEach(p=>{const[lat,lon,total,dom,techs]=p;if(!aT.has(dom))return;
