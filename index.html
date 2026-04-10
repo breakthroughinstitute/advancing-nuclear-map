@@ -464,7 +464,7 @@ function bTg(){const c=document.getElementById("layerToggles");
   // Conversion — on by default
   mkBtn(c,"Conversion","#0DC3A8",function(){showConvert=!showConvert;if(showConvert){this.classList.add("active");this.style.backgroundColor="#0DC3A8";this.style.color="#fff"}else{this.classList.remove("active");this.style.backgroundColor="#fff";this.style.color="#0DC3A8"}uM();},true);
   // Fossil, Renew, Storage — off by default
-  [{l:"Fossil",t:["Coal","NGCC","NGCT","CCS"],c:"#252A2B"},{l:"Renew",t:["Wind","Offshore","UPV","DPV","CSP","Hydro","Geo/Bio"],c:"#2CA02C"},{l:"Storage",t:["Storage"],c:"#E82269"}].forEach(g=>{
+  [{l:"Fossil",t:["Coal","NG CC","NG GT","CCS"],c:"#252A2B"},{l:"Renew",t:["Wind","Offshore","UPV","DPV","CSP","Hydro","Geo/Bio"],c:"#2CA02C"},{l:"Storage",t:["Storage"],c:"#E82269"}].forEach(g=>{
     mkBtn(c,g.l,g.c,function(){const ts=g.t,cl=g.c,aa=ts.every(t=>aT.has(t));ts.forEach(t=>aa?aT.delete(t):aT.add(t));if(!aa){this.classList.add("active");this.style.backgroundColor=cl;this.style.color="#fff"}else{this.classList.remove("active");this.style.backgroundColor="#fff";this.style.color=cl}uM();},false);});}
 
 function uM(){gL.clearLayers();uL.clearLayers();cL.clearLayers();const sd=DATA.g[cS];if(!sd)return;
