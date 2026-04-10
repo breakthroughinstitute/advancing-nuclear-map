@@ -524,7 +524,7 @@ function bLg(){
   function sw(col,dark){const b=dark?"1px solid #64748b":"1px solid rgba(255,255,255,.8)";return'<span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:'+col+';opacity:.85;border:'+b+';flex-shrink:0"></span>';}
   function grp(label,col,rows){
     return'<div class="legend-section"><div style="font-size:10px;font-weight:700;color:'+col+';text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px">'+label+'</div>'
-      +'<div style="display:flex;flex-direction:column;gap:3px">'+rows.map(([c,lbl,dark])=>'<div class="legend-item">'+sw(c,dark)+' '+lbl+'</div>').join('')+'</div></div>';
+      +'<div class="legend-grid">'+rows.map(([c,lbl,dark])=>'<div class="legend-item">'+sw(c,dark)+' '+lbl+'</div>').join('')+'</div></div>';
   }
   let h='';
   h+=grp('Nuclear','#814DB1',[['#814DB1','Conventional Nuclear'],['#0DC3A8','Advanced Nuclear']]);
