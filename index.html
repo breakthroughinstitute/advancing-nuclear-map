@@ -261,7 +261,7 @@ let map,gL,uL,cL,sL,cY="2020",cS="LowCost LowLR",cT="map",cSt="California",aT=ne
 let ch1,ch2,ch3,ch4,ch5,ch6,ch7,ch8,chNucCap,chJobs,chNucShare,chNucEnergy,sC="reactors",sA=false;
 function fD(v){if(!v||v<=0)return"$0";if(v>=1e9)return"$"+(v/1e9).toFixed(1)+"B";if(v>=1e6)return"$"+Math.round(v/1e6)+"M";return"$"+Math.round(v/1e3)+"K"}
 function gR(m){if(m>=5000)return 12;if(m>=2000)return 9;if(m>=1000)return 7;if(m>=500)return 5.5;if(m>=100)return 4;return 2.5}
-function gUpR(addMWe){if(addMWe>=267)return 18;if(addMWe>=167)return 15;if(addMWe>=100)return 12;if(addMWe>=50)return 10;return 8;}
+function gUpR(addMWe){if(addMWe>=167)return 15;if(addMWe>=100)return 12;if(addMWe>=50)return 10;return 8;}
 
 function getCapPct(d){
   if(!d)return null;
