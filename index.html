@@ -665,8 +665,9 @@ function uU(){gL.clearLayers();uL.clearLayers();cL.clearLayers();const sd=DATA.g
     const _capPct=(!isRestart&&ur)?getCapPct(ur.d):null;
     const _origMWe=(_capPct!==null&&ur&&ur.add>0)?Math.round((ur.mwt+ur.add)/(1+_capPct)/3):null;
     const _hasDone=_origMWe&&_origMWe<_dotMWe;
+    const _pctDone=_hasDone?((_dotMWe-_origMWe)/_dotMWe):0;
     const _strokeCol=isRestart?"#0d9488":(_hasDone?"#4a1d7a":"#fff");
-    const _strokeW=_hasDone?2.5:1;
+    const _strokeW=_hasDone?Math.round((1.5+_pctDone*2.5)*10)/10:1;
     const ci=L.circleMarker([lat,lon],{radius:gR(_dotMWe),fillColor:isRestart?"#0d9488":"#814DB1",fillOpacity:.8,color:_strokeCol,weight:_strokeW,opacity:1});
     let ph='<div class="popup-content"><h4>'+(pNm||"Nuclear Plant")+'</h4><div style="font-size:11px;color:#94a3b8;margin-bottom:6px">'+lat.toFixed(3)+", "+lon.toFixed(3)+' \u2022 '+_dotMWe.toLocaleString()+' MWe</div>';
     if(ur){ph+='<div style="font-size:11px;line-height:1.7"><div><span style="color:#94a3b8">Reactor:</span> '+ur.d+(ur.u>1?' \xd7'+ur.u+' units':'')+'</div>';
