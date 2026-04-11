@@ -282,6 +282,13 @@ function gUpR(addMWe){return Math.round(8+addMWe*0.03);}
 const _DARK_STROKE=new Set(["NGCC","NGCT","NG CC","NG GT","UPV","CSP","Offshore"]);
 function dotStroke(dom){return _DARK_STROKE.has(dom)?"#64748b":"#fff";}
 
+function findUR(lat,lon){
+  const k=lat.toFixed(3)+','+lon.toFixed(3);
+  if(UR[k])return UR[k];
+  let best=null,bestD=0.0025; // ~5.5km tolerance
+  for(const uk in UR){const p=uk.split(',');const d=(p[0]-lat)*(p[0]-lat)+(p[1]-lon)*(p[1]-lon);if(d<bestD){bestD=d;best=UR[uk];}}
+  return best;
+}
 function getCapPct(d){
   if(!d)return null;
   if(d.includes("AP1000"))return 0.0;
@@ -658,7 +665,7 @@ function uU(){gL.clearLayers();uL.clearLayers();cL.clearLayers();const sd=DATA.g
   const _uY="2025"; // WISdom 2025 slice is closest available year to current fleet
   const _nkDoms=new Set(["Nuclear","SMR","ARTES","HTGR"]);
   (sd[_uY]||[]).forEach(p=>{const[lat,lon,total,dom]=p;if(!_nkDoms.has(dom))return;
-    const pnK=lat.toFixed(3)+","+lon.toFixed(3);const pNm=PN[pnK]||null;const ur=UR[pnK];
+    const pnK=lat.toFixed(3)+","+lon.toFixed(3);const pNm=PN[pnK]||null;const ur=findUR(lat,lon);
     if(ur&&ur.retYear&&parseInt(_uY)>=ur.retYear&&(!ur.restartYear||parseInt(_uY)<ur.restartYear))return;
     const isRestart=ur&&ur.restart;
     const _dotMWe=ur?Math.round(ur.mwt/3):Math.round(total);
