@@ -666,7 +666,7 @@ function uU(){gL.clearLayers();uL.clearLayers();cL.clearLayers();const sd=DATA.g
   const _nkDoms=new Set(["Nuclear","SMR","ARTES","HTGR"]);
   (sd[_uY]||[]).forEach(p=>{const[lat,lon,total,dom]=p;if(!_nkDoms.has(dom))return;
     const pnK=lat.toFixed(3)+","+lon.toFixed(3);const pNm=PN[pnK]||null;const ur=findUR(lat,lon);
-    if(ur&&ur.retYear&&parseInt(_uY)>=ur.retYear&&(!ur.restartYear||parseInt(_uY)<ur.restartYear))return;
+    if(ur&&!ur.restart&&ur.retYear&&parseInt(_uY)>=ur.retYear&&(!ur.restartYear||parseInt(_uY)<ur.restartYear))return;
     const isRestart=ur&&ur.restart;
     const _dotMWe=ur?Math.round(ur.mwt/3):Math.round(total);
     const _capPct=(!isRestart&&ur)?getCapPct(ur.d):null;
