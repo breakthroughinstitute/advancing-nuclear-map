@@ -87,14 +87,20 @@
 #mapView{position:relative;height:calc(100vh - 130px);display:flex;flex-direction:row;}
 #map{flex:1;height:100%;min-width:0;}
 #uprateSummaryBar{display:none;position:absolute;top:0;left:0;right:300px;background:rgba(255,255,255,.97);border-bottom:1px solid #e2e8f0;border-right:1px solid #e2e8f0;padding:8px 16px;z-index:1001;}
-#uprateSummaryBar .usb-row{display:flex;flex-wrap:wrap;align-items:center;gap:8px 16px}
+#uprateSummaryBar .usb-row{display:flex;flex-wrap:wrap;align-items:stretch;gap:0 0}
+#uprateSummaryBar .usb-group{display:flex;flex-direction:column;gap:3px;padding:0 16px}
+#uprateSummaryBar .usb-group:first-child{padding-left:0}
+#uprateSummaryBar .usb-group-hdr{font-size:9px;font-weight:700;color:#94a3b8;text-transform:uppercase;letter-spacing:.07em;margin-bottom:1px}
+#uprateSummaryBar .usb-group-stats{display:flex;align-items:center;gap:14px}
 #uprateSummaryBar .usb-stat{display:flex;flex-direction:column;line-height:1.2}
 #uprateSummaryBar .usb-val{font-size:15px;font-weight:800;color:#814DB1}
-#uprateSummaryBar .usb-lbl{font-size:9px;color:#94a3b8;text-transform:uppercase;letter-spacing:.04em}
-#uprateSummaryBar .usb-div{width:1px;height:28px;background:#e2e8f0;flex-shrink:0;align-self:center}
-#upratePanel{width:300px;flex-shrink:0;height:100%;background:#fff;border-left:1px solid #e2e8f0;flex-direction:column;box-sizing:border-box;}
-#uprate-card-content{flex:1;overflow-y:auto;padding:14px 14px 8px;}
-#uprateLegend{flex-shrink:0;border-top:1px solid #e2e8f0;padding:12px 14px;overflow-y:auto;max-height:55%;}
+#uprateSummaryBar .usb-lbl{font-size:9px;color:#94a3b8;letter-spacing:.02em}
+#uprateSummaryBar .usb-div{width:1px;background:#e2e8f0;flex-shrink:0;align-self:stretch}
+#upratePanel{width:300px;flex-shrink:0;height:100%;background:#fff;border-left:1px solid #e2e8f0;overflow-y:auto;box-sizing:border-box;}
+#uprate-card-content{padding:14px;}
+#uprateSummaryBar .usb-legend{display:flex;flex-wrap:wrap;align-items:center;gap:6px 16px;margin-top:7px;padding-top:7px;border-top:1px solid #e2e8f0;}
+#uprateSummaryBar .usb-legend-hdr{font-size:9px;font-weight:700;color:#94a3b8;text-transform:uppercase;letter-spacing:.07em;margin-right:4px}
+#uprateSummaryBar .usb-legend-item{display:flex;align-items:center;gap:4px;font-size:10px;color:#475569;white-space:nowrap}
 .uc-total{font-size:20px;font-weight:700;color:#1e293b;margin:6px 0 2px}.uc-sub{font-size:11px;color:#64748b;margin-bottom:10px}
 .uc-row{display:flex;justify-content:space-between;font-size:11px;padding:2px 0;color:#475569}.uc-note{font-size:9px;color:#94a3b8;margin-top:8px;padding-top:6px;border-top:1px solid #e2e8f0;line-height:1.5}
 </style><script src="data.js"></script></head><body>
@@ -213,35 +219,7 @@
     </p>
   </div>
 </div>
-<div id="mapView"><div id="uprateSummaryBar"><div id="uprate-summary-content"></div></div><div id="map"><div class="legend-panel" id="legend"></div></div><div id="upratePanel"><div id="uprateLegend">
-  <h3>Map Symbols</h3>
-  <div style="display:flex;flex-direction:column;gap:5px;margin-bottom:8px">
-    <div class="legend-item"><div style="width:14px;height:14px;border-radius:50%;background:#814DB1;border:2.5px solid #4a1d7a;flex-shrink:0;box-sizing:border-box"></div> Nuclear (dark border = uprates done)</div>
-    <div class="legend-item"><div style="width:14px;height:14px;border-radius:50%;background:#814DB1;border:1.5px solid #fff;flex-shrink:0;box-sizing:border-box"></div> Nuclear (no prior uprates)</div>
-    <div class="legend-item"><div style="width:14px;height:14px;border-radius:50%;border:2px dashed #f59e0b;flex-shrink:0"></div> Uprate potential</div>
-    <div class="legend-item"><div style="width:14px;height:14px;border-radius:50%;border:2.5px dashed #22c55e;flex-shrink:0"></div> Uprate planned — NRC application expected</div>
-    <div class="legend-item"><div class="legend-dot" style="background:#0d9488;border:2px dotted rgba(255,255,255,.9);box-shadow:0 0 0 2px rgba(13,148,136,.5)"></div> Plant restart (Palisades, Crane)</div>
-  </div>
-  <div class="legend-section">
-    <h3>Plant Size (MWe capacity)</h3>
-    <div class="size-legend">
-      <div style="text-align:center"><div class="size-circle" style="width:8px;height:8px;margin:0 auto;background:rgba(129,77,177,.2);border-color:#814DB1"></div><div class="size-label">500</div></div>
-      <div style="text-align:center"><div class="size-circle" style="width:14px;height:14px;margin:0 auto;background:rgba(129,77,177,.2);border-color:#814DB1"></div><div class="size-label">1,000</div></div>
-      <div style="text-align:center"><div class="size-circle" style="width:18px;height:18px;margin:0 auto;background:rgba(129,77,177,.2);border-color:#814DB1"></div><div class="size-label">2,000</div></div>
-      <div style="text-align:center"><div class="size-circle" style="width:24px;height:24px;margin:0 auto;background:rgba(129,77,177,.2);border-color:#814DB1"></div><div class="size-label">5,000</div></div>
-    </div>
-  </div>
-  <div class="legend-section">
-    <h3>Uprate Headroom (MWe)</h3>
-    <div class="size-legend">
-      <div style="text-align:center"><div class="size-circle" style="width:20px;height:20px;margin:0 auto;border:2px dashed #f59e0b;background:transparent"></div><div class="size-label">50</div></div>
-      <div style="text-align:center"><div class="size-circle" style="width:24px;height:24px;margin:0 auto;border:2px dashed #f59e0b;background:transparent"></div><div class="size-label">100</div></div>
-      <div style="text-align:center"><div class="size-circle" style="width:30px;height:30px;margin:0 auto;border:2px dashed #f59e0b;background:transparent"></div><div class="size-label">200</div></div>
-      <div style="text-align:center"><div class="size-circle" style="width:34px;height:34px;margin:0 auto;border:2px dashed #f59e0b;background:transparent"></div><div class="size-label">300</div></div>
-    </div>
-  </div>
-  <div class="legend-section" style="font-size:9px;color:#94a3b8;line-height:1.5">Double-click state → Dashboard</div>
-</div><div id="uprate-card-content" style="display:none"></div></div></div>
+<div id="mapView"><div id="uprateSummaryBar"><div id="uprate-summary-content"></div></div><div id="map"><div class="legend-panel" id="legend"></div></div><div id="upratePanel"><div id="uprate-card-content"></div></div></div>
 <div id="dashboard" style="display:none">
 <div class="dash-section"><h2>State Explorer</h2>
 <div style="margin-bottom:12px;display:flex;align-items:center;gap:16px">
@@ -303,13 +281,11 @@ function getCapPct(d){
   return null;
 }
 function showUprateDetail(ur,pNm,stateName){
-  const _uc2=document.getElementById("uprate-card-content");
-  if(_uc2)_uc2.style.display="block";
   const siteD=ur.d;
   const _units=ur.units||(function(){const pm=Math.round(ur.mwt/ur.u),pa=Math.round(ur.add/ur.u);const a=[];for(let i=0;i<ur.u;i++)a.push({mwt:pm,add:pa});return a;})();
   const _sr=stateName?(SR[stateName]||null):null;
   const capPct=getCapPct(siteD);
-  let h='<div style="font-size:10px;color:#814DB1;cursor:pointer;margin-bottom:8px;font-weight:600" onclick="buildUprateCard()">\u2190 Map Legend</div>';
+  let h='<div style="font-size:10px;color:#814DB1;cursor:pointer;margin-bottom:8px;font-weight:600" onclick="buildUprateCard()">\u2190 All plants</div>';
   h+='<div style="font-size:13px;font-weight:700;color:#1e293b;margin-bottom:2px">'+(pNm||"Nuclear Plant")+'</div>';
   if(ur.restart){h+='<div style="font-size:13px;font-weight:700;color:#0d9488;line-height:1.1;margin-bottom:1px">Restarting</div>';}
   else if(ur.add>0){h+='<div style="font-size:22px;font-weight:800;color:#814DB1;line-height:1.1;margin-bottom:1px">+'+Math.round(ur.add/3).toLocaleString()+' <span style="font-size:13px;font-weight:600">MWe potential</span></div>';}
@@ -372,45 +348,73 @@ function showUprateDetail(ur,pNm,stateName){
   document.getElementById("uprate-card-content").innerHTML=h;
 }
 function buildUprateCard(){
-  const _seen=new Set();let grandMWt=0,upSites=0,upUnits=0,restartMWt=0;
+  const _seen=new Set();let grandMWt=0,upSites=0,upUnits=0,restartMWt=0,doneMWt=0;
   Object.entries(UR).forEach(([k,ur])=>{
     const rk=parseFloat(k.split(',')[0]).toFixed(1)+','+parseFloat(k.split(',')[1]).toFixed(1);
     if(_seen.has(rk))return;_seen.add(rk);
     if(ur.retYear&&ur.retYear<=2025&&!ur.restart)return;
-    if(ur.restart){restartMWt+=ur.mwt;return;}
+    if(ur.restart)return;
+    if(ur.doneMWt)doneMWt+=ur.doneMWt;
     if(!ur.add||ur.add<=0)return;
     upSites++;
     upUnits+=ur.units?ur.units.filter(function(x){return x.add>0;}).length:(ur.u||1);
     grandMWt+=ur.add;
   });
+  // Also count restartMWt separately (restarts excluded from done total)
+  Object.entries(UR).forEach(([k,ur])=>{if(ur.restart)restartMWt+=ur.mwt;});
   const grandMWe=Math.round(grandMWt/3);
   const restartMWe=Math.round(restartMWt/3);
-  // Summary bar
+  const doneMWe=Math.round(doneMWt/3);
+  // Summary bar — 3 groups: Already Done | Potential | Policy Targets
   let sb='<div class="usb-row">';
-  sb+='<div class="usb-stat"><div class="usb-val">+'+grandMWe.toLocaleString()+' MWe</div><div class="usb-lbl">Uprate Potential</div></div>';
+  // Group 1: Already Done
+  sb+='<div class="usb-group">';
+  sb+='<div class="usb-group-hdr">Already Done</div>';
+  sb+='<div class="usb-group-stats"><div class="usb-stat"><div class="usb-val" style="color:#64748b">+'+doneMWe.toLocaleString()+' MWe</div><div class="usb-lbl">NRC approved uprates</div></div></div>';
+  sb+='</div>';
   sb+='<div class="usb-div"></div>';
-  sb+='<div class="usb-stat"><div class="usb-val">'+upSites+'</div><div class="usb-lbl">Plant Sites</div></div>';
-  sb+='<div class="usb-stat"><div class="usb-val">'+upUnits+'</div><div class="usb-lbl">Reactor Units</div></div>';
-  if(restartMWe>0){
-    sb+='<div class="usb-div"></div>';
-    sb+='<div class="usb-stat"><div class="usb-val" style="color:#0d9488">&#8635; +'+restartMWe.toLocaleString()+' MWe</div><div class="usb-lbl">Restarts</div></div>';
-  }
+  // Group 2: Potential
+  sb+='<div class="usb-group">';
+  sb+='<div class="usb-group-hdr">Potential</div>';
+  sb+='<div class="usb-group-stats">';
+  sb+='<div class="usb-stat"><div class="usb-val">+'+grandMWe.toLocaleString()+' MWe</div><div class="usb-lbl">Uprate headroom &bull; '+upSites+' sites &bull; '+upUnits+' units</div></div>';
+  if(restartMWe>0)sb+='<div class="usb-stat"><div class="usb-val" style="color:#0d9488">&#8635; +'+restartMWe.toLocaleString()+' MWe</div><div class="usb-lbl">Restarts (Palisades &bull; Crane)</div></div>';
+  sb+='</div></div>';
   sb+='<div class="usb-div"></div>';
+  // Group 3: Policy Targets
+  sb+='<div class="usb-group">';
+  sb+='<div class="usb-group-hdr">Policy Targets</div>';
+  sb+='<div class="usb-group-stats">';
   sb+='<div class="usb-stat"><div class="usb-val" style="color:#818cf8">~8,000 MWe</div><div class="usb-lbl">NEI 2025 Survey</div></div>';
   sb+='<div class="usb-stat"><div class="usb-val" style="color:#fb923c">5,000 MWe</div><div class="usb-lbl">DOE UPRISE Target</div></div>';
   sb+='</div>';
-  sb+='<div style="font-size:9px;color:#94a3b8;margin-top:3px">Click any dashed ring for plant-level details &bull; Source: FAI State Permitting Playbook (Nov 2025) &bull; INL/EXT-24-78810 &bull; NRC</div>';
+  sb+='<div style="font-size:8px;color:#94a3b8;text-align:right;margin-top:6px;line-height:1.5">Plant-level headroom in MWt (thermal). MWe headline = MWt &divide; 3 (~33% thermal efficiency, per DOE/INL methodology).<br>Source: FAI State Permitting Playbook (Nov 2025) &bull; INL/EXT-24-78810 &bull; NRC &bull; Double-click state &rarr; Dashboard</div>';
+  sb+='</div>';
+  sb+='</div>';
+  // Legend row
+  sb+='<div class="usb-legend">';
+  sb+='<span class="usb-legend-hdr">Map Symbols</span>';
+  sb+='<div class="usb-legend-item"><div style="width:11px;height:11px;border-radius:50%;background:#814DB1;border:2px solid #4a1d7a;flex-shrink:0;box-sizing:border-box"></div>Uprates done</div>';
+  sb+='<div class="usb-legend-item"><div style="width:11px;height:11px;border-radius:50%;background:#814DB1;border:1.5px solid #94a3b8;flex-shrink:0;box-sizing:border-box"></div>No uprates</div>';
+  sb+='<div class="usb-legend-item"><div style="width:11px;height:11px;border-radius:50%;border:2px dashed #f59e0b;flex-shrink:0"></div>Uprate potential</div>';
+  sb+='<div class="usb-legend-item"><div style="width:11px;height:11px;border-radius:50%;border:2px dashed #22c55e;flex-shrink:0"></div>EPU planned</div>';
+  sb+='<div class="usb-legend-item"><div style="width:11px;height:11px;border-radius:50%;background:#0d9488;border:2px dotted rgba(255,255,255,.9);box-shadow:0 0 0 2px rgba(13,148,136,.5);flex-shrink:0"></div>Restart</div>';
+  sb+='<span class="usb-legend-hdr" style="margin-left:8px">Plant Size (MWe)</span>';
+  [[8,'500'],[18,'2k'],[24,'5k']].forEach(function(s){sb+='<div class="usb-legend-item"><div style="width:'+s[0]+'px;height:'+s[0]+'px;border-radius:50%;background:rgba(129,77,177,.2);border:1.5px solid #814DB1;flex-shrink:0"></div>'+s[1]+'</div>';});
+  sb+='<span class="usb-legend-hdr" style="margin-left:8px">Headroom (MWe)</span>';
+  [[14,'50'],[21,'150'],[28,'300']].forEach(function(s){sb+='<div class="usb-legend-item"><div style="width:'+s[0]+'px;height:'+s[0]+'px;border-radius:50%;border:1.5px dashed #f59e0b;flex-shrink:0"></div>'+s[1]+'</div>';});
+  sb+='</div>';
   document.getElementById("uprate-summary-content").innerHTML=sb;
-  // Hide detail card; legend is always visible
+  // Show placeholder in panel
   const _uc=document.getElementById("uprate-card-content");
-  if(_uc)_uc.style.display="none";
+  if(_uc){_uc.style.display="block";_uc.innerHTML='<div style="color:#94a3b8;font-size:12px;text-align:center;padding:40px 12px 0;line-height:1.8">&#8679;<br>Click any dashed ring<br>on the map for<br>plant-level details</div>';}
 }
 function toggleUprateCard(){
   const bar=document.getElementById("uprateSummaryBar");
   const panel=document.getElementById("upratePanel");
   const on=cT==="uprate";
   if(bar)bar.style.display=on?"block":"none";
-  if(panel)panel.style.display=on?"flex":"none";
+  if(panel)panel.style.display=on?"block":"none";
 }
 function initMap(){
   map=L.map("map",{zoomControl:true,attributionControl:false,maxBounds:[[18,-135],[55,-60]],maxBoundsViscosity:1.0,minZoom:3}).setView([39,-96],4.5);
@@ -741,7 +745,7 @@ function uU(){gL.clearLayers();uL.clearLayers();cL.clearLayers();const sd=DATA.g
       ring2.on('click',function(e){L.DomEvent.stopPropagation(e);showUprateDetail(ur,pNm,PSTATE[pnK]);});uL.addLayer(ring2);}
     gL.addLayer(ci2);});}
 
-function swT(t){cT=t;const _mv=t==="map"||t==="uprate";document.getElementById("mapView").style.display=_mv?"block":"none";document.getElementById("dashboard").style.display=t==="dashboard"?"block":"none";
+function swT(t){cT=t;const _mv=t==="map"||t==="uprate";document.getElementById("mapView").style.display=_mv?"flex":"none";document.getElementById("dashboard").style.display=t==="dashboard"?"block":"none";
   document.getElementById("mapControls").style.display=t==="map"?"flex":"none";
   const _mc=document.getElementById("mainControls");if(_mc)_mc.style.display=t==="uprate"?"none":"";
   const _st=document.getElementById("scenarioTabs");if(_st)_st.style.display=t==="uprate"?"none":"flex";
