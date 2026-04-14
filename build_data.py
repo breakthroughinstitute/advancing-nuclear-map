@@ -244,22 +244,16 @@ def build_ur(units_by_key):
 
 
 def apply_unit_d_overrides(UR):
-    """Fix done-uprate display for sites where getCapPct() mis-identifies the
-    reactor type. Fixes verified against NRC approved applications list.
+    """Align done-uprate display with NRC approved applications data.
 
-    Three types of correction:
-    1. UNIT_D  — per-unit reactor type for mixed-type sites (auto-computes doneMWt)
-    2. UNIT_ADD_FIX — corrects wrong 'add' values that cause done=0 for a unit
-    3. DONE_OVERRIDE — explicit doneMWt for single-type sites where cap% understates
-                       historically achieved uprate (e.g. Peach Bottom ~22% vs 20% cap)
+    Three fixes applied:
+    1. UNIT_D       — per-unit reactor type for mixed-type sites (detail card)
+    2. UNIT_ADD_FIX — corrects wrong 'add' that causes done=0 for a unit (detail card)
+    3. DONE_NRC     — sets doneMWt directly from NRC approved totals for every
+                      operating plant (dot border ring). Source:
+                      https://www.nrc.gov/reactors/operating/licensing/power-uprates/
+                      status-power-apps/approved-applications.html (retrieved Apr 2026)
     """
-    CAP_PCT = {
-        "AP1000 PWR": 0.0,      "B&W 2-Loop PWR": 0.016,
-        "GE BWR/4": 0.20,       "W 4-Loop PWR": 0.09,
-        "W 3-Loop PWR": 0.20,   "W 2-Loop PWR": 0.185,
-        "CE 2-Loop PWR": 0.18,
-    }
-
     # 1. Per-unit reactor type overrides for mixed-type sites
     UNIT_D = {
         # Vogtle 1+2 are W 4-Loop (214 MWt done each); 3+4 are AP1000 (no uprate)
@@ -305,63 +299,69 @@ def apply_unit_d_overrides(UR):
         # Recompute site-level add to stay consistent
         UR[coord]["add"] = sum(u.get("add", 0) for u in UR[coord]["units"])
 
-    # 3. Explicit doneMWt for single-type sites that exceeded their cap
-    # Peach Bottom achieved ~22% uprate historically vs our 20% BWR cap assumption.
-    DONE_OVERRIDE = {
-        "39.763,-76.270": 1446,   # Peach Bottom 2+3 — NRC approved total
+    # 3. doneMWt set directly from NRC approved applications for all operating plants
+    # Retired plants (Indian Point, etc.) intentionally excluded.
+    DONE_NRC = {
+        "25.448,-80.330":  888,   # Turkey Point 3+4
+        "27.346,-80.259":  920,   # St. Lucie 1+2
+        "28.796,-96.062":  106,   # South Texas 1+2
+        "29.988,-90.483":  326,   # Waterford 3
+        "30.763,-91.319":  197,   # River Bend
+        "31.221,-85.112":  338,   # Farley 1+2
+        "31.923,-82.347":  736,   # Hatch 1+2
+        "32.010,-91.062":  575,   # Grand Gulf
+        "32.308,-97.775":  402,   # Comanche Peak 1+2
+        "33.144,-81.746":  429,   # Vogtle 1+2 (NRC=429.2)
+        "33.392,-112.858": 570,   # Palo Verde 1+2+3
+        "33.965,-78.005":  974,   # Brunswick 1+2
+        "34.309,-81.304":  125,   # V.C. Summer
+        "34.408,-80.154":  139,   # H.B. Robinson
+        "34.706,-87.113": 1977,   # Browns Ferry 1+2+3
+        "34.803,-82.894":  126,   # Oconee 1+2+3
+        "35.042,-81.077":  116,   # Catawba 1+2
+        "35.203,-120.860":  73,   # Diablo Canyon 1
+        "35.231,-85.078":   88,   # Sequoyah 1+2
+        "35.322,-93.226":  211,   # ANO 1+2
+        "35.435,-80.957":  116,   # McGuire 1+2
+        "35.606,-84.781":   96,   # Watts Bar 1+2
+        "35.641,-78.951":  173,   # Shearon Harris
+        "37.151,-76.691":  292,   # Surry 1+2
+        "38.066,-77.795":  336,   # North Anna 1+2
+        "38.249,-95.701":  154,   # Wolf Creek
+        "38.438,-76.455":  354,   # Calvert Cliffs 1+2
+        "38.772,-91.772":  154,   # Callaway
+        "39.461,-75.535":  778,   # Salem 1+2 / Hope Creek
+        "39.763,-76.270": 1446,   # Peach Bottom 2+3
+        "40.164,-88.825":  579,   # Clinton
+        "40.220,-75.585":  444,   # Limerick 1+2
+        "40.354,-95.647":   38,   # Cooper
+        "40.628,-80.436":  496,   # Beaver Valley 1+2
+        "41.099,-76.148": 1318,   # Susquehanna 1+2
+        "41.230,-88.222":  468,   # Braidwood 1+2
+        "41.235,-88.654":  446,   # LaSalle 1+2
+        "41.295,-72.156":  438,   # Millstone 2+3
+        "41.397,-88.272":  860,   # Dresden 2+3
+        "41.601,-83.083":   45,   # Davis-Besse
+        "41.722,-90.295":  892,   # Quad Cities 1+2
+        "41.793,-81.136":  179,   # Perry
+        "41.961,-86.555":  111,   # D.C. Cook 1+2
+        "41.977,-83.260":  193,   # Fermi 2
+        "42.063,-89.275":  468,   # Byron 1+2
+        "42.894,-70.850":  237,   # Seabrook
+        "43.276,-77.309":  255,   # Ginna
+        "43.526,-76.425":  765,   # Nine Mile Pt 2 / FitzPatrick
+        "44.289,-87.527":  563,   # Point Beach 1+2
+        "44.610,-92.622":   54,   # Prairie Island 1+2
+        "45.322,-93.866":  334,   # Monticello
+        "46.457,-119.337": 221,   # Columbia (WNP-2)
     }
-    for coord, done in DONE_OVERRIDE.items():
+    for coord, done in DONE_NRC.items():
         if coord in UR:
             UR[coord]["doneMWt"] = done
-
-    # Auto-compute doneMWt for all UNIT_D sites (dot border ring uses this)
-    for coord in UNIT_D:
-        if coord not in UR or "units" not in UR[coord]:
-            continue
-        done_total = 0.0
-        for unit in UR[coord]["units"]:
-            cap = CAP_PCT.get(unit.get("d"), None)
-            if cap is None or cap == 0:
-                continue
-            mwt = unit.get("mwt", 0)
-            add = unit.get("add", 0)
-            orig = (mwt + add) / (1 + cap)
-            done_total += mwt - orig
-        if done_total > 0:
-            UR[coord]["doneMWt"] = round(done_total)
-
-    # Also compute doneMWt for Catawba (single type, but add was corrected above)
-    for coord in UNIT_ADD_FIX:
-        if coord not in UR or "units" not in UR[coord]:
-            continue
-        done_total = 0.0
-        for unit in UR[coord]["units"]:
-            uD = unit.get("d") or UR[coord].get("d", "")
-            cap = CAP_PCT.get(uD) or _get_cap_fallback(uD)
-            if cap is None or cap == 0:
-                continue
-            mwt = unit.get("mwt", 0)
-            add = unit.get("add", 0)
-            orig = (mwt + add) / (1 + cap)
-            done_total += mwt - orig
-        if done_total > 0:
-            UR[coord]["doneMWt"] = round(done_total)
 
     return UR
 
 
-def _get_cap_fallback(d):
-    """Mirror of JS getCapPct for Python use in build_data."""
-    if not d: return None
-    if 'AP1000' in d: return 0.0
-    if 'System 80' in d: return 0.05
-    if 'B&W' in d: return 0.016
-    if 'GE' in d or 'BWR' in d: return 0.20
-    if 'W 4-Loop' in d: return 0.09
-    if 'W 3-Loop' in d: return 0.20
-    if 'W 2-Loop' in d: return 0.185
-    if 'CE' in d: return 0.18
-    return None
 
 
 def build_orphan():
