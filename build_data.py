@@ -244,22 +244,43 @@ def build_ur(units_by_key):
 
 
 def apply_unit_d_overrides(UR):
-    """Inject per-unit reactor type strings for mixed-type sites.
-    Without these, getCapPct() in the map falls back to the site-level 'd'
-    and misidentifies the cap for individual units (e.g. Vogtle 1/2 as AP1000,
-    ANO-2 as B&W). Values verified against NRC approved applications."""
+    """Fix done-uprate display for sites where getCapPct() mis-identifies the
+    reactor type. Fixes verified against NRC approved applications list.
+
+    Three types of correction:
+    1. UNIT_D  — per-unit reactor type for mixed-type sites (auto-computes doneMWt)
+    2. UNIT_ADD_FIX — corrects wrong 'add' values that cause done=0 for a unit
+    3. DONE_OVERRIDE — explicit doneMWt for single-type sites where cap% understates
+                       historically achieved uprate (e.g. Peach Bottom ~22% vs 20% cap)
+    """
+    CAP_PCT = {
+        "AP1000 PWR": 0.0,      "B&W 2-Loop PWR": 0.016,
+        "GE BWR/4": 0.20,       "W 4-Loop PWR": 0.09,
+        "W 3-Loop PWR": 0.20,   "W 2-Loop PWR": 0.185,
+        "CE 2-Loop PWR": 0.18,
+    }
+
+    # 1. Per-unit reactor type overrides for mixed-type sites
     UNIT_D = {
-        # Vogtle: units 1+2 are W 4-Loop (got EPU+MU uprates); 3+4 are AP1000 (no uprate)
+        # Vogtle 1+2 are W 4-Loop (214 MWt done each); 3+4 are AP1000 (no uprate)
         "33.144,-81.746": {
-            "Vogtle 1": "W 4-Loop PWR",
-            "Vogtle 2": "W 4-Loop PWR",
-            "Vogtle 3": "AP1000 PWR",
-            "Vogtle 4": "AP1000 PWR",
+            "Vogtle 1": "W 4-Loop PWR", "Vogtle 2": "W 4-Loop PWR",
+            "Vogtle 3": "AP1000 PWR",   "Vogtle 4": "AP1000 PWR",
         },
-        # ANO: unit 1 is B&W (minimal uprate); unit 2 is CE 2-Loop (211 MWt EPU)
+        # ANO-1 is B&W (~0 done); ANO-2 is CE 2-Loop (211 MWt EPU)
         "35.322,-93.226": {
             "ANO-1": "B&W 2-Loop PWR",
             "ANO-2": "CE 2-Loop PWR",
+        },
+        # Salem 1+2 are W 4-Loop; Hope Creek is GE BWR/4 (609 MWt EPU)
+        "39.461,-75.535": {
+            "Salem 1": "W 4-Loop PWR", "Salem 2": "W 4-Loop PWR",
+            "Hope Creek": "GE BWR/4",
+        },
+        # Millstone 2 is CE 2-Loop (140 MWt); Millstone 3 is W 4-Loop (298 MWt)
+        "41.295,-72.156": {
+            "Millstone 2": "CE 2-Loop PWR",
+            "Millstone 3": "W 4-Loop PWR",
         },
     }
     for coord, name_map in UNIT_D.items():
@@ -268,13 +289,32 @@ def apply_unit_d_overrides(UR):
         for unit in UR[coord]["units"]:
             if unit.get("name") in name_map:
                 unit["d"] = name_map[unit["name"]]
-    # Compute site-level doneMWt for mixed-type sites so the dot renderer
-    # can show the dark border ring correctly (it can't use per-unit d fields).
-    CAP_PCT = {
-        "AP1000 PWR": 0.0, "B&W 2-Loop PWR": 0.016,
-        "W 4-Loop PWR": 0.09, "W 3-Loop PWR": 0.20, "W 2-Loop PWR": 0.185,
-        "CE 2-Loop PWR": 0.18,
+
+    # 2. Per-unit add corrections
+    # Catawba 2: spreadsheet add=307 implies done=0, but NRC approved 58 MWt MU.
+    # Correct add = (mwt - 58) * 1.09 - mwt = 244 MWt.
+    UNIT_ADD_FIX = {
+        "35.042,-81.077": {"Catawba 2": 244},
     }
+    for coord, name_map in UNIT_ADD_FIX.items():
+        if coord not in UR or "units" not in UR[coord]:
+            continue
+        for unit in UR[coord]["units"]:
+            if unit.get("name") in name_map:
+                unit["add"] = name_map[unit["name"]]
+        # Recompute site-level add to stay consistent
+        UR[coord]["add"] = sum(u.get("add", 0) for u in UR[coord]["units"])
+
+    # 3. Explicit doneMWt for single-type sites that exceeded their cap
+    # Peach Bottom achieved ~22% uprate historically vs our 20% BWR cap assumption.
+    DONE_OVERRIDE = {
+        "39.763,-76.270": 1446,   # Peach Bottom 2+3 — NRC approved total
+    }
+    for coord, done in DONE_OVERRIDE.items():
+        if coord in UR:
+            UR[coord]["doneMWt"] = done
+
+    # Auto-compute doneMWt for all UNIT_D sites (dot border ring uses this)
     for coord in UNIT_D:
         if coord not in UR or "units" not in UR[coord]:
             continue
@@ -289,7 +329,39 @@ def apply_unit_d_overrides(UR):
             done_total += mwt - orig
         if done_total > 0:
             UR[coord]["doneMWt"] = round(done_total)
+
+    # Also compute doneMWt for Catawba (single type, but add was corrected above)
+    for coord in UNIT_ADD_FIX:
+        if coord not in UR or "units" not in UR[coord]:
+            continue
+        done_total = 0.0
+        for unit in UR[coord]["units"]:
+            uD = unit.get("d") or UR[coord].get("d", "")
+            cap = CAP_PCT.get(uD) or _get_cap_fallback(uD)
+            if cap is None or cap == 0:
+                continue
+            mwt = unit.get("mwt", 0)
+            add = unit.get("add", 0)
+            orig = (mwt + add) / (1 + cap)
+            done_total += mwt - orig
+        if done_total > 0:
+            UR[coord]["doneMWt"] = round(done_total)
+
     return UR
+
+
+def _get_cap_fallback(d):
+    """Mirror of JS getCapPct for Python use in build_data."""
+    if not d: return None
+    if 'AP1000' in d: return 0.0
+    if 'System 80' in d: return 0.05
+    if 'B&W' in d: return 0.016
+    if 'GE' in d or 'BWR' in d: return 0.20
+    if 'W 4-Loop' in d: return 0.09
+    if 'W 3-Loop' in d: return 0.20
+    if 'W 2-Loop' in d: return 0.185
+    if 'CE' in d: return 0.18
+    return None
 
 
 def build_orphan():
