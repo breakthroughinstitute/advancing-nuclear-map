@@ -268,6 +268,27 @@ def apply_unit_d_overrides(UR):
         for unit in UR[coord]["units"]:
             if unit.get("name") in name_map:
                 unit["d"] = name_map[unit["name"]]
+    # Compute site-level doneMWt for mixed-type sites so the dot renderer
+    # can show the dark border ring correctly (it can't use per-unit d fields).
+    CAP_PCT = {
+        "AP1000 PWR": 0.0, "B&W 2-Loop PWR": 0.016,
+        "W 4-Loop PWR": 0.09, "W 3-Loop PWR": 0.20, "W 2-Loop PWR": 0.185,
+        "CE 2-Loop PWR": 0.18,
+    }
+    for coord in UNIT_D:
+        if coord not in UR or "units" not in UR[coord]:
+            continue
+        done_total = 0.0
+        for unit in UR[coord]["units"]:
+            cap = CAP_PCT.get(unit.get("d"), None)
+            if cap is None or cap == 0:
+                continue
+            mwt = unit.get("mwt", 0)
+            add = unit.get("add", 0)
+            orig = (mwt + add) / (1 + cap)
+            done_total += mwt - orig
+        if done_total > 0:
+            UR[coord]["doneMWt"] = round(done_total)
     return UR
 
 

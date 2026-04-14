@@ -711,7 +711,7 @@ function uU(){gL.clearLayers();uL.clearLayers();cL.clearLayers();const sd=DATA.g
     const isRestart=ur&&ur.restart;
     const _dotMWe=ur?Math.round(ur.mwt/3):Math.round(total);
     const _capPct=(!isRestart&&ur)?getCapPct(ur.d):null;
-    const _origMWe=(_capPct!==null&&ur&&ur.add>0)?Math.round((ur.mwt+ur.add)/(1+_capPct)/3):null;
+    const _origMWe=(!isRestart&&ur)?(ur.doneMWt!=null?Math.round((ur.mwt-ur.doneMWt)/3):(_capPct!==null&&ur.add>0)?Math.round((ur.mwt+ur.add)/(1+_capPct)/3):null):null;
     const _hasDone=_origMWe&&_origMWe<_dotMWe;
     const _pctDone=_hasDone?((_dotMWe-_origMWe)/_dotMWe):0;
     const _strokeCol=isRestart?"#0d9488":(_hasDone?"#4a1d7a":"#fff");
