@@ -308,7 +308,8 @@ function showUprateDetail(ur,pNm,stateName){
   const capPct=getCapPct(siteD);
   let h='<div style="font-size:10px;color:#814DB1;cursor:pointer;margin-bottom:8px;font-weight:600" onclick="buildUprateCard()">\u2190 All plants</div>';
   h+='<div style="font-size:13px;font-weight:700;color:#1e293b;margin-bottom:2px">'+(pNm||"Nuclear Plant")+'</div>';
-  if(ur.add>0){h+='<div style="font-size:22px;font-weight:800;color:#814DB1;line-height:1.1;margin-bottom:1px">+'+Math.round(ur.add/3).toLocaleString()+' <span style="font-size:13px;font-weight:600">MWe potential</span></div>';}
+  if(ur.restart){h+='<div style="font-size:13px;font-weight:700;color:#0d9488;line-height:1.1;margin-bottom:1px">Restarting</div>';}
+  else if(ur.add>0){h+='<div style="font-size:22px;font-weight:800;color:#814DB1;line-height:1.1;margin-bottom:1px">+'+Math.round(ur.add/3).toLocaleString()+' <span style="font-size:13px;font-weight:600">MWe potential</span></div>';}
   h+='<div style="font-size:11px;color:#94a3b8;margin-bottom:6px">'+siteD+(ur.u>1?' &mdash; '+ur.u+' units':'')+'</div>';
   var _mktCol=ur.mkt==='Merch.'?'#fb923c':'#93c5fd';
   var _mktBg=ur.mkt==='Merch.'?'rgba(251,146,60,.12)':'rgba(147,197,253,.12)';
@@ -327,13 +328,14 @@ function showUprateDetail(ur,pNm,stateName){
     if(_sr.waste&&_sr.waste!=='None')h+='<div style="font-size:10px;color:#94a3b8;margin-bottom:4px">Waste: '+_sr.waste+'</div>';
   }
   if(capPct!==null)h+='<div style="font-size:10px;color:#64748b;margin-bottom:8px">Max uprate cap: <strong>'+(capPct*100)+'%</strong></div>';
+  var _isRestart=!!ur.restart;
   h+='<table style="width:100%;font-size:10px;border-collapse:collapse">';
   h+='<tr style="border-bottom:1px solid #e2e8f0">';
   h+='<th style="text-align:left;padding:2px 3px;color:#64748b">Unit</th>';
   h+='<th style="text-align:right;padding:2px 3px;color:#64748b">Orig. MWt</th>';
   h+='<th style="text-align:right;padding:2px 3px;color:#94a3b8">Done MWt</th>';
   h+='<th style="text-align:right;padding:2px 3px;color:#1e293b">Now MWt</th>';
-  h+='<th style="text-align:right;padding:2px 3px;color:#4ade80">Left MWt</th>';
+  if(!_isRestart)h+='<th style="text-align:right;padding:2px 3px;color:#4ade80">Left MWt</th>';
   h+='</tr>';
   var tRef=0,tDone=0,tNow=0,tLeft=0;
   _units.forEach(function(u,i){
@@ -350,7 +352,7 @@ function showUprateDetail(ur,pNm,stateName){
     h+='<td style="text-align:right;padding:2px 3px;color:#64748b">'+ref.toLocaleString()+'</td>';
     h+='<td style="text-align:right;padding:2px 3px;color:#94a3b8">'+(done>0?'+'+done.toLocaleString()+' <span style="font-size:9px">('+donePct+'%)</span>':'—')+'</td>';
     h+='<td style="text-align:right;padding:2px 3px;font-weight:600">'+u.mwt.toLocaleString()+'</td>';
-    h+='<td style="text-align:right;padding:2px 3px">'+(u.add>0?'<span style="color:#4ade80">+'+u.add.toLocaleString()+' <span style="font-size:9px">('+remPct+'%)</span></span>':'<span style="color:#f87171">maxed</span>')+'</td>';
+    if(!_isRestart)h+='<td style="text-align:right;padding:2px 3px">'+(u.add>0?'<span style="color:#4ade80">+'+u.add.toLocaleString()+' <span style="font-size:9px">('+remPct+'%)</span></span>':'<span style="color:#f87171">maxed</span>')+'</td>';
     h+='</tr>';
   });
   var tDonePct=tRef>0?Math.round(tDone/tRef*1000)/10:0;
@@ -360,7 +362,7 @@ function showUprateDetail(ur,pNm,stateName){
   h+='<td style="text-align:right;padding:3px 3px;color:#64748b">'+tRef.toLocaleString()+'</td>';
   h+='<td style="text-align:right;padding:3px 3px;color:#94a3b8">'+(tDone>0?'+'+tDone.toLocaleString()+' <span style="font-size:9px">('+tDonePct+'%)</span>':'—')+'</td>';
   h+='<td style="text-align:right;padding:3px 3px">'+tNow.toLocaleString()+'</td>';
-  h+='<td style="text-align:right;padding:3px 3px;color:#4ade80">+'+tLeft.toLocaleString()+' <span style="font-size:9px">('+tRemPct+'%)</span></td>';
+  if(!_isRestart)h+='<td style="text-align:right;padding:3px 3px;color:#4ade80">+'+tLeft.toLocaleString()+' <span style="font-size:9px">('+tRemPct+'%)</span></td>';
   h+='</tr></table>';
   if(ur.note)h+='<div style="font-size:10px;color:#fbbf24;margin-top:3px">'+ur.note+'</div>';
   h+='<div class="uc-note">Plant-level headroom in MWt (thermal). MWe headline = MWt &divide; 3 (assumes ~33% thermal efficiency, per DOE/INL methodology).<br>Source: FAI State Permitting Playbook (Nov 2025) &bull; INL/EXT-24-78810 &bull; NRC</div>';
@@ -457,7 +459,46 @@ function toggleRegLayer(){var cb=document.getElementById("showMarket");if(cb&&do
 function toggleMarketLayer(){var cb=document.getElementById("showRegulatory");if(cb&&document.getElementById("showMarket").checked)cb.checked=false;applyStateOverlay();}
 
 
-function bST(a,stateName){const sd=(SD[cS]||{})[a]||{},d=sd[cY]||{},r=d.reactors||{},rt=(r.SMR||0)+(r.ARTES||0)+(r.HTGR||0);
+function bUprateST(stateName){
+  var abbr=N2A[stateName]||stateName;
+  var totalMWe=0,plants=0,restarts=0;
+  var seen=new Set();
+  for(var k in UR){
+    if(PSTATE[k]!==stateName)continue;
+    var ur=UR[k];
+    if(ur.restart){restarts++;continue;}
+    var site=k.split(',').map(function(x){return Math.round(parseFloat(x)*10)/10;}).join(',');
+    if(seen.has(site))continue;
+    seen.add(site);
+    if(ur.add>0){totalMWe+=Math.round(ur.add/3);plants++;}
+  }
+  var sr=SR[stateName]||null;
+  var h='<div class="stt"><h4>'+abbr+' \u2014 Uprate Potential</h4>';
+  h+='<div class="stt-section">';
+  if(plants>0){
+    h+='<div class="stt-row"><span class="k"><span class="stt-dot" style="background:#814DB1"></span>Headroom</span><span class="v" style="color:#814DB1;font-weight:700">~'+totalMWe.toLocaleString()+' MWe</span></div>';
+    h+='<div class="stt-row"><span class="k">Plants w/ headroom</span><span class="v">'+plants+'</span></div>';
+  }else{
+    h+='<div style="font-size:11px;color:#94a3b8">No remaining headroom</div>';
+  }
+  if(restarts>0)h+='<div class="stt-row"><span class="k"><span class="stt-dot" style="background:#0d9488"></span>Restart plants</span><span class="v">'+restarts+'</span></div>';
+  h+='</div>';
+  if(sr){
+    var ec=sr.env==="Clear"?"#4ade80":sr.env==="Mixed"?"#fbbf24":"#f87171";
+    var mc=sr.mkt==="Merchant Generator"?"#93c5fd":"#EE5C36";
+    h+='<div class="stt-divider"></div><div class="stt-section"><div class="stt-label">Policy &amp; Market</div>';
+    h+='<div class="stt-row"><span class="k">Market</span><span class="v" style="color:'+mc+'">'+sr.mkt+'</span></div>';
+    h+='<div class="stt-row"><span class="k">Uprate Pathway</span><span class="v" style="color:'+ec+'">'+sr.env+'</span></div>';
+    if(sr.mor&&sr.mor!=="None")h+='<div class="stt-row"><span class="k">Moratorium</span><span class="v" style="color:#f87171">'+sr.mor+'</span></div>';
+    if(sr.waste&&sr.waste!=="None")h+='<div class="stt-row"><span class="k">Waste Policy</span><span class="v" style="color:#fbbf24">'+sr.waste+'</span></div>';
+    h+='</div>';
+  }
+  h+='</div>';
+  return h;
+}
+function bST(a,stateName){
+  if(cT==="uprate")return bUprateST(stateName);
+  const sd=(SD[cS]||{})[a]||{},d=sd[cY]||{},r=d.reactors||{},rt=(r.SMR||0)+(r.ARTES||0)+(r.HTGR||0);
   let h='<div class="stt"><h4>'+a+" \u2014 "+cY+"</h4><div class=\"stt-section\"><div class=\"stt-label\">Advanced Nuclear Reactors</div>";
   if(rt>0){h+='<div class="stt-row"><span class="k"><span class="stt-dot" style="background:#0DC3A8"></span>Advanced Nuclear</span><span class="v">'+rt+"</span></div>";
   }else h+='<div style="font-size:11px;color:#94a3b8">None</div>';
