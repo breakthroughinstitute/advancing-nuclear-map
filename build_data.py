@@ -243,6 +243,34 @@ def build_ur(units_by_key):
     return UR
 
 
+def apply_unit_d_overrides(UR):
+    """Inject per-unit reactor type strings for mixed-type sites.
+    Without these, getCapPct() in the map falls back to the site-level 'd'
+    and misidentifies the cap for individual units (e.g. Vogtle 1/2 as AP1000,
+    ANO-2 as B&W). Values verified against NRC approved applications."""
+    UNIT_D = {
+        # Vogtle: units 1+2 are W 4-Loop (got EPU+MU uprates); 3+4 are AP1000 (no uprate)
+        "33.144,-81.746": {
+            "Vogtle 1": "W 4-Loop PWR",
+            "Vogtle 2": "W 4-Loop PWR",
+            "Vogtle 3": "AP1000 PWR",
+            "Vogtle 4": "AP1000 PWR",
+        },
+        # ANO: unit 1 is B&W (minimal uprate); unit 2 is CE 2-Loop (211 MWt EPU)
+        "35.322,-93.226": {
+            "ANO-1": "B&W 2-Loop PWR",
+            "ANO-2": "CE 2-Loop PWR",
+        },
+    }
+    for coord, name_map in UNIT_D.items():
+        if coord not in UR or "units" not in UR[coord]:
+            continue
+        for unit in UR[coord]["units"]:
+            if unit.get("name") in name_map:
+                unit["d"] = name_map[unit["name"]]
+    return UR
+
+
 def build_orphan():
     df = pd.read_excel(XLSX_INTERACTIVE, sheet_name="ORPHAN Plants")
     ORPHAN = {}
@@ -563,6 +591,7 @@ def build_all():
     PN, PSTATE = build_plant_names_and_pstate()
     units_by_key = build_per_unit_detail()
     UR = build_ur(units_by_key)
+    UR = apply_unit_d_overrides(UR)
     ORPHAN = build_orphan()
     SR = build_sr()
     print("\nB. WISdom siting CSVs → DATA.g")
