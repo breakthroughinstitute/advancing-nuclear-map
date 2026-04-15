@@ -364,14 +364,21 @@ function buildUprateCard(){
   if(restartMWe>0)sb+='<div class="usb-stat"><div class="usb-val" style="color:#0d9488">&#8635; +'+restartMWe.toLocaleString()+' MWe</div><div class="usb-lbl">Restarts (Palisades &bull; Crane &bull; Duane Arnold)</div></div>';
   sb+='</div></div>';
   sb+='<div class="usb-div"></div>';
-  // Group 3: Policy Targets
+  // Group 3: NRC Pipeline
+  sb+='<div class="usb-group">';
+  sb+='<div class="usb-group-hdr">NRC Pipeline</div>';
+  sb+='<div class="usb-group-stats">';
+  sb+='<div class="usb-stat"><div class="usb-val" style="color:#0ea5e9">2,422 MWe</div><div class="usb-lbl">Expected apps to 2032 (NRC)</div></div>';
+  sb+='</div></div>';
+  sb+='<div class="usb-div"></div>';
+  // Group 4: Policy Targets
   sb+='<div class="usb-group">';
   sb+='<div class="usb-group-hdr">Policy Targets</div>';
   sb+='<div class="usb-group-stats">';
   sb+='<div class="usb-stat"><div class="usb-val" style="color:#818cf8">~8,000 MWe<sup style="font-size:8px;font-weight:400">*</sup></div><div class="usb-lbl">NEI 2025 Survey</div></div>';
   sb+='<div class="usb-stat"><div class="usb-val" style="color:#fb923c">5,000 MWe</div><div class="usb-lbl">DOE UPRISE Target</div></div>';
   sb+='</div></div>';
-  sb+='<div style="margin-left:auto;align-self:center;font-size:8px;color:#94a3b8;text-align:right;line-height:1.5">Plant-level headroom in MWt (thermal). MWe = MWt &divide; 3 (~33% thermal efficiency, per DOE/INL).<br>Source: FAI State Permitting Playbook (Nov 2025) &bull; INL/EXT-24-78810 &bull; NRC &bull; Double-click state &rarr; Dashboard<br><sup>*</sup>NEI 2025 survey covers uprates, restarts, <em>and</em> fuel-cycle extensions; this map shows uprates and restarts only.</div>';
+  sb+='<div style="margin-left:auto;align-self:center;font-size:8px;color:#94a3b8;text-align:right;line-height:1.5">Plant-level headroom in MWt (thermal). MWe = MWt &divide; 3 (~33% thermal efficiency, per DOE/INL).<br>Source: FAI State Permitting Playbook (Nov 2025) &bull; INL/EXT-24-78810 &bull; NRC &bull; NRC Expected Uprate Applications &bull; Double-click state &rarr; Dashboard<br><sup>*</sup>NEI 2025 survey covers uprates, restarts, <em>and</em> fuel-cycle extensions; this map shows uprates and restarts only.</div>';
   sb+='</div>';
   // Legend row
   sb+='<div class="usb-legend">';
