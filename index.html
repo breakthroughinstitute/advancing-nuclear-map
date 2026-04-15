@@ -114,7 +114,7 @@
 <div class="year-slider-container"><label style="font-size:13px;font-weight:600;color:#475569">Year</label>
 <input type="range" class="year-slider" id="yearSlider" min="0" max="6" step="1" value="0"><div class="year-display" id="yearDisplay">2020</div></div>
 <div id="mapControls" style="display:flex;align-items:center;gap:8px"><label style="font-size:13px;font-weight:600;color:#475569">Layers</label>
-<div class="layer-toggles" id="layerToggles"></div><label class="conv-toggle" style="margin-left:6px"><input type="checkbox" id="showRegulatory" onchange="toggleRegLayer()"> Regulatory</label><label class="conv-toggle" style="margin-left:6px"><input type="checkbox" id="showMarket" onchange="toggleMarketLayer()"> Market Type</label></div></div>
+<div class="layer-toggles" id="layerToggles"></div><label class="conv-toggle" style="margin-left:6px"><input type="checkbox" id="showRegulatory" onchange="toggleRegLayer()"> Policy</label><label class="conv-toggle" style="margin-left:6px"><input type="checkbox" id="showMarket" onchange="toggleMarketLayer()"> Market Type</label></div></div>
 <div class="about-overlay" id="aboutOverlay" onclick="if(event.target===this)this.classList.remove('active')">
   <div class="about-panel">
     <button class="about-close" onclick="document.getElementById('aboutOverlay').classList.remove('active')">&times;</button>
@@ -189,9 +189,9 @@
       <li><strong>National Summary</strong> &mdash; Nine charts covering additional advanced nuclear capacity with policy goal benchmarks, nuclear jobs, nuclear share of capacity and energy, installed capacity by technology, retail electricity rates, total system cost, a summer week dispatch profile, and CO&#8322; emissions trajectory across all scenarios.</li>
     </ul>
 
-    <h3>Map Overlays: Regulatory Climate &amp; Electricity Market</h3>
+    <h3>Map Overlays: Policy Climate &amp; Electricity Market</h3>
     <p>Two optional overlays provide policy and market context for each state:</p>
-    <p><strong>Regulatory Climate</strong> indicates whether a state has active legislation restricting new nuclear construction:</p>
+    <p><strong>Policy Climate</strong> indicates whether a state has active legislation restricting new nuclear construction:</p>
     <ul>
       <li><span style="color:#16a34a;font-weight:700">Clear</span> &mdash; No statutory restrictions on new nuclear power plant construction.</li>
       <li><span style="color:#ca8a04;font-weight:700">Mixed</span> &mdash; Some conditions or partial restrictions apply (e.g. voter approval requirements or waste storage conditions).</li>
@@ -525,10 +525,10 @@ function applyStateOverlay(){
   var el=document.getElementById("overlayLegend");
   if(!el)return;
   if(showReg){
-    el.innerHTML='<div class="legend-section"><h3>Regulatory Climate</h3><div class="legend-grid">'+
-      '<div class="legend-item"><span class="legend-dot" style="background:#bbf7d0;border:1px solid #86efac;border-radius:2px;width:14px;height:14px"></span>Clear pathway</div>'+
-      '<div class="legend-item"><span class="legend-dot" style="background:#fef08a;border:1px solid #fde047;border-radius:2px;width:14px;height:14px"></span>Mixed / restrictions</div>'+
-      '<div class="legend-item"><span class="legend-dot" style="background:#fecaca;border:1px solid #fca5a5;border-radius:2px;width:14px;height:14px"></span>Restricted (moratorium)</div>'+
+    el.innerHTML='<div class="legend-section"><h3>Policy Climate</h3><div class="legend-grid">'+
+      '<div class="legend-item"><span class="legend-dot" style="background:#bbf7d0;border:1px solid #86efac;border-radius:2px;width:14px;height:14px"></span>Permissive</div>'+
+      '<div class="legend-item"><span class="legend-dot" style="background:#fef08a;border:1px solid #fde047;border-radius:2px;width:14px;height:14px"></span>Mixed</div>'+
+      '<div class="legend-item"><span class="legend-dot" style="background:#fecaca;border:1px solid #fca5a5;border-radius:2px;width:14px;height:14px"></span>Restricted</div>'+
       '</div></div>';
   } else if(showMkt){
     el.innerHTML='<div class="legend-section"><h3>Electricity Market</h3><div class="legend-grid">'+
@@ -760,7 +760,7 @@ function uSD(){const sc=(SC[cS]||{})[cSt]||{},mix=sc[cY]||{};
     var _mktBg=_sr2.mkt==="Merchant Generator"?"#dbeafe":"#ffedd5";
     var _badge='border-radius:4px;padding:2px 7px;font-size:11px;font-weight:600;display:inline-block;margin-right:6px;';
     sm2+='<span style="'+_badge+'color:'+_mktColor+';background:'+_mktBg+'">'+_sr2.mkt+'</span>';
-    sm2+='<span style="'+_badge+'color:'+_envColor+';background:'+_envBg+'">'+(_sr2.env==="Clear"?"No Restrictions":_sr2.env)+'</span>';
+    sm2+='<span style="'+_badge+'color:'+_envColor+';background:'+_envBg+'">'+(_sr2.env==="Clear"?"Permissive":_sr2.env==="Mixed"?"Mixed":"Restricted")+'</span>';
   }
   if(_sAbbr&&STATE_INV[_sAbbr]&&STATE_INV[_sAbbr][cS]){
     var _inv=STATE_INV[_sAbbr][cS][String(cY)]||0;
