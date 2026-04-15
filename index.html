@@ -557,7 +557,7 @@ function bTg(){const c=document.getElementById("layerToggles");
 
 function uM(){gL.clearLayers();uL.clearLayers();cL.clearLayers();const sd=DATA.g[cS];if(!sd)return;
   (sd[cY]||[]).forEach(p=>{const[lat,lon,total,dom,techs]=p;if(!aT.has(dom))return;
-    const ci=L.circleMarker([lat,lon],{radius:gR(total),fillColor:COLORS[dom],fillOpacity:.7,color:dotStroke(dom),weight:1,opacity:.9});
+    const ci=L.circleMarker([lat,lon],{radius:gR(total),fillColor:COLORS[dom],fillOpacity:.7,stroke:false});
     var isNk=["Nuclear","SMR","ARTES","HTGR"].indexOf(dom)>=0;var pnK=lat.toFixed(3)+","+lon.toFixed(3);var pNm=isNk&&PN[pnK]?PN[pnK]:null;
     let ph='<div class="popup-content"><h4>'+(pNm||"Plant Location")+'</h4><div style="font-size:11px;color:#94a3b8;margin-bottom:6px">'+lat.toFixed(3)+", "+lon.toFixed(3)+" \u2022 "+Math.round(total)+' MW</div><table>';
     const mTechs={};Object.entries(techs).forEach(([t,mw])=>{const k=(t==="SMR"||t==="ARTES"||t==="HTGR")?"Advanced Nuclear":t;mTechs[k]=(mTechs[k]||0)+mw;});Object.entries(mTechs).sort((a,b)=>b[1]-a[1]).forEach(([t,mw])=>{ph+='<tr><td><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:'+(COLORS[t]||"#0DC3A8")+'"></span> '+(TN[t]||t)+"</td><td class=\"mw\">"+Math.round(mw)+" MW</td></tr>";});
@@ -566,7 +566,7 @@ function uM(){gL.clearLayers();uL.clearLayers();cL.clearLayers();const sd=DATA.g
     ph+="</div>";ci.bindPopup(ph,{className:"info-popup",maxWidth:280});
     gL.addLayer(ci)});
   // Orphan nuclear plants: in UR data but absent from DATA.g (rendered separately)
-  if(aT.has("Nuclear")){const _rendK=new Set((sd[cY]||[]).filter(p=>p[3]==="Nuclear").map(p=>p[0].toFixed(3)+","+p[1].toFixed(3)));Object.entries(ORPHAN).forEach(([pnK,od])=>{if(_rendK.has(pnK))return;const ur=UR[pnK];if(!ur)return;const mwe=od.mwe;const _yr=parseInt(cY);if(od.fromYear&&_yr<od.fromYear)return;if(od.toYear&&_yr>od.toYear)return;const[latS,lonS]=pnK.split(",");const lat=parseFloat(latS),lon=parseFloat(lonS);const pNm=PN[pnK]||null;const ci2=L.circleMarker([lat,lon],{radius:gR(mwe),fillColor:COLORS["Nuclear"],fillOpacity:.7,color:"#fff",weight:.5,opacity:.8});ci2.bindPopup('<div class="popup-content"><h4>'+(pNm||"Nuclear Plant")+'</h4><div style="font-size:11px;color:#94a3b8">'+lat.toFixed(3)+", "+lon.toFixed(3)+" \u2022 "+mwe+' MWe</div></div>',{className:"info-popup",maxWidth:280});gL.addLayer(ci2);});}
+  if(aT.has("Nuclear")){const _rendK=new Set((sd[cY]||[]).filter(p=>p[3]==="Nuclear").map(p=>p[0].toFixed(3)+","+p[1].toFixed(3)));Object.entries(ORPHAN).forEach(([pnK,od])=>{if(_rendK.has(pnK))return;const ur=UR[pnK];if(!ur)return;const mwe=od.mwe;const _yr=parseInt(cY);if(od.fromYear&&_yr<od.fromYear)return;if(od.toYear&&_yr>od.toYear)return;const[latS,lonS]=pnK.split(",");const lat=parseFloat(latS),lon=parseFloat(lonS);const pNm=PN[pnK]||null;const ci2=L.circleMarker([lat,lon],{radius:gR(mwe),fillColor:COLORS["Nuclear"],fillOpacity:.7,stroke:false});ci2.bindPopup('<div class="popup-content"><h4>'+(pNm||"Nuclear Plant")+'</h4><div style="font-size:11px;color:#94a3b8">'+lat.toFixed(3)+", "+lon.toFixed(3)+" \u2022 "+mwe+' MWe</div></div>',{className:"info-popup",maxWidth:280});gL.addLayer(ci2);});}
   if(showConvert){const yi=parseInt(cY);(DATA.c[cS]||[]).forEach(c=>{const[lat,lon,name,state,origCap,newCap,origTech,newTech,decom,conv]=c;
     if(!aT.has(newTech)||parseFloat(conv)>yi)return;const col="#0DC3A8";const dispNew=(["SMR","ARTES","HTGR"].indexOf(newTech)>=0)?"Advanced Nuclear":newTech;
     const sz=Math.max(10,Math.min(22,gR(newCap)*2));
