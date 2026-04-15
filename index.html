@@ -583,7 +583,7 @@ function bLg(){
   let h='';
   h+=grp('Nuclear','#814DB1',[['#814DB1','Conventional Nuclear'],['#0DC3A8','Advanced Nuclear']]);
   h+=grp('Fossil','#252A2B',[['#252A2B','Coal'],['#6D7374','Natural Gas CC',true],['#C0C6C8','Natural Gas CT',true],['#D62728','NG w/ CCS']]);
-  h+=grp('Renewables','#2CA02C',[['#2CA02C','Onshore Wind'],['#98DF8A','Offshore Wind',true],['#FFDE20','Utility Solar',true],['#FF7F0E','Rooftop Solar'],['#003FFD','Hydro'],['#8C564B','Geo / Bio']]);
+  h+=grp('Renewables','#2CA02C',[['#2CA02C','Onshore Wind'],['#98DF8A','Offshore Wind',true],['#FFDE20','Utility Solar',true],['#FF7F0E','Rooftop Solar'],['#FDFD4D','CSP',true],['#003FFD','Hydro'],['#8C564B','Geo / Bio']]);
   h+=grp('Storage','#E82269',[['#E82269','Utility Storage']]);
   h+='<div class="legend-section"><h3>Circle Size (MW)</h3><div class="size-legend">';
   [{m:100,r:4},{m:500,r:5.5},{m:1e3,r:7},{m:2e3,r:9},{m:5e3,r:12}].forEach(s=>{h+='<div style="text-align:center"><div class="size-circle" style="width:'+s.r*2+'px;height:'+s.r*2+'px;margin:0 auto"></div><div class="size-label">'+s.m+'</div></div>';});
