@@ -1052,36 +1052,38 @@ function tgA() {
   }, 1500)
 }
 
-document.querySelectorAll(".main-tab").forEach(b => {
-  b.addEventListener("click", function() {
-    document.querySelectorAll(".main-tab").forEach(x => x.classList.remove("active"));
-    this.classList.add("active");
-    swT(this.dataset.tab)
-  })
-});
-document.querySelectorAll(".scenario-tab").forEach(b => {
-  b.addEventListener("click", function() {
-    document.querySelectorAll(".scenario-tab").forEach(x => x.classList.remove("active"));
-    this.classList.add("active");
-    cS = this.dataset.scen;
+function initApp() {
+  document.querySelectorAll(".main-tab").forEach(b => {
+    b.addEventListener("click", function() {
+      document.querySelectorAll(".main-tab").forEach(x => x.classList.remove("active"));
+      this.classList.add("active");
+      swT(this.dataset.tab)
+    })
+  });
+  document.querySelectorAll(".scenario-tab").forEach(b => {
+    b.addEventListener("click", function() {
+      document.querySelectorAll(".scenario-tab").forEach(x => x.classList.remove("active"));
+      this.classList.add("active");
+      cS = this.dataset.scen;
+      if (cT === "map") uM();
+      else uDash()
+    })
+  });
+  document.getElementById("yearSlider").addEventListener("input", function() {
+    cY = String(YEARS[this.value]);
+    document.getElementById("yearDisplay").textContent = cY;
     if (cT === "map") uM();
-    else uDash()
-  })
-});
-document.getElementById("yearSlider").addEventListener("input", function() {
-  cY = String(YEARS[this.value]);
-  document.getElementById("yearDisplay").textContent = cY;
-  if (cT === "map") uM();
-  else {
-    uSD()
-  }
-});
-document.getElementById("playBtn").addEventListener("click", tgA);
-initMap();
-initDash();
-uM();
-buildUprateCard();
-toggleUprateCard();
-window.addEventListener("load", function() {
-  if (map) map.invalidateSize();
-});
+    else {
+      uSD()
+    }
+  });
+  document.getElementById("playBtn").addEventListener("click", tgA);
+  initMap();
+  initDash();
+  uM();
+  buildUprateCard();
+  toggleUprateCard();
+  window.addEventListener("load", function() {
+    if (map) map.invalidateSize();
+  });
+}
