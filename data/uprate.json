@@ -1,1 +1,605 @@
-{"25.448,-80.330":{"d":"W 3-Loop PWR","mwt":5288.0,"add":0.0,"mkt":"Reg.","u":2,"doneMWt":888},"27.346,-80.259":{"d":"CE 2-Loop PWR","mwt":6040.0,"add":0.0,"mkt":"Reg.","u":2,"doneMWt":920},"28.796,-96.062":{"d":"W 4-Loop PWR","mwt":7706.0,"add":578.0,"mkt":"Merch.","u":2,"doneMWt":106},"29.988,-90.483":{"d":"CE 2-Loop PWR","mwt":3716.0,"add":284.0,"mkt":"Reg.","u":1,"doneMWt":326},"30.763,-91.319":{"d":"GE BWR/6","mwt":3091.0,"add":383.0,"mkt":"Reg.","u":1,"doneMWt":197},"31.221,-85.112":{"d":"W 3-Loop PWR","mwt":5550.0,"add":716.0,"mkt":"Reg.","u":2,"doneMWt":338},"31.923,-82.347":{"d":"GE BWR/4","mwt":5608.0,"add":238.0,"mkt":"Reg.","u":2,"note":"EPU planned — NRC application expected Q2 2027 (Southern Nuclear)","proposed":true,"doneMWt":736},"32.010,-91.062":{"d":"GE BWR/6","mwt":4408.0,"add":191.0,"mkt":"Reg.","u":1,"doneMWt":575},"32.308,-97.775":{"d":"W 4-Loop PWR","mwt":7224.0,"add":207.0,"mkt":"Merch.","u":2,"doneMWt":402},"33.144,-81.746":{"d":"W 4-Loop / AP1000 PWR","mwt":14052.0,"add":186.0,"mkt":"Reg.","u":4,"note":"EPU planned — Units 1 & 2 NRC application expected Q4 2028 (Southern Nuclear)","proposed":true,"units":[{"name":"Vogtle 1","mwt":3626.0,"add":93.0,"d":"W 4-Loop PWR"},{"name":"Vogtle 2","mwt":3626.0,"add":93.0,"d":"W 4-Loop PWR"},{"name":"Vogtle 3","mwt":3400.0,"add":0.0,"d":"AP1000 PWR"},{"name":"Vogtle 4","mwt":3400.0,"add":0.0,"d":"AP1000 PWR"}],"doneMWt":429.2},"33.392,-112.858":{"d":"CE System 80 PWR","mwt":11970.0,"add":0.0,"mkt":"Reg.","u":3,"doneMWt":570},"33.965,-78.005":{"d":"GE BWR/4","mwt":5846.0,"add":0.0,"mkt":"Reg.","u":2,"doneMWt":974},"34.309,-81.304":{"d":"W 3-Loop PWR","mwt":2900.0,"add":430.0,"mkt":"Reg.","u":1,"doneMWt":125},"34.408,-80.154":{"d":"W 3-Loop PWR","mwt":2339.0,"add":302.0,"mkt":"Reg.","u":1,"doneMWt":139},"34.706,-87.113":{"d":"GE BWR/4","mwt":11856.0,"add":0.0,"mkt":"Reg.","u":3,"doneMWt":1977},"34.803,-82.894":{"d":"B&W 2-Loop PWR","mwt":7704.0,"add":0.0,"mkt":"Reg.","u":3,"doneMWt":126},"35.042,-81.077":{"d":"W 4-Loop PWR","mwt":6880.0,"add":493.0,"mkt":"Reg.","u":2,"note":"EPU planned — Catawba 1 NRC application expected Q2 2028 (Duke Energy)","proposed":true,"units":[{"name":"Catawba 1","mwt":3469.0,"add":249.0},{"name":"Catawba 2","mwt":3411.0,"add":244}],"doneMWt":116},"35.203,-120.860":{"d":"W 4-Loop PWR","mwt":6822.0,"add":541.0,"mkt":"Reg.","u":2,"note":"NRC approved 20-yr license renewal (Apr 2026): Unit 1 to Nov 2044, Unit 2 to Aug 2045. However, CA SB 846 (2022) only authorizes operation through 2030 — the state legislature must act separately to allow operation beyond that date.","units":[{"name":"Diablo Canyon 1","mwt":3411.0,"add":234.0},{"name":"Diablo Canyon 2","mwt":3411.0,"add":307.0}],"doneMWt":73},"35.231,-85.078":{"d":"W 4-Loop PWR","mwt":6910.0,"add":526.0,"mkt":"Reg.","u":2,"doneMWt":88},"35.322,-93.226":{"d":"B&W / CE PWR","mwt":5594.0,"add":337.0,"mkt":"Reg.","u":2,"units":[{"name":"ANO-1","mwt":2568.0,"add":41.0,"d":"B&W 2-Loop PWR"},{"name":"ANO-2","mwt":3026.0,"add":296.0,"d":"CE 2-Loop PWR"}],"doneMWt":211},"35.435,-80.957":{"d":"W 4-Loop PWR","mwt":6822.0,"add":490.0,"mkt":"Reg.","u":2,"note":"EPU planned — NRC application expected Q2 2027 (Duke Energy)","proposed":true,"doneMWt":116},"35.606,-84.781":{"d":"W 4-Loop PWR","mwt":6918.0,"add":518.0,"mkt":"Reg.","u":2,"doneMWt":96},"35.641,-78.951":{"d":"W 3-Loop PWR","mwt":2900.0,"add":378.0,"mkt":"Reg.","u":1,"doneMWt":173},"37.151,-76.691":{"d":"W 3-Loop PWR","mwt":5174.0,"add":686.0,"mkt":"Reg.","u":2,"doneMWt":292},"38.066,-77.795":{"d":"W 3-Loop PWR","mwt":5880.0,"add":784.0,"mkt":"Reg.","u":2,"doneMWt":336},"38.249,-95.701":{"d":"W 4-Loop PWR","mwt":3565.0,"add":154.0,"mkt":"Reg.","u":1,"doneMWt":154},"38.438,-76.455":{"d":"CE 2-Loop PWR","mwt":5474.0,"add":564.0,"mkt":"Merch.","u":2,"doneMWt":354},"38.772,-91.772":{"d":"W 4-Loop PWR","mwt":3565.0,"add":154.0,"mkt":"Reg.","u":1,"doneMWt":154},"39.461,-75.535":{"d":"W 4-Loop / GE BWR/4","mwt":10820.0,"add":495.0,"mkt":"Merch.","u":3,"units":[{"name":"Salem 1","mwt":3459.0,"add":187.0,"d":"W 4-Loop PWR"},{"name":"Salem 2","mwt":3459.0,"add":258.0,"d":"W 4-Loop PWR"},{"name":"Hope Creek","mwt":3902.0,"add":50.0,"d":"GE BWR/4"}],"doneMWt":778},"39.763,-76.270":{"d":"GE BWR/4","mwt":8032.0,"add":0.0,"mkt":"Merch.","u":2,"doneMWt":1446},"40.150,-76.731":{"d":"B&W 2-Loop PWR","mwt":2568.0,"add":0.0,"mkt":"Merch.","u":1,"note":"Restarting (Crane Clean Energy Center)","restart":true,"retYear":2020,"restartYear":2030},"40.164,-88.825":{"d":"GE BWR/6","mwt":3473.0,"add":0.0,"mkt":"Merch.","u":1,"doneMWt":579},"40.220,-75.585":{"d":"GE BWR/4","mwt":7030.0,"add":878.0,"mkt":"Merch.","u":2,"doneMWt":444},"40.354,-95.647":{"d":"GE BWR/4","mwt":2419.0,"add":438.0,"mkt":"Reg.","u":1,"doneMWt":38},"40.628,-80.436":{"d":"W 3-Loop PWR","mwt":5800.0,"add":556.0,"mkt":"Merch.","u":2,"note":"EPU planned — Vistra/Meta PPA (Jan 2026): BV2 NRC application expected Q3 2030, BV1 Q3 2031","proposed":true,"doneMWt":496},"41.099,-76.148":{"d":"GE BWR/4","mwt":7904.0,"add":0.0,"mkt":"Merch.","u":2,"doneMWt":1318},"41.230,-88.222":{"d":"W 4-Loop PWR","mwt":7290.0,"add":158.0,"mkt":"Merch.","u":2,"doneMWt":468},"41.235,-88.654":{"d":"GE BWR/5","mwt":7092.0,"add":886.0,"mkt":"Merch.","u":2,"doneMWt":446},"41.271,-73.950":{"d":"W 4-Loop PWR","mwt":6118.0,"add":0.0,"mkt":"Merch.","u":2,"note":"Retired 2020–21 | Permanently retired 2020–21. Included in source data for reference only.","retYear":2025},"41.295,-72.156":{"d":"CE/W 4-Loop PWR","mwt":6350.0,"add":334.0,"mkt":"Merch.","u":2,"units":[{"name":"Millstone 2","mwt":2700.0,"add":334.0,"d":"CE 2-Loop PWR"},{"name":"Millstone 3","mwt":3650.0,"add":0.0,"d":"W 4-Loop PWR"}],"doneMWt":438},"41.397,-88.272":{"d":"GE BWR/3","mwt":5914.0,"add":152.0,"mkt":"Merch.","u":2,"doneMWt":860},"41.601,-83.083":{"d":"B&W 2-Loop PWR","mwt":2817.0,"add":0.0,"mkt":"Merch.","u":1,"note":"EPU planned — Vistra/Meta PPA (Jan 2026): NRC application expected Q3 2032","proposed":true,"doneMWt":45},"41.722,-90.295":{"d":"GE BWR/3","mwt":5914.0,"add":110.0,"mkt":"Merch.","u":2,"doneMWt":892},"41.793,-81.136":{"d":"GE BWR/6","mwt":3756.0,"add":537.0,"mkt":"Merch.","u":1,"note":"EPU planned — Vistra/Meta PPA (Jan 2026): NRC application expected Q3 2029","proposed":true,"doneMWt":179},"41.961,-86.555":{"d":"W 4-Loop PWR","mwt":6772.0,"add":489.0,"mkt":"Reg.","u":2,"units":[{"name":"Cook Unit 1","mwt":3304.0,"add":239.0},{"name":"Cook Unit 2","mwt":3468.0,"add":250.0}],"doneMWt":111},"41.977,-83.260":{"d":"GE BWR/4","mwt":3486.0,"add":466.0,"mkt":"Reg.","u":1,"doneMWt":193},"42.063,-89.275":{"d":"W 4-Loop PWR","mwt":7290.0,"add":158.0,"mkt":"Merch.","u":2,"doneMWt":468},"42.319,-86.314":{"d":"CE PWR","mwt":2565.0,"add":0.0,"mkt":"Reg.","u":1,"note":"Restarting (Holtec / Palisades)","restart":true,"retYear":2025,"restartYear":2030},"42.894,-70.850":{"d":"W 4-Loop PWR","mwt":3648.0,"add":69.0,"mkt":"Merch.","u":1,"doneMWt":237},"43.276,-77.309":{"d":"W 2-Loop PWR","mwt":1775.0,"add":26.0,"mkt":"Merch.","u":1,"doneMWt":255},"43.526,-76.425":{"d":"GE BWR/4 & BWR/2 & BWR/5","mwt":8374.0,"add":760.0,"mkt":"Merch.","u":3,"units":[{"name":"FitzPatrick","mwt":2536.0,"add":390.0},{"name":"Nine Mile Pt 1","mwt":1850.0,"add":370.0},{"name":"Nine Mile Pt 2","mwt":3988.0,"add":0.0}],"doneMWt":765},"44.289,-87.527":{"d":"W 2-Loop PWR","mwt":3600.0,"add":0.0,"mkt":"Reg.","u":2,"doneMWt":563},"44.610,-92.622":{"d":"W 2-Loop PWR","mwt":3354.0,"add":558.0,"mkt":"Reg.","u":2,"doneMWt":54},"45.322,-93.866":{"d":"GE BWR/3","mwt":2004.0,"add":0.0,"mkt":"Reg.","u":1,"doneMWt":334},"46.457,-119.337":{"d":"GE BWR/5","mwt":3544.0,"add":444.0,"mkt":"Reg.","u":1,"note":"EPU planned — NRC application expected Q2 2028 (Energy Northwest)","proposed":true,"doneMWt":221},"42.101,-91.777":{"d":"GE BWR/4","mwt":1912.0,"add":0.0,"mkt":"Reg.","u":1,"note":"Restarting (NextEra/Google — Duane Arnold)","restart":true,"retYear":2020,"restartYear":2029}}
+{
+  "25.448,-80.330": {
+    "d": "W 3-Loop PWR",
+    "mwt": 5288.0,
+    "add": 0.0,
+    "mkt": "Reg.",
+    "u": 2,
+    "doneMWt": 888
+  },
+  "27.346,-80.259": {
+    "d": "CE 2-Loop PWR",
+    "mwt": 6040.0,
+    "add": 0.0,
+    "mkt": "Reg.",
+    "u": 2,
+    "doneMWt": 920
+  },
+  "28.796,-96.062": {
+    "d": "W 4-Loop PWR",
+    "mwt": 7706.0,
+    "add": 577.57,
+    "mkt": "Merch.",
+    "u": 2,
+    "doneMWt": 106
+  },
+  "29.988,-90.483": {
+    "d": "CE 2-Loop PWR",
+    "mwt": 3716.0,
+    "add": 284.073,
+    "mkt": "Reg.",
+    "u": 1,
+    "doneMWt": 326
+  },
+  "30.763,-91.319": {
+    "d": "GE BWR/6",
+    "mwt": 3091.0,
+    "add": 382.5216,
+    "mkt": "Reg.",
+    "u": 1,
+    "doneMWt": 197
+  },
+  "31.221,-85.112": {
+    "d": "W 3-Loop PWR",
+    "mwt": 5550.0,
+    "add": 716.8433,
+    "mkt": "Reg.",
+    "u": 2,
+    "doneMWt": 338
+  },
+  "31.923,-82.347": {
+    "d": "GE BWR/4",
+    "mwt": 5608.0,
+    "add": 238.6912,
+    "mkt": "Reg.",
+    "u": 2,
+    "note": "EPU planned — NRC application expected Q2 2027 (Southern Nuclear)",
+    "proposed": true,
+    "doneMWt": 736
+  },
+  "32.010,-91.062": {
+    "d": "GE BWR/6",
+    "mwt": 4408.0,
+    "add": 190.7444,
+    "mkt": "Reg.",
+    "u": 1,
+    "doneMWt": 575
+  },
+  "32.308,-97.775": {
+    "d": "W 4-Loop PWR",
+    "mwt": 7224.0,
+    "add": 206.9001,
+    "mkt": "Merch.",
+    "u": 2,
+    "doneMWt": 402
+  },
+  "33.144,-81.746": {
+    "d": "W 4-Loop / AP1000 PWR",
+    "mwt": 14052.0,
+    "add": 186.0,
+    "mkt": "Reg.",
+    "u": 4,
+    "note": "EPU planned — Units 1 & 2 NRC application expected Q4 2028 (Southern Nuclear)",
+    "proposed": true,
+    "units": [
+      {
+        "name": "Vogtle 1",
+        "mwt": 3626.0,
+        "add": 93.0,
+        "d": "W 4-Loop PWR"
+      },
+      {
+        "name": "Vogtle 2",
+        "mwt": 3626.0,
+        "add": 93.0,
+        "d": "W 4-Loop PWR"
+      },
+      {
+        "name": "Vogtle 3",
+        "mwt": 3400.0,
+        "add": 0.0,
+        "d": "AP1000 PWR"
+      },
+      {
+        "name": "Vogtle 4",
+        "mwt": 3400.0,
+        "add": 0.0,
+        "d": "AP1000 PWR"
+      }
+    ],
+    "doneMWt": 429.2
+  },
+  "33.392,-112.858": {
+    "d": "CE System 80 PWR",
+    "mwt": 11970.0,
+    "add": 0.0,
+    "mkt": "Reg.",
+    "u": 3,
+    "doneMWt": 570
+  },
+  "33.965,-78.005": {
+    "d": "GE BWR/4",
+    "mwt": 5846.0,
+    "add": 0.0,
+    "mkt": "Reg.",
+    "u": 2,
+    "doneMWt": 974
+  },
+  "34.309,-81.304": {
+    "d": "W 3-Loop PWR",
+    "mwt": 2900.0,
+    "add": 430.1435,
+    "mkt": "Reg.",
+    "u": 1,
+    "doneMWt": 125
+  },
+  "34.408,-80.154": {
+    "d": "W 3-Loop PWR",
+    "mwt": 2339.0,
+    "add": 302.0354,
+    "mkt": "Reg.",
+    "u": 1,
+    "doneMWt": 139
+  },
+  "34.706,-87.113": {
+    "d": "GE BWR/4",
+    "mwt": 11856.0,
+    "add": 0.0,
+    "mkt": "Reg.",
+    "u": 3,
+    "doneMWt": 1977
+  },
+  "34.803,-82.894": {
+    "d": "B&W 2-Loop PWR",
+    "mwt": 7704.0,
+    "add": 0.0,
+    "mkt": "Reg.",
+    "u": 3,
+    "doneMWt": 126
+  },
+  "35.042,-81.077": {
+    "d": "W 4-Loop PWR",
+    "mwt": 6880.0,
+    "add": 493.0,
+    "mkt": "Reg.",
+    "u": 2,
+    "note": "EPU planned — Catawba 1 NRC application expected Q2 2028 (Duke Energy)",
+    "proposed": true,
+    "units": [
+      {
+        "name": "Catawba 1",
+        "mwt": 3469.0,
+        "add": 249.0
+      },
+      {
+        "name": "Catawba 2",
+        "mwt": 3411.0,
+        "add": 244
+      }
+    ],
+    "doneMWt": 116
+  },
+  "35.203,-120.860": {
+    "d": "W 4-Loop PWR",
+    "mwt": 6822.0,
+    "add": 541.0,
+    "mkt": "Reg.",
+    "u": 2,
+    "note": "NRC approved 20-yr license renewal (Apr 2026): Unit 1 to Nov 2044, Unit 2 to Aug 2045. However, CA SB 846 (2022) only authorizes operation through 2030 — the state legislature must act separately to allow operation beyond that date.",
+    "units": [
+      {
+        "name": "Diablo Canyon 1",
+        "mwt": 3411.0,
+        "add": 234.0
+      },
+      {
+        "name": "Diablo Canyon 2",
+        "mwt": 3411.0,
+        "add": 307.0
+      }
+    ],
+    "doneMWt": 73
+  },
+  "35.231,-85.078": {
+    "d": "W 4-Loop PWR",
+    "mwt": 6910.0,
+    "add": 525.2419,
+    "mkt": "Reg.",
+    "u": 2,
+    "doneMWt": 88
+  },
+  "35.322,-93.226": {
+    "d": "B&W / CE PWR",
+    "mwt": 5594.0,
+    "add": 337.0,
+    "mkt": "Reg.",
+    "u": 2,
+    "units": [
+      {
+        "name": "ANO-1",
+        "mwt": 2568.0,
+        "add": 41.0,
+        "d": "B&W 2-Loop PWR"
+      },
+      {
+        "name": "ANO-2",
+        "mwt": 3026.0,
+        "add": 296.0,
+        "d": "CE 2-Loop PWR"
+      }
+    ],
+    "doneMWt": 211
+  },
+  "35.435,-80.957": {
+    "d": "W 4-Loop PWR",
+    "mwt": 6822.0,
+    "add": 489.6814,
+    "mkt": "Reg.",
+    "u": 2,
+    "note": "EPU planned — NRC application expected Q2 2027 (Duke Energy)",
+    "proposed": true,
+    "doneMWt": 116
+  },
+  "35.606,-84.781": {
+    "d": "W 4-Loop PWR",
+    "mwt": 6918.0,
+    "add": 518.5089,
+    "mkt": "Reg.",
+    "u": 2,
+    "doneMWt": 96
+  },
+  "35.641,-78.951": {
+    "d": "W 3-Loop PWR",
+    "mwt": 2900.0,
+    "add": 377.7003,
+    "mkt": "Reg.",
+    "u": 1,
+    "doneMWt": 173
+  },
+  "37.151,-76.691": {
+    "d": "W 3-Loop PWR",
+    "mwt": 5174.0,
+    "add": 685.0831,
+    "mkt": "Reg.",
+    "u": 2,
+    "doneMWt": 292
+  },
+  "38.066,-77.795": {
+    "d": "W 3-Loop PWR",
+    "mwt": 5880.0,
+    "add": 784.9538,
+    "mkt": "Reg.",
+    "u": 2,
+    "doneMWt": 336
+  },
+  "38.249,-95.701": {
+    "d": "W 4-Loop PWR",
+    "mwt": 3565.0,
+    "add": 153.5167,
+    "mkt": "Reg.",
+    "u": 1,
+    "doneMWt": 154
+  },
+  "38.438,-76.455": {
+    "d": "CE 2-Loop PWR",
+    "mwt": 5474.0,
+    "add": 564.0456,
+    "mkt": "Merch.",
+    "u": 2,
+    "doneMWt": 354
+  },
+  "38.772,-91.772": {
+    "d": "W 4-Loop PWR",
+    "mwt": 3565.0,
+    "add": 153.5167,
+    "mkt": "Reg.",
+    "u": 1,
+    "doneMWt": 154
+  },
+  "39.461,-75.535": {
+    "d": "W 4-Loop / GE BWR/4",
+    "mwt": 10820.0,
+    "add": 495.0,
+    "mkt": "Merch.",
+    "u": 3,
+    "units": [
+      {
+        "name": "Salem 1",
+        "mwt": 3459.0,
+        "add": 187.0,
+        "d": "W 4-Loop PWR"
+      },
+      {
+        "name": "Salem 2",
+        "mwt": 3459.0,
+        "add": 258.0,
+        "d": "W 4-Loop PWR"
+      },
+      {
+        "name": "Hope Creek",
+        "mwt": 3902.0,
+        "add": 50.0,
+        "d": "GE BWR/4"
+      }
+    ],
+    "doneMWt": 778,
+    "proposed": true
+  },
+  "39.763,-76.270": {
+    "d": "GE BWR/4",
+    "mwt": 8032.0,
+    "add": 0.0,
+    "mkt": "Merch.",
+    "u": 2,
+    "doneMWt": 1446
+  },
+  "40.150,-76.731": {
+    "d": "B&W 2-Loop PWR",
+    "mwt": 2568.0,
+    "add": 0.0,
+    "mkt": "Merch.",
+    "u": 1,
+    "note": "Restarting (Crane Clean Energy Center)",
+    "restart": true,
+    "retYear": 2020,
+    "restartYear": 2030
+  },
+  "40.164,-88.825": {
+    "d": "GE BWR/6",
+    "mwt": 3473.0,
+    "add": 0.0,
+    "mkt": "Merch.",
+    "u": 1,
+    "doneMWt": 579
+  },
+  "40.220,-75.585": {
+    "d": "GE BWR/4",
+    "mwt": 7030.0,
+    "add": 877.7615,
+    "mkt": "Merch.",
+    "u": 2,
+    "doneMWt": 444
+  },
+  "40.354,-95.647": {
+    "d": "GE BWR/4",
+    "mwt": 2419.0,
+    "add": 660.6614,
+    "mkt": "Reg.",
+    "u": 1,
+    "doneMWt": 38
+  },
+  "40.628,-80.436": {
+    "d": "W 3-Loop PWR",
+    "mwt": 5800.0,
+    "add": 555.4679,
+    "mkt": "Merch.",
+    "u": 2,
+    "note": "EPU planned — Vistra/Meta PPA (Jan 2026): BV2 NRC application expected Q3 2030, BV1 Q3 2031",
+    "proposed": true,
+    "doneMWt": 496
+  },
+  "41.099,-76.148": {
+    "d": "GE BWR/4",
+    "mwt": 7904.0,
+    "add": 0.0,
+    "mkt": "Merch.",
+    "u": 2,
+    "doneMWt": 1318
+  },
+  "41.230,-88.222": {
+    "d": "W 4-Loop PWR",
+    "mwt": 7290.0,
+    "add": 158.5377,
+    "mkt": "Merch.",
+    "u": 2,
+    "doneMWt": 468
+  },
+  "41.235,-88.654": {
+    "d": "GE BWR/5",
+    "mwt": 7092.0,
+    "add": 885.5028,
+    "mkt": "Merch.",
+    "u": 2,
+    "doneMWt": 446
+  },
+  "41.271,-73.950": {
+    "d": "W 4-Loop PWR",
+    "mwt": 6118.0,
+    "add": 0.0,
+    "mkt": "Merch.",
+    "u": 2,
+    "note": "Retired 2020–21 | Permanently retired 2020–21. Included in source data for reference only.",
+    "retYear": 2025
+  },
+  "41.295,-72.156": {
+    "d": "CE/W 4-Loop PWR",
+    "mwt": 6350.0,
+    "add": 334.0,
+    "mkt": "Merch.",
+    "u": 2,
+    "units": [
+      {
+        "name": "Millstone 2",
+        "mwt": 2700.0,
+        "add": 334.0,
+        "d": "CE 2-Loop PWR"
+      },
+      {
+        "name": "Millstone 3",
+        "mwt": 3650.0,
+        "add": 0.0,
+        "d": "W 4-Loop PWR"
+      }
+    ],
+    "doneMWt": 438
+  },
+  "41.397,-88.272": {
+    "d": "GE BWR/3",
+    "mwt": 5914.0,
+    "add": 151.641,
+    "mkt": "Merch.",
+    "u": 2,
+    "doneMWt": 860
+  },
+  "41.601,-83.083": {
+    "d": "B&W 2-Loop PWR",
+    "mwt": 2817.0,
+    "add": 0.0,
+    "mkt": "Merch.",
+    "u": 1,
+    "note": "EPU planned — Vistra/Meta PPA (Jan 2026): NRC application expected Q3 2032",
+    "proposed": true,
+    "doneMWt": 45
+  },
+  "41.722,-90.295": {
+    "d": "GE BWR/3",
+    "mwt": 5914.0,
+    "add": 110.4482,
+    "mkt": "Merch.",
+    "u": 2,
+    "doneMWt": 892
+  },
+  "41.793,-81.136": {
+    "d": "GE BWR/6",
+    "mwt": 3756.0,
+    "add": 536.5714,
+    "mkt": "Merch.",
+    "u": 1,
+    "note": "EPU planned — Vistra/Meta PPA (Jan 2026): NRC application expected Q3 2029",
+    "proposed": true,
+    "doneMWt": 179
+  },
+  "41.961,-86.555": {
+    "d": "W 4-Loop PWR",
+    "mwt": 6772.0,
+    "add": 489.0,
+    "mkt": "Reg.",
+    "u": 2,
+    "units": [
+      {
+        "name": "Cook Unit 1",
+        "mwt": 3304.0,
+        "add": 239.0
+      },
+      {
+        "name": "Cook Unit 2",
+        "mwt": 3468.0,
+        "add": 250.0
+      }
+    ],
+    "doneMWt": 111
+  },
+  "41.977,-83.260": {
+    "d": "GE BWR/4",
+    "mwt": 3486.0,
+    "add": 536.3077,
+    "mkt": "Reg.",
+    "u": 1,
+    "doneMWt": 193
+  },
+  "42.063,-89.275": {
+    "d": "W 4-Loop PWR",
+    "mwt": 7290.0,
+    "add": 158.5377,
+    "mkt": "Merch.",
+    "u": 2,
+    "doneMWt": 468
+  },
+  "42.319,-86.314": {
+    "d": "CE PWR",
+    "mwt": 2565.0,
+    "add": 0.0,
+    "mkt": "Reg.",
+    "u": 1,
+    "note": "Restarting (Holtec / Palisades)",
+    "restart": true,
+    "retYear": 2025,
+    "restartYear": 2030
+  },
+  "42.894,-70.850": {
+    "d": "W 4-Loop PWR",
+    "mwt": 3648.0,
+    "add": 68.5898,
+    "mkt": "Merch.",
+    "u": 1,
+    "doneMWt": 237
+  },
+  "43.276,-77.309": {
+    "d": "W 2-Loop PWR",
+    "mwt": 1775.0,
+    "add": 25.8348,
+    "mkt": "Merch.",
+    "u": 1,
+    "doneMWt": 255
+  },
+  "43.526,-76.425": {
+    "d": "GE BWR/4 & BWR/2 & BWR/5",
+    "mwt": 8374.0,
+    "add": 760.0,
+    "mkt": "Merch.",
+    "u": 3,
+    "units": [
+      {
+        "name": "FitzPatrick",
+        "mwt": 2536.0,
+        "add": 390.0
+      },
+      {
+        "name": "Nine Mile Pt 1",
+        "mwt": 1850.0,
+        "add": 370.0
+      },
+      {
+        "name": "Nine Mile Pt 2",
+        "mwt": 3988.0,
+        "add": 0.0
+      }
+    ],
+    "doneMWt": 765
+  },
+  "44.289,-87.527": {
+    "d": "W 2-Loop PWR",
+    "mwt": 3600.0,
+    "add": 0.0,
+    "mkt": "Reg.",
+    "u": 2,
+    "doneMWt": 563
+  },
+  "44.610,-92.622": {
+    "d": "W 2-Loop PWR",
+    "mwt": 3354.0,
+    "add": 557.8996,
+    "mkt": "Reg.",
+    "u": 2,
+    "doneMWt": 54
+  },
+  "45.322,-93.866": {
+    "d": "GE BWR/3",
+    "mwt": 2004.0,
+    "add": 0.0,
+    "mkt": "Reg.",
+    "u": 1,
+    "doneMWt": 334
+  },
+  "46.457,-119.337": {
+    "d": "GE BWR/5",
+    "mwt": 3544.0,
+    "add": 470.0067,
+    "mkt": "Reg.",
+    "u": 1,
+    "note": "EPU planned — NRC application expected Q2 2028 (Energy Northwest)",
+    "proposed": true,
+    "doneMWt": 221
+  },
+  "42.101,-91.777": {
+    "d": "GE BWR/4",
+    "mwt": 1912.0,
+    "add": 0.0,
+    "mkt": "Reg.",
+    "u": 1,
+    "note": "Restarting (NextEra/Google — Duane Arnold)",
+    "restart": true,
+    "retYear": 2020,
+    "restartYear": 2029
+  }
+}
