@@ -1,1 +1,223 @@
-{"Alabama":{"env":"Clear","mkt":"Cost Recovery"},"Alaska":{"env":"Clear","mkt":"Cost Recovery"},"Arizona":{"env":"Clear","mkt":"Cost Recovery"},"Arkansas":{"env":"Clear","mkt":"Cost Recovery"},"California":{"env":"Restricted","mor":"HLW Repository Requirement","mkt":"Merchant Generator"},"Colorado":{"env":"Clear","mkt":"Cost Recovery"},"Connecticut":{"env":"Mixed","mor":"Partial Repeal — Opt-in Pathway (H.B. 5202 2022; S.B. 4 2025)","mkt":"Merchant Generator"},"Delaware":{"env":"Clear","mkt":"Merchant Generator"},"Florida":{"env":"Clear","mkt":"Cost Recovery"},"Georgia":{"env":"Clear","mkt":"Cost Recovery"},"Hawaii":{"env":"Moratorium","mor":"Legislature approval required (Const. Art. 11, § 8)","mkt":"Cost Recovery"},"Idaho":{"env":"Clear","mkt":"Cost Recovery"},"Illinois":{"env":"Clear","mkt":"Merchant Generator"},"Indiana":{"env":"Clear","mkt":"Cost Recovery"},"Iowa":{"env":"Clear","mkt":"Cost Recovery"},"Kansas":{"env":"Clear","mkt":"Cost Recovery"},"Kentucky":{"env":"Clear","mkt":"Cost Recovery"},"Louisiana":{"env":"Mixed","waste":"HLW Import Ban","mkt":"Cost Recovery"},"Maine":{"env":"Moratorium","mor":"HLW disposal capability required (35-A M.R.S.A. § 4302)","mkt":"Merchant Generator"},"Maryland":{"env":"Clear","mkt":"Merchant Generator"},"Massachusetts":{"env":"Moratorium","mor":"Legislature approval required (Mass. Gen. Laws 503 § 1)","mkt":"Merchant Generator"},"Michigan":{"env":"Clear","mkt":"Cost Recovery"},"Minnesota":{"env":"Restricted","mor":"Outright ban (M.S.A. § 216B.243)","mkt":"Cost Recovery"},"Mississippi":{"env":"Clear","mkt":"Cost Recovery"},"Missouri":{"env":"Clear","mkt":"Cost Recovery"},"Montana":{"env":"Clear","mkt":"Cost Recovery"},"Nebraska":{"env":"Clear","mkt":"Cost Recovery"},"Nevada":{"env":"Clear","mkt":"Cost Recovery"},"New Hampshire":{"env":"Clear","mkt":"Merchant Generator"},"New Jersey":{"env":"Clear","mkt":"Merchant Generator"},"New Mexico":{"env":"Clear","mkt":"Cost Recovery"},"New York":{"env":"Mixed","mor":"Limited to Long Island Power Authority service area (NY Pub Auth L § 1020-T)","mkt":"Merchant Generator"},"North Carolina":{"env":"Clear","mkt":"Cost Recovery"},"North Dakota":{"env":"Clear","mkt":"Cost Recovery"},"Ohio":{"env":"Clear","mkt":"Merchant Generator"},"Oklahoma":{"env":"Clear","mkt":"Cost Recovery"},"Oregon":{"env":"Moratorium","mor":"HLW disposal capability required (O.R.S. § 469.597)","mkt":"Merchant Generator"},"Pennsylvania":{"env":"Clear","mkt":"Merchant Generator"},"Rhode Island":{"env":"Moratorium","mor":"Legislature approval required (Gen. Laws § 42-64-14.1)","mkt":"Merchant Generator"},"South Carolina":{"env":"Clear","mkt":"Cost Recovery"},"South Dakota":{"env":"Clear","mkt":"Cost Recovery"},"Tennessee":{"env":"Clear","mkt":"Cost Recovery"},"Texas":{"env":"Mixed","waste":"HLW Storage Ban","mkt":"Merchant Generator"},"Utah":{"env":"Clear","mkt":"Cost Recovery"},"Vermont":{"env":"Moratorium","mor":"Legislature approval required (30 V.S.A. § 248)","mkt":"Cost Recovery"},"Virginia":{"env":"Clear","mkt":"Merchant Generator"},"Washington":{"env":"Mixed","waste":"Import Ban","mkt":"Cost Recovery"},"West Virginia":{"env":"Clear","mkt":"Cost Recovery"},"Wisconsin":{"env":"Clear","mkt":"Cost Recovery"},"Wyoming":{"env":"Clear","mkt":"Cost Recovery"}}
+{
+  "Alabama": {
+    "env": "Clear",
+    "mkt": "Cost Recovery"
+  },
+  "Alaska": {
+    "env": "Clear",
+    "mkt": "Cost Recovery"
+  },
+  "Arizona": {
+    "env": "Clear",
+    "mkt": "Cost Recovery"
+  },
+  "Arkansas": {
+    "env": "Clear",
+    "mkt": "Cost Recovery"
+  },
+  "California": {
+    "env": "Restricted",
+    "mor": "HLW repository requirement (Cal. Pub. Res. Code § 25524.1–25524.2)",
+    "mkt": "Merchant Generator"
+  },
+  "Colorado": {
+    "env": "Clear",
+    "mkt": "Cost Recovery"
+  },
+  "Connecticut": {
+    "env": "Mixed",
+    "mor": "Partial repeal — opt-in pathway for Millstone site (Conn. Gen. Stat. § 22a-136; 2022 H.B. 5202; 2025 S.B. 4)",
+    "mkt": "Merchant Generator"
+  },
+  "Delaware": {
+    "env": "Clear",
+    "mkt": "Merchant Generator"
+  },
+  "Florida": {
+    "env": "Clear",
+    "mkt": "Cost Recovery"
+  },
+  "Georgia": {
+    "env": "Clear",
+    "mkt": "Cost Recovery"
+  },
+  "Hawaii": {
+    "env": "Moratorium",
+    "mor": "Legislature 2/3 supermajority approval required (Haw. Const. art. XI, § 8)",
+    "mkt": "Cost Recovery"
+  },
+  "Idaho": {
+    "env": "Clear",
+    "mkt": "Cost Recovery"
+  },
+  "Illinois": {
+    "env": "Mixed",
+    "mor": "Large-reactor HLW moratorium; SMR carve-out ≥ Jan 2026 (220 ILCS 5/8-406; 2023 H.B. 2473, P.A. 103-0569)",
+    "mkt": "Merchant Generator"
+  },
+  "Indiana": {
+    "env": "Clear",
+    "mkt": "Cost Recovery"
+  },
+  "Iowa": {
+    "env": "Clear",
+    "mkt": "Cost Recovery"
+  },
+  "Kansas": {
+    "env": "Clear",
+    "mkt": "Cost Recovery"
+  },
+  "Kentucky": {
+    "env": "Clear",
+    "mkt": "Cost Recovery"
+  },
+  "Louisiana": {
+    "env": "Mixed",
+    "waste": "HLW import and transport ban (La. Rev. Stat. § 30:2113(D))",
+    "mkt": "Cost Recovery"
+  },
+  "Maine": {
+    "env": "Moratorium",
+    "mor": "Statewide voter approval + HLW disposal capability required (35-A M.R.S. § 4302; § 4374)",
+    "mkt": "Merchant Generator"
+  },
+  "Maryland": {
+    "env": "Clear",
+    "mkt": "Merchant Generator"
+  },
+  "Massachusetts": {
+    "env": "Moratorium",
+    "mor": "Voter + legislative approval + operating federal HLW facility required (M.G.L. ch. 164 App. § 3-3)",
+    "mkt": "Merchant Generator"
+  },
+  "Michigan": {
+    "env": "Clear",
+    "mkt": "Merchant Generator"
+  },
+  "Minnesota": {
+    "env": "Restricted",
+    "mor": "Statutory cert-of-need ban on new nuclear plants (Minn. Stat. § 216B.243, subd. 3b)",
+    "mkt": "Cost Recovery"
+  },
+  "Mississippi": {
+    "env": "Clear",
+    "mkt": "Cost Recovery"
+  },
+  "Missouri": {
+    "env": "Clear",
+    "mkt": "Cost Recovery"
+  },
+  "Montana": {
+    "env": "Clear",
+    "mkt": "Cost Recovery"
+  },
+  "Nebraska": {
+    "env": "Clear",
+    "mkt": "Cost Recovery"
+  },
+  "Nevada": {
+    "env": "Mixed",
+    "waste": "HLW storage ban (NRS § 459.910)",
+    "mkt": "Merchant Generator"
+  },
+  "New Hampshire": {
+    "env": "Clear",
+    "mkt": "Merchant Generator"
+  },
+  "New Jersey": {
+    "env": "Mixed",
+    "mor": "Coastal area approvals require NRC-compliant waste disposal method (N.J.S.A. 13:19-11)",
+    "mkt": "Merchant Generator"
+  },
+  "New Mexico": {
+    "env": "Mixed",
+    "waste": "HLW storage/disposal ban — state consent + federal repository required (2023 S.B. 53, Ch. 25)",
+    "mkt": "Cost Recovery"
+  },
+  "New York": {
+    "env": "Mixed",
+    "mor": "Prohibition limited to LIPA (Long Island) service area (N.Y. Pub. Auth. Law § 1020-t)",
+    "mkt": "Merchant Generator"
+  },
+  "North Carolina": {
+    "env": "Clear",
+    "mkt": "Cost Recovery"
+  },
+  "North Dakota": {
+    "env": "Mixed",
+    "waste": "HLW placement, storage, exploration, and disposal ban (N.D.C.C. ch. 38-23)",
+    "mkt": "Cost Recovery"
+  },
+  "Ohio": {
+    "env": "Clear",
+    "mkt": "Merchant Generator"
+  },
+  "Oklahoma": {
+    "env": "Clear",
+    "mkt": "Cost Recovery"
+  },
+  "Oregon": {
+    "env": "Moratorium",
+    "mor": "HLW repository + statewide voter approval required (ORS § 469.595; § 469.597)",
+    "waste": "HLW storage ban after license expiry (ORS § 469.594)",
+    "mkt": "Merchant Generator"
+  },
+  "Pennsylvania": {
+    "env": "Clear",
+    "mkt": "Merchant Generator"
+  },
+  "Rhode Island": {
+    "env": "Moratorium",
+    "mor": "General Assembly retains final approval/denial authority (R.I. Gen. Laws § 42-64-14.1)",
+    "mkt": "Merchant Generator"
+  },
+  "South Carolina": {
+    "env": "Clear",
+    "mkt": "Cost Recovery"
+  },
+  "South Dakota": {
+    "env": "Clear",
+    "mkt": "Cost Recovery"
+  },
+  "Tennessee": {
+    "env": "Clear",
+    "mkt": "Cost Recovery"
+  },
+  "Texas": {
+    "env": "Mixed",
+    "waste": "HLW disposal/storage ban — limited on-site exceptions (2021 H.B. 7, 87th Called Session)",
+    "mkt": "Merchant Generator"
+  },
+  "Utah": {
+    "env": "Mixed",
+    "waste": "Nuclear waste placement/storage/treatment restrictions (Utah Code § 19-3-301)",
+    "mkt": "Cost Recovery"
+  },
+  "Vermont": {
+    "env": "Moratorium",
+    "mor": "General Assembly must approve before cert. of public good issued (30 V.S.A. § 248(e)(1))",
+    "mkt": "Cost Recovery"
+  },
+  "Virginia": {
+    "env": "Clear",
+    "mkt": "Merchant Generator"
+  },
+  "Washington": {
+    "env": "Mixed",
+    "waste": "Out-of-state radioactive waste storage and import ban (RCW 70A.390.030)",
+    "mkt": "Cost Recovery"
+  },
+  "West Virginia": {
+    "env": "Clear",
+    "mkt": "Cost Recovery"
+  },
+  "Wisconsin": {
+    "env": "Clear",
+    "mkt": "Cost Recovery"
+  },
+  "Wyoming": {
+    "env": "Mixed",
+    "waste": "HLW storage facility requires specific legislative authorization (Wyo. Stat. § 35-11-1506)",
+    "mkt": "Cost Recovery"
+  }
+}
