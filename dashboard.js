@@ -873,23 +873,25 @@ function uU() {
   gL.clearLayers();
   uL.clearLayers();
   cL.clearLayers();
-  const sd = DATA.g[cS];
-  if (!sd) return;
-  const _uY = "2025"; // WISdom 2025 slice is closest available year to current fleet
-  const _nkDoms = new Set(["Nuclear", "SMR", "ARTES", "HTGR"]);
-  (sd[_uY] || []).forEach(p => {
-    const [lat, lon, total, dom] = p;
-    if (!_nkDoms.has(dom)) return;
-    const pnK = lat.toFixed(3) + "," + lon.toFixed(3);
+  // Render directly from uprate.json — no WISdom dependency, no ORPHAN fallback needed.
+  Object.entries(UR).forEach(([pnK, ur]) => {
+    // Skip permanently retired plants (not restarts)
+    if (ur.retYear && !ur.restart) return;
+    const [latS, lonS] = pnK.split(",");
+    const lat = parseFloat(latS), lon = parseFloat(lonS);
     const pNm = PN[pnK] || null;
-    const ur = findUR(lat, lon);
-    if (ur && !ur.restart && ur.retYear && parseInt(_uY) >= ur.retYear && (!ur.restartYear || parseInt(_uY) < ur.restartYear)) return;
-    const isRestart = ur && ur.restart;
-    const _dotMWe = ur ? Math.round(ur.mwt / 3) : Math.round(total);
-    const _capPct = (!isRestart && ur) ? getCapPct(ur.d) : null;
-    const _origMWe = (!isRestart && ur) ? (ur.doneMWt != null ? Math.round((ur.mwt - ur.doneMWt) / 3) : (_capPct !== null && ur.add > 0) ? Math.round((ur.mwt + ur.add) / (1 + _capPct) / 3) : null) : null;
+    const isRestart = !!ur.restart;
+    const _dotMWe = Math.round(ur.mwt / 3);
+    const _capPct = !isRestart ? getCapPct(ur.d) : null;
+    const _origMWe = !isRestart
+      ? (ur.doneMWt != null
+          ? Math.round((ur.mwt - ur.doneMWt) / 3)
+          : (_capPct !== null && ur.add > 0)
+            ? Math.round((ur.mwt + ur.add) / (1 + _capPct) / 3)
+            : null)
+      : null;
     const _hasDone = _origMWe && _origMWe < _dotMWe;
-    const _pctDone = _hasDone ? ((_dotMWe - _origMWe) / _dotMWe) : 0;
+    const _pctDone = _hasDone ? (_dotMWe - _origMWe) / _dotMWe : 0;
     const _strokeCol = isRestart ? "#0d9488" : (_hasDone ? "#4a1d7a" : "#fff");
     const _strokeW = _hasDone ? Math.round((1.5 + _pctDone * 2.5) * 10) / 10 : 1;
     const ci = L.circleMarker([lat, lon], {
@@ -900,7 +902,7 @@ function uU() {
       weight: _strokeW,
       opacity: 1
     });
-    if (ur) ci.on('click', function(e) {
+    ci.on('click', function(e) {
       L.DomEvent.stopPropagation(e);
       showUprateDetail(ur, pNm, PSTATE[pnK]);
     });
@@ -915,92 +917,22 @@ function uU() {
           iconAnchor: [_r / 2, _r / 2]
         })
       }));
-    }
-    if (!isRestart && ur) {
-      if (ur.proposed) {
-        const rad = ur.add > 0 ? gUpR(Math.round(ur.add / 3), _dotMWe) : Math.max(gR(_dotMWe) + 5, 12);
-        const ring = L.circleMarker([lat, lon], {
-          radius: rad,
-          fillOpacity: 0,
-          color: "#22c55e",
-          weight: 2.5,
-          opacity: .9,
-          dashArray: "5,3"
-        });
-        ring.on('click', function(e) {
-          L.DomEvent.stopPropagation(e);
-          showUprateDetail(ur, pNm, PSTATE[pnK]);
-        });
-        uL.addLayer(ring);
-      } else if (ur.add > 0) {
-        const ring = L.circleMarker([lat, lon], {
-          radius: gUpR(Math.round(ur.add / 3), _dotMWe),
-          fillOpacity: 0,
-          color: "#f59e0b",
-          weight: 2,
-          opacity: .9,
-          dashArray: "6,4"
-        });
-        ring.on('click', function(e) {
-          L.DomEvent.stopPropagation(e);
-          showUprateDetail(ur, pNm, PSTATE[pnK]);
-        });
-        uL.addLayer(ring);
-      }
+    } else if (ur.proposed) {
+      const rad = ur.add > 0 ? gUpR(Math.round(ur.add / 3), _dotMWe) : Math.max(gR(_dotMWe) + 5, 12);
+      const ring = L.circleMarker([lat, lon], {
+        radius: rad, fillOpacity: 0, color: "#22c55e", weight: 2.5, opacity: .9, dashArray: "5,3"
+      });
+      ring.on('click', function(e) { L.DomEvent.stopPropagation(e); showUprateDetail(ur, pNm, PSTATE[pnK]); });
+      uL.addLayer(ring);
+    } else if (ur.add > 0) {
+      const ring = L.circleMarker([lat, lon], {
+        radius: gUpR(Math.round(ur.add / 3), _dotMWe),
+        fillOpacity: 0, color: "#f59e0b", weight: 2, opacity: .9, dashArray: "6,4"
+      });
+      ring.on('click', function(e) { L.DomEvent.stopPropagation(e); showUprateDetail(ur, pNm, PSTATE[pnK]); });
+      uL.addLayer(ring);
     }
     gL.addLayer(ci);
-  });
-  const _rendK = new Set((sd[_uY] || []).filter(p => _nkDoms.has(p[3])).map(p => p[0].toFixed(3) + "," + p[1].toFixed(3)));
-  Object.entries(ORPHAN).forEach(([pnK, od]) => {
-    if (_rendK.has(pnK)) return;
-    const ur = UR[pnK];
-    if (!ur) return;
-    const _yr = parseInt(_uY);
-    if (od.fromYear && _yr < od.fromYear) return;
-    if (od.toYear && _yr > od.toYear) return;
-    const [latS, lonS] = pnK.split(",");
-    const lat = parseFloat(latS),
-      lon = parseFloat(lonS);
-    const pNm = PN[pnK] || null;
-    const isRestart = ur.restart;
-    const dotColor = isRestart ? "#0d9488" : "#814DB1";
-    const ci2 = L.circleMarker([lat, lon], {
-      radius: gR(od.mwe),
-      fillColor: dotColor,
-      fillOpacity: .8,
-      stroke: false
-    });
-    ci2.on('click', function(e) {
-      L.DomEvent.stopPropagation(e);
-      showUprateDetail(ur, pNm, PSTATE[pnK]);
-    });
-    if (isRestart) {
-      const _r = gR(od.mwe) * 2;
-      uL.addLayer(L.marker([lat, lon], {
-        interactive: false,
-        icon: L.divIcon({
-          className: '',
-          html: '<div style="width:' + _r + 'px;height:' + _r + 'px;border-radius:50%;background:#0d9488;opacity:.85;border:2px dotted rgba(255,255,255,.9);box-shadow:0 0 0 3px rgba(13,148,136,.5),0 0 8px 2px rgba(13,148,136,.4);box-sizing:border-box"></div>',
-          iconSize: [_r, _r],
-          iconAnchor: [_r / 2, _r / 2]
-        })
-      }));
-    } else if (ur.add > 0) {
-      const ring2 = L.circleMarker([lat, lon], {
-        radius: gUpR(Math.round(ur.add / 3), od.mwe),
-        fillOpacity: 0,
-        color: ur.proposed ? "#22c55e" : "#f59e0b",
-        weight: 2,
-        opacity: .9,
-        dashArray: "6,4"
-      });
-      ring2.on('click', function(e) {
-        L.DomEvent.stopPropagation(e);
-        showUprateDetail(ur, pNm, PSTATE[pnK]);
-      });
-      uL.addLayer(ring2);
-    }
-    gL.addLayer(ci2);
   });
 }
 
