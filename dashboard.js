@@ -958,7 +958,14 @@ function swT(t) {
       const _ol = document.getElementById("overlayLegend");
       if (_ol) _ol.innerHTML = '';
     }
-  } else uDash();
+  } else {
+    uDash();
+    // Chart.js calculates canvas size at init time; if the section was hidden,
+    // dimensions are wrong. Force a resize now that dashboard is visible.
+    setTimeout(() => {
+      Object.values(Chart.instances).forEach(c => c.resize());
+    }, 100);
+  }
   toggleUprateCard();
 }
 
