@@ -1026,7 +1026,7 @@ function initApp() {
   setTimeout(function() {
     if (map) {
       map.invalidateSize();
-      map.setView([38, -93], 4.5);
+      map.setView([38, -100], 5);
     }
   }, 50);
   window.addEventListener("load", function() {
