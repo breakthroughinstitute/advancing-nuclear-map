@@ -950,17 +950,10 @@ function swT(t) {
   if (_ml) _ml.style.display = t === "uprate" ? "none" : "";
   if (_mv) {
     if (t === "uprate") {
-      map.on('zoomend moveend', function _dbg() {
-        console.log('[debug] zoomend/moveend zoom=', map.getZoom(), new Error().stack.split('\n')[1]);
-      });
       requestAnimationFrame(() => requestAnimationFrame(() => {
-        console.log('[debug] rAF firing, zoom before setView=', map.getZoom());
-        map.setView([38, -96], 4.3, {animate: false});
-        console.log('[debug] zoom after setView=', map.getZoom());
-        setTimeout(() => { console.log('[debug] zoom 500ms later=', map.getZoom()); map.off('zoomend moveend', arguments.callee); }, 500);
+        map.setView([38, -96], 4.5, {animate: false});
       }));
     } else {
-      map.off('zoomend moveend');
       setTimeout(() => map.invalidateSize(), 100);
     }
     if (t === "map") {
