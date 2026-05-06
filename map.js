@@ -7,7 +7,8 @@ function initMap() {
       [55, -60]
     ],
     maxBoundsViscosity: 1.0,
-    minZoom: 3
+    minZoom: 3,
+    zoomSnap: 0.1
   }).setView([38, -108], 5);
   map.createPane('labelsPane');
   map.getPane('labelsPane').style.zIndex = 250;
