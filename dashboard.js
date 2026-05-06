@@ -1022,18 +1022,16 @@ function initApp() {
   uM();
   buildUprateCard();
   toggleUprateCard();
-  // Fit map after panel is hidden so fitBounds has the correct full-width container
+  // Set initial map view after panel is hidden — center shifted east of legend (~260px wide)
   setTimeout(function() {
     if (map) {
       map.invalidateSize();
+      // paddingTopLeft pushes content right of the legend panel
       map.fitBounds([[24.5, -124.5], [49, -66.5]], {
-        paddingTopLeft: [20, 20],
+        paddingTopLeft: [270, 30],
         paddingBottomRight: [20, 20],
         maxZoom: 5
       });
-      map.zoomIn(0.6);
-      // Pan slightly west so the west coast clears the legend panel
-      map.panBy([-180, 0], {animate: false});
     }
   }, 50);
   window.addEventListener("load", function() {
