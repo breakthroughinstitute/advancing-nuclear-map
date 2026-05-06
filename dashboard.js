@@ -950,9 +950,8 @@ function swT(t) {
   if (_ml) _ml.style.display = t === "uprate" ? "none" : "";
   if (_mv) {
     setTimeout(() => {
-      map.invalidateSize();
-      // Uprate tab has 300px right panel — zoom out slightly and shift center east
-      if (t === "uprate") map.setView([38, -96], 4.5);
+      map.invalidateSize({pan: false, animate: false});
+      if (t === "uprate") map.setView([38, -96], 4.5, {animate: false});
     }, 100);
     if (t === "map") {
       uM();
