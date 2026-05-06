@@ -9,12 +9,6 @@ function initMap() {
     maxBoundsViscosity: 1.0,
     minZoom: 3
   });
-  // Fit to continental US bounds so all dots are visible regardless of window size
-  map.fitBounds([[24.5, -124.5], [49, -66.5]], {
-    paddingTopLeft: [20, 20],
-    paddingBottomRight: [20, 20],
-    maxZoom: 5
-  });
   map.createPane('labelsPane');
   map.getPane('labelsPane').style.zIndex = 250;
   map.getPane('labelsPane').style.pointerEvents = 'none';

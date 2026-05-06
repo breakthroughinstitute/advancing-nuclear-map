@@ -1022,6 +1022,17 @@ function initApp() {
   uM();
   buildUprateCard();
   toggleUprateCard();
+  // Fit map after panel is hidden so fitBounds has the correct full-width container
+  setTimeout(function() {
+    if (map) {
+      map.invalidateSize();
+      map.fitBounds([[24.5, -124.5], [49, -66.5]], {
+        paddingTopLeft: [20, 20],
+        paddingBottomRight: [20, 20],
+        maxZoom: 5
+      });
+    }
+  }, 50);
   window.addEventListener("load", function() {
     if (map) map.invalidateSize();
   });

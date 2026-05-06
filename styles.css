@@ -89,7 +89,7 @@
 #uprateSummaryBar .usb-val{font-size:15px;font-weight:800;color:#814DB1}
 #uprateSummaryBar .usb-lbl{font-size:9px;color:#94a3b8;letter-spacing:.02em}
 #uprateSummaryBar .usb-div{width:1px;background:#e2e8f0;flex-shrink:0;align-self:stretch}
-#upratePanel{width:300px;flex-shrink:0;height:100%;background:#fff;border-left:1px solid #e2e8f0;overflow-y:auto;box-sizing:border-box;}
+#upratePanel{display:none;width:300px;flex-shrink:0;height:100%;background:#fff;border-left:1px solid #e2e8f0;overflow-y:auto;box-sizing:border-box;}
 #uprate-card-content{padding:14px;}
 #uprateSummaryBar .usb-legend{display:flex;flex-wrap:wrap;align-items:center;gap:6px 16px;margin-top:7px;padding-top:7px;border-top:1px solid #e2e8f0;}
 #uprateSummaryBar .usb-legend-hdr{font-size:9px;font-weight:700;color:#94a3b8;text-transform:uppercase;letter-spacing:.07em;margin-right:4px}
