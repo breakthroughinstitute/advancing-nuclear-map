@@ -8,10 +8,13 @@ data/nrc_pipeline.json. Run this whenever the NRC updates their page.
 Usage:
   python3 scripts/fetch_nrc_pipeline.py
 
-The NRC site uses bot detection (Akamai) that blocks automated requests.
-If the direct fetch fails, the script will print a JavaScript snippet to
-run once in your browser console. Save the output as _nrc_raw.json in the
-project root, then re-run:
+The NRC site uses Akamai bot detection. This script uses curl_cffi to
+impersonate Chrome's TLS fingerprint and bypass it automatically.
+
+  pip3 install curl_cffi
+
+If the fetch still fails, a manual browser fallback is available:
+save the page tables as _nrc_raw.json and re-run with --from-file:
 
   python3 scripts/fetch_nrc_pipeline.py --from-file _nrc_raw.json
 
@@ -150,6 +153,20 @@ def build_json(tables, retrieved=None):
 # ── Fetch ─────────────────────────────────────────────────────────────────────
 
 def fetch_html():
+    # curl_cffi impersonates Chrome's TLS fingerprint, bypassing Akamai bot detection
+    try:
+        from curl_cffi import requests as cffi_requests
+        r = cffi_requests.get(NRC_URL, impersonate="chrome", timeout=30)
+        if r.status_code == 200 and '<table' in r.text:
+            print("  OK (via curl_cffi)")
+            return r.text
+        print(f"  curl_cffi returned status {r.status_code} — falling back to urllib")
+    except ImportError:
+        print("  curl_cffi not installed (pip3 install curl_cffi) — falling back to urllib")
+    except Exception as e:
+        print(f"  curl_cffi failed ({e}) — falling back to urllib")
+
+    # urllib fallback
     req = urllib.request.Request(NRC_URL, headers={
         'User-Agent': (
             'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) '
@@ -159,7 +176,7 @@ def fetch_html():
         'Accept':          'text/html,application/xhtml+xml',
         'Accept-Language': 'en-US,en;q=0.9',
     })
-    with urllib.request.urlopen(req, timeout=20) as r:
+    with urllib.request.urlopen(req, timeout=30) as r:
         return r.read().decode('utf-8', errors='replace')
 
 

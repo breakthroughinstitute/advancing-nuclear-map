@@ -59,7 +59,7 @@ _archive/             — Retired files (data.js, scenario-data.js, build_data.p
 ### Python requirements
 
 ```bash
-pip install openpyxl pandas pdfplumber
+pip3 install openpyxl pandas pdfplumber curl_cffi
 ```
 
 (`pdfplumber` is only needed by `fetch_uprate.py` and `fetch_state_policy.py`.)
