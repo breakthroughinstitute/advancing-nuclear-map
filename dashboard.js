@@ -950,9 +950,9 @@ function swT(t) {
   if (_ml) _ml.style.display = t === "uprate" ? "none" : "";
   if (_mv) {
     if (t === "uprate") {
-      map.once("resize", function() {
+      requestAnimationFrame(() => requestAnimationFrame(() => {
         map.setView([38, -96], 4.3, {animate: false});
-      });
+      }));
     } else {
       setTimeout(() => map.invalidateSize(), 100);
     }
