@@ -3,7 +3,12 @@
     "source": "NRC Expected Applications for Power Uprates",
     "url": "https://www.nrc.gov/reactors/operating/licensing/power-uprates/status-power-apps/expected-applications.html",
     "retrieved": "2026-05-06",
-    "note": "Some plant names are listed as Proprietary by the NRC."
+    "note": "Some plant names are listed as Proprietary by the NRC. approval_year computed per NEIMA schedules: MUR=6mo, SPU=9mo, EPU=12mo."
+  },
+  "review_months": {
+    "Measurement Uncertainty Recapture": 6,
+    "Stretch Power Uprate": 9,
+    "Extended Power Uprate": 12
   },
   "summary_by_year": {
     "2026": {
@@ -72,6 +77,15 @@
     "2031": 2357,
     "2032": 2422
   },
+  "cumulative_mwe_by_approval_year": {
+    "2027": 747,
+    "2028": 1210,
+    "2029": 1845,
+    "2030": 2166,
+    "2031": 2290,
+    "2032": 2356,
+    "2033": 2421
+  },
   "total_applications": 32,
   "total_mwt": 7336,
   "total_mwe": 2422,
@@ -85,210 +99,270 @@
       "applicant": "Constellation Energy Generation, LLC",
       "plant": "Proprietary",
       "type": "Extended Power Uprate",
-      "submission": "Q4 26"
+      "submission": "Q4 26",
+      "review_months": 12,
+      "approval_year": 2027
     },
     {
       "year": 2027,
       "applicant": "Duke Energy",
       "plant": "Brunswick 1",
       "type": "Measurement Uncertainty Recapture",
-      "submission": "Q1 27"
+      "submission": "Q1 27",
+      "review_months": 6,
+      "approval_year": 2027
     },
     {
       "year": 2027,
       "applicant": "Duke Energy",
       "plant": "Brunswick 2",
       "type": "Measurement Uncertainty Recapture",
-      "submission": "Q1 27"
+      "submission": "Q1 27",
+      "review_months": 6,
+      "approval_year": 2027
     },
     {
       "year": 2027,
       "applicant": "Constellation Energy Generation, LLC",
       "plant": "Proprietary",
       "type": "Measurement Uncertainty Recapture",
-      "submission": "Q1 27"
+      "submission": "Q1 27",
+      "review_months": 6,
+      "approval_year": 2027
     },
     {
       "year": 2027,
       "applicant": "Constellation Energy Generation, LLC",
       "plant": "Proprietary",
       "type": "Measurement Uncertainty Recapture",
-      "submission": "Q1 27"
+      "submission": "Q1 27",
+      "review_months": 6,
+      "approval_year": 2027
     },
     {
       "year": 2027,
       "applicant": "Wolf Creek Nuclear Operating Corp.",
       "plant": "Wolf Creek",
       "type": "Measurement Uncertainty Recapture",
-      "submission": "Q2 27"
+      "submission": "Q2 27",
+      "review_months": 6,
+      "approval_year": 2027
     },
     {
       "year": 2027,
       "applicant": "Constellation Energy Generation, LLC",
       "plant": "Proprietary",
       "type": "Measurement Uncertainty Recapture",
-      "submission": "Q2 27"
+      "submission": "Q2 27",
+      "review_months": 6,
+      "approval_year": 2027
     },
     {
       "year": 2027,
       "applicant": "Constellation Energy Generation, LLC",
       "plant": "Proprietary",
       "type": "Measurement Uncertainty Recapture",
-      "submission": "Q2 27"
+      "submission": "Q2 27",
+      "review_months": 6,
+      "approval_year": 2027
     },
     {
       "year": 2027,
       "applicant": "Duke Energy",
       "plant": "McGuire 1",
       "type": "Extended Power Uprate",
-      "submission": "Q2 27"
+      "submission": "Q2 27",
+      "review_months": 12,
+      "approval_year": 2028
     },
     {
       "year": 2027,
       "applicant": "Duke Energy",
       "plant": "McGuire 2",
       "type": "Extended Power Uprate",
-      "submission": "Q2 27"
+      "submission": "Q2 27",
+      "review_months": 12,
+      "approval_year": 2028
     },
     {
       "year": 2027,
       "applicant": "PSEG",
       "plant": "Salem 1",
       "type": "Stretch Power Uprate",
-      "submission": "Q2 27"
+      "submission": "Q2 27",
+      "review_months": 9,
+      "approval_year": 2028
     },
     {
       "year": 2027,
       "applicant": "PSEG",
       "plant": "Salem 2",
       "type": "Stretch Power Uprate",
-      "submission": "Q2 27"
+      "submission": "Q2 27",
+      "review_months": 9,
+      "approval_year": 2028
     },
     {
       "year": 2027,
       "applicant": "Southern Nuclear",
       "plant": "Hatch 1",
       "type": "Extended Power Uprate",
-      "submission": "Q2 27"
+      "submission": "Q2 27",
+      "review_months": 12,
+      "approval_year": 2028
     },
     {
       "year": 2027,
       "applicant": "Southern Nuclear",
       "plant": "Hatch 2",
       "type": "Extended Power Uprate",
-      "submission": "Q2 27"
+      "submission": "Q2 27",
+      "review_months": 12,
+      "approval_year": 2028
     },
     {
       "year": 2027,
       "applicant": "Constellation Energy Generation, LLC",
       "plant": "Proprietary",
       "type": "Extended Power Uprate",
-      "submission": "Q4 27"
+      "submission": "Q4 27",
+      "review_months": 12,
+      "approval_year": 2028
     },
     {
       "year": 2027,
       "applicant": "Constellation Energy Generation, LLC",
       "plant": "Proprietary",
       "type": "Extended Power Uprate",
-      "submission": "Q4 27"
+      "submission": "Q4 27",
+      "review_months": 12,
+      "approval_year": 2028
     },
     {
       "year": 2027,
       "applicant": "Constellation Energy Generation, LLC",
       "plant": "Proprietary",
       "type": "Measurement Uncertainty Recapture",
-      "submission": "Q4 27"
+      "submission": "Q4 27",
+      "review_months": 6,
+      "approval_year": 2028
     },
     {
       "year": 2027,
       "applicant": "Proprietary",
       "plant": "Proprietary",
       "type": "Extended Power Uprate",
-      "submission": "Q4 27"
+      "submission": "Q4 27",
+      "review_months": 12,
+      "approval_year": 2028
     },
     {
       "year": 2028,
       "applicant": "Energy Northwest",
       "plant": "Columbia",
       "type": "Extended Power Uprate",
-      "submission": "Q2 28"
+      "submission": "Q2 28",
+      "review_months": 12,
+      "approval_year": 2029
     },
     {
       "year": 2028,
       "applicant": "Duke Energy",
       "plant": "Catawba 1",
       "type": "Extended Power Uprate",
-      "submission": "Q2 28"
+      "submission": "Q2 28",
+      "review_months": 12,
+      "approval_year": 2029
     },
     {
       "year": 2028,
       "applicant": "Constellation Energy Generation, LLC",
       "plant": "Proprietary",
       "type": "Extended Power Uprate",
-      "submission": "Q4 28"
+      "submission": "Q4 28",
+      "review_months": 12,
+      "approval_year": 2029
     },
     {
       "year": 2028,
       "applicant": "Southern Nuclear",
       "plant": "Vogtle Unit 1",
       "type": "Extended Power Uprate",
-      "submission": "Q4 28"
+      "submission": "Q4 28",
+      "review_months": 12,
+      "approval_year": 2029
     },
     {
       "year": 2028,
       "applicant": "Southern Nuclear",
       "plant": "Vogtle Unit 2",
       "type": "Extended Power Uprate",
-      "submission": "Q4 28"
+      "submission": "Q4 28",
+      "review_months": 12,
+      "approval_year": 2029
     },
     {
       "year": 2029,
       "applicant": "Vistra Operating Company, LLC",
       "plant": "Perry 1",
       "type": "Extended Power Uprate",
-      "submission": "Q3 29"
+      "submission": "Q3 29",
+      "review_months": 12,
+      "approval_year": 2030
     },
     {
       "year": 2030,
       "applicant": "Constellation Energy Generation, LLC",
       "plant": "Proprietary",
       "type": "Measurement Uncertainty Recapture",
-      "submission": "Q2 30"
+      "submission": "Q2 30",
+      "review_months": 6,
+      "approval_year": 2030
     },
     {
       "year": 2030,
       "applicant": "Constellation Energy Generation, LLC",
       "plant": "Proprietary",
       "type": "Measurement Uncertainty Recapture",
-      "submission": "Q3 30"
+      "submission": "Q3 30",
+      "review_months": 6,
+      "approval_year": 2031
     },
     {
       "year": 2030,
       "applicant": "Vistra Operating Company, LLC",
       "plant": "Beaver Valley 2",
       "type": "Extended Power Uprate",
-      "submission": "Q3 30"
+      "submission": "Q3 30",
+      "review_months": 12,
+      "approval_year": 2031
     },
     {
       "year": 2030,
       "applicant": "Constellation Energy Generation, LLC",
       "plant": "Proprietary",
       "type": "Extended Power Uprate",
-      "submission": "Q4 30"
+      "submission": "Q4 30",
+      "review_months": 12,
+      "approval_year": 2031
     },
     {
       "year": 2031,
       "applicant": "Vistra Operating Company, LLC",
       "plant": "Beaver Valley 1",
       "type": "Extended Power Uprate",
-      "submission": "Q3 31"
+      "submission": "Q3 31",
+      "review_months": 12,
+      "approval_year": 2032
     },
     {
       "year": 2032,
       "applicant": "Vistra Operating Company, LLC",
       "plant": "Davis Besse",
       "type": "Extended Power Uprate",
-      "submission": "Q3 32"
+      "submission": "Q3 32",
+      "review_months": 12,
+      "approval_year": 2033
     }
   ]
 }

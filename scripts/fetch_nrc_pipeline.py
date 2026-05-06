@@ -91,6 +91,21 @@ def parse_int(s):
     return int(re.sub(r'[^\d]', '', s) or '0')
 
 
+# NEIMA review timelines (months to Final Safety Evaluation)
+REVIEW_MONTHS = {
+    "Measurement Uncertainty Recapture": 6,
+    "Stretch Power Uprate": 9,
+    "Extended Power Uprate": 12,
+}
+
+def submission_to_approval_year(q, sub_year, uprate_type):
+    """Given quarter (1-4), submission year (int), and type → approval year (int)."""
+    mid_month = (q - 1) * 3 + 2   # Q1→2, Q2→5, Q3→8, Q4→11
+    review = REVIEW_MONTHS.get(uprate_type, 12)
+    total_month = mid_month + review
+    return sub_year + (total_month - 1) // 12
+
+
 # ── Core: build JSON from parsed tables ──────────────────────────────────────
 
 def build_json(tables, retrieved=None):
@@ -120,33 +135,77 @@ def build_json(tables, retrieved=None):
     # Total row
     total_row = next(r for r in summary['rows'] if r[0].upper() == 'TOTAL')
 
-    # Detail table → individual applications
+    # Detail table → individual applications (with approval_year per NEIMA schedule)
     applications = []
     for row in detail['rows']:
         if len(row) < 5:
             continue
-        applications.append({
-            'year':        int(row[0]),
-            'applicant':   row[1],
-            'plant':       row[2],
-            'type':        row[3],
-            'submission':  row[4],
-        })
+        sub_str  = row[4]
+        utype    = row[3]
+        m = re.match(r'Q(\d)\s+(\d{2,4})', str(sub_str).strip())
+        if m:
+            q      = int(m.group(1))
+            yr2    = int(m.group(2))
+            sub_yr = 2000 + yr2 if yr2 < 100 else yr2
+            appr_yr = submission_to_approval_year(q, sub_yr, utype)
+        else:
+            appr_yr = None
+        app = {
+            'year':          int(row[0]),
+            'applicant':     row[1],
+            'plant':         row[2],
+            'type':          utype,
+            'submission':    sub_str,
+            'review_months': REVIEW_MONTHS.get(utype, 12),
+        }
+        if appr_yr:
+            app['approval_year'] = appr_yr
+        applications.append(app)
+
+    # cumulative_mwe_by_approval_year
+    # For each submission year, distribute its MWe across approval years
+    # proportionally by type count (mur/spu/epu), using Q2 as representative quarter.
+    TYPE_KEY = {
+        'mur': 'Measurement Uncertainty Recapture',
+        'spu': 'Stretch Power Uprate',
+        'epu': 'Extended Power Uprate',
+    }
+    approval_mwe = {}
+    for yr_str, yr_data in yearly.items():
+        sub_yr = int(yr_str)
+        total_mwe = yr_data['mwe']
+        counts = {k: yr_data.get(k, 0) for k in TYPE_KEY}
+        total_count = sum(counts.values()) or 1
+        for k, utype in TYPE_KEY.items():
+            cnt = counts[k]
+            if cnt == 0:
+                continue
+            mwe_share = round(total_mwe * cnt / total_count)
+            ayr = str(submission_to_approval_year(2, sub_yr, utype))  # Q2 representative
+            approval_mwe[ayr] = approval_mwe.get(ayr, 0) + mwe_share
+
+    cumulative_approval, running = {}, 0
+    for yr in sorted(approval_mwe):
+        running += approval_mwe[yr]
+        cumulative_approval[yr] = running
 
     return {
         '_meta': {
             'source':      'NRC Expected Applications for Power Uprates',
             'url':         NRC_URL,
             'retrieved':   retrieved or str(date.today()),
-            'note':        'Some plant names are listed as Proprietary by the NRC.',
+            'note':        'Some plant names are listed as Proprietary by the NRC. '
+                           'approval_year computed per NEIMA schedules: MUR=6mo, SPU=9mo, EPU=12mo.',
         },
-        'summary_by_year':      yearly,
-        'cumulative_mwe_by_year': cumulative_by_year,
-        'total_applications':   parse_int(total_row[1]),
-        'total_mwt':            parse_int(total_row[5]),
-        'total_mwe':            parse_int(total_row[6]),
-        'doe_targets':          DOE_TARGETS,
-        'applications':         applications,
+        'review_months':                REVIEW_MONTHS,
+        'summary_by_year':              yearly,
+        'cumulative_mwe_by_year':       cumulative_by_year,
+        'cumulative_mwe_by_approval_year': cumulative_approval,
+        'total_applications':           parse_int(total_row[1]),
+        'total_mwt':                    parse_int(total_row[5]),
+        'total_mwe':                    parse_int(total_row[6]),
+        'doe_targets':                  DOE_TARGETS,
+        'applications':                 applications,
     }
 
 

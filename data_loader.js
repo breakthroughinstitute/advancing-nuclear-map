@@ -5,6 +5,7 @@
 // ── Global data variables (populated by loadAllData) ──────────────────────
 let PN, UR, ORPHAN, PSTATE, SR, DATA, SC;
 let SD, GD, NAT, NAT_JOBS, RETAIL, SYSCOST, ND, STATE_INV, DISP;
+let NRC_PIPELINE;
 
 async function loadAllData() {
   const base = './data/';
@@ -12,7 +13,8 @@ async function loadAllData() {
     plantMeta, uprate, orphan, statePolicy,
     plants, coalSites, stateCapacity,
     stateScenarios, geodata, national,
-    nuclearDetail, stateInvestment, dispatch
+    nuclearDetail, stateInvestment, dispatch,
+    nrcPipeline
   ] = await Promise.all([
     fetch(base + 'plant_meta.json').then(r => r.json()),
     fetch(base + 'uprate.json').then(r => r.json()),
@@ -27,6 +29,7 @@ async function loadAllData() {
     fetch(base + 'nuclear_detail.json').then(r => r.json()),
     fetch(base + 'state_investment.json').then(r => r.json()),
     fetch(base + 'dispatch.json').then(r => r.json()),
+    fetch(base + 'nrc_pipeline.json').then(r => r.json()),
   ]);
 
   // Assign to globals — same names as the old data.js / scenario-data.js
@@ -44,9 +47,10 @@ async function loadAllData() {
   NAT_JOBS = national.adv_nuke_jobs;
   RETAIL   = national.retail_price;
   SYSCOST  = national.system_cost;
-  ND       = nuclearDetail;
-  STATE_INV = stateInvestment;
-  DISP     = dispatch;
+  ND          = nuclearDetail;
+  STATE_INV   = stateInvestment;
+  DISP        = dispatch;
+  NRC_PIPELINE = nrcPipeline;
 }
 
 window.addEventListener('DOMContentLoaded', async function () {

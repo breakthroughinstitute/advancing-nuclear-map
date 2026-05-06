@@ -169,42 +169,30 @@ function buildUprateCard() {
     const _plan2029Pct = (_planned2029 / _totalA * 100).toFixed(1);
     const _unplanPct = (_unplannedMWe / _totalA * 100).toFixed(1);
     const _restartPct = (restartMWe / _totalA * 100).toFixed(1);
-    // Chart B: timeline SVG — cumulative NRC pipeline vs DOE UPRISE goals
-    // Scale: 0–5500, SVG height 150px. y = 150-(val/5500*150)
-    // Cumulative: 335,1210,1845,2042,2291,2357,2422
-    // X: 15,51.7,88.3,125,161.7,198.3,235
-    const _pts = [{
-      x: 15,
-      y: (150 - 335 / 5500 * 150).toFixed(1),
-      v: '335'
-    }, {
-      x: 51.7,
-      y: (150 - 1210 / 5500 * 150).toFixed(1),
-      v: '1,210'
-    }, {
-      x: 88.3,
-      y: (150 - 1845 / 5500 * 150).toFixed(1),
-      v: '1,845'
-    }, {
-      x: 125,
-      y: (150 - 2042 / 5500 * 150).toFixed(1),
-      v: '2,042'
-    }, {
-      x: 161.7,
-      y: (150 - 2291 / 5500 * 150).toFixed(1),
-      v: '2,291'
-    }, {
-      x: 198.3,
-      y: (150 - 2357 / 5500 * 150).toFixed(1),
-      v: '2,357'
-    }, {
-      x: 235,
-      y: (150 - 2422 / 5500 * 150).toFixed(1),
-      v: '2,422'
-    }];
-    const _yrs = ['2026', '2027', '2028', '2029', '2030', '2031', '2032'];
-    const _doe25y = (150 - 2500 / 5500 * 150).toFixed(1); // 2.5 GW at 2027
-    const _doe5y = (150 - 5000 / 5500 * 150).toFixed(1); // 5 GW at 2029
+    // Chart B: timeline SVG — cumulative NRC approvals (by approval year) vs DOE UPRISE goals
+    // Uses NEIMA review timelines: MUR=6mo, SPU=9mo, EPU=12mo applied to submission dates
+    const _cumApproval = (NRC_PIPELINE && NRC_PIPELINE.cumulative_mwe_by_approval_year) || {};
+    const _yrs = Object.keys(_cumApproval).sort();
+    const _xPositions = [15, 51.7, 88.3, 125, 161.7, 198.3, 235];
+    const _pts = _yrs.map(function(yr, i) {
+      var val = _cumApproval[yr];
+      return {
+        x: _xPositions[i] || (15 + i * 36.7),
+        y: (150 - val / 5500 * 150).toFixed(1),
+        v: val.toLocaleString()
+      };
+    });
+    // Find cumulative at DOE target years
+    var _mwe2027 = _cumApproval['2027'] || 0;
+    var _mwe2029 = _cumApproval['2029'] || 0;
+    // DOE marker y-positions
+    const _doe25y = (150 - 2500 / 5500 * 150).toFixed(1); // 2.5 GW
+    const _doe5y  = (150 - 5000 / 5500 * 150).toFixed(1); // 5 GW
+    // DOE marker x-positions: find index of 2027 and 2029 in _yrs
+    var _idx2027 = _yrs.indexOf('2027');
+    var _idx2029 = _yrs.indexOf('2029');
+    var _x2027 = _idx2027 >= 0 ? (_xPositions[_idx2027] || 15) : 15;
+    var _x2029 = _idx2029 >= 0 ? (_xPositions[_idx2029] || 88.3) : 88.3;
     let ch = '';
     // ── Chart A ──
     ch += '<div style="font-size:11px;font-weight:700;color:#1e293b;margin-bottom:2px">How much more can we add?</div>';
@@ -236,7 +224,7 @@ function buildUprateCard() {
     ch += '<div style="font-size:8px;color:#94a3b8;line-height:1.5;border-top:1px solid #f1f5f9;padding-top:6px;margin-bottom:20px">Planned (2,042 MWe) = NRC expected applications to 2029. Restarts = Palisades, Crane, Duane Arnold. MWe &asymp; MWt &divide; 3.</div>';
     // ── Chart B ──
     ch += '<div style="font-size:11px;font-weight:700;color:#1e293b;margin-bottom:2px">Uprate Timeline: Planned vs. UPRISE Goal</div>';
-    ch += '<div style="font-size:9px;color:#64748b;margin-bottom:8px">Cumulative planned MWe (NRC pipeline) vs. DOE targets</div>';
+    ch += '<div style="font-size:9px;color:#64748b;margin-bottom:8px">Cumulative approved MWe by year (per NEIMA review schedules: MUR 6mo, SPU 9mo, EPU 12mo)</div>';
     ch += '<div style="display:flex;gap:6px">';
     // Y-axis labels
     ch += '<div style="display:flex;flex-direction:column;justify-content:space-between;align-items:flex-end;padding-right:2px;height:150px">';
@@ -251,12 +239,12 @@ function buildUprateCard() {
     [122.7, 95.5, 68.2, 40.9].forEach(function(y) {
       ch += '<line x1="0" y1="' + y + '" x2="250" y2="' + y + '" stroke="#f1f5f9" stroke-width="1"/>';
     });
-    // DOE 2.5 GW marker at 2027 (x=51.7)
-    ch += '<line x1="33" y1="' + _doe25y + '" x2="71" y2="' + _doe25y + '" stroke="#fb923c" stroke-width="2" stroke-dasharray="4,2"/>';
-    ch += '<text x="51.7" y="' + (parseFloat(_doe25y) - 4.5) + '" text-anchor="middle" fill="#fb923c" font-size="7.5" font-weight="700">2.5 GW goal</text>';
-    // DOE 5 GW marker at 2029 (x=125)
-    ch += '<line x1="107" y1="' + _doe5y + '" x2="143" y2="' + _doe5y + '" stroke="#f97316" stroke-width="2" stroke-dasharray="4,2"/>';
-    ch += '<text x="125" y="' + (parseFloat(_doe5y) - 4.5) + '" text-anchor="middle" fill="#f97316" font-size="7.5" font-weight="700">5 GW goal</text>';
+    // DOE 2.5 GW marker at 2027
+    ch += '<line x1="' + (_x2027 - 18) + '" y1="' + _doe25y + '" x2="' + (_x2027 + 18) + '" y2="' + _doe25y + '" stroke="#fb923c" stroke-width="2" stroke-dasharray="4,2"/>';
+    ch += '<text x="' + _x2027 + '" y="' + (parseFloat(_doe25y) - 4.5) + '" text-anchor="middle" fill="#fb923c" font-size="7.5" font-weight="700">2.5 GW goal (2027)</text>';
+    // DOE 5 GW marker at 2029
+    ch += '<line x1="' + (_x2029 - 18) + '" y1="' + _doe5y + '" x2="' + (_x2029 + 18) + '" y2="' + _doe5y + '" stroke="#f97316" stroke-width="2" stroke-dasharray="4,2"/>';
+    ch += '<text x="' + _x2029 + '" y="' + (parseFloat(_doe5y) - 4.5) + '" text-anchor="middle" fill="#f97316" font-size="7.5" font-weight="700">5 GW goal (2029)</text>';
     // Connecting polyline
     ch += '<polyline points="' + _pts.map(function(p) {
       return p.x + ',' + p.y;
@@ -269,11 +257,14 @@ function buildUprateCard() {
     });
     ch += '</svg></div></div>';
     // Analysis
+    var _short2027 = Math.round((1 - _mwe2027 / 2500) * 100);
+    var _short2029 = Math.round((1 - _mwe2029 / 5000) * 100);
+    var _retrieved = (NRC_PIPELINE && NRC_PIPELINE._meta && NRC_PIPELINE._meta.retrieved) || '';
     ch += '<div style="border-top:1px solid #f1f5f9;padding-top:8px;margin-top:2px;font-size:9px;color:#475569;line-height:1.7">';
-    ch += '<div>&#8594; Falls <strong style="color:#fb923c">52% short</strong> of the 2.5 GW 2027 UPRISE goal</div>';
-    ch += '<div>&#8594; Falls <strong style="color:#f97316">59% short</strong> of the 5 GW 2029 UPRISE goal</div>';
+    ch += '<div>&#8594; Approved by end of 2027: <strong style="color:#0ea5e9">' + _mwe2027.toLocaleString() + ' MWe</strong> — falls <strong style="color:#fb923c">' + _short2027 + '% short</strong> of the 2.5 GW UPRISE goal</div>';
+    ch += '<div>&#8594; Approved by end of 2029: <strong style="color:#0ea5e9">' + _mwe2029.toLocaleString() + ' MWe</strong> — falls <strong style="color:#f97316">' + _short2029 + '% short</strong> of the 5 GW UPRISE goal</div>';
     ch += '</div>';
-    ch += '<div style="font-size:8px;color:#94a3b8;margin-top:8px;line-height:1.5;border-top:1px solid #f1f5f9;padding-top:6px">Source: NRC Expected Applications for Power Uprates (retrieved Apr 2026).</div>';
+    ch += '<div style="font-size:8px;color:#94a3b8;margin-top:8px;line-height:1.5;border-top:1px solid #f1f5f9;padding-top:6px">Timeline shifts submission dates by NEIMA review period (MUR 6mo / SPU 9mo / EPU 12mo). Source: NRC Expected Applications for Power Uprates' + (_retrieved ? ' (retrieved ' + _retrieved + ')' : '') + '.</div>';
     // Click hint
     ch += '<div style="color:#94a3b8;font-size:10px;text-align:center;padding:16px 12px 4px;line-height:1.8">&#8679; Click any dashed ring on the map for plant-level details</div>';
     _uc.innerHTML = ch;
