@@ -203,7 +203,7 @@ function buildUprateCard() {
     // Stacked bar
     ch += '<div style="display:flex;height:30px;border-radius:4px;overflow:hidden;width:100%">';
     ch += '<div style="width:' + _donePct + '%;background:#94a3b8;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:#fff;flex-shrink:0" title="Already done: ' + doneMWe.toLocaleString() + ' MWe">' + doneMWe.toLocaleString() + '</div>';
-    ch += '<div style="width:' + _plan2029Pct + '%;background:#0ea5e9;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:#fff;flex-shrink:0" title="Planned to 2029: 2,042 MWe">2,042</div>';
+    ch += '<div style="width:' + _plan2029Pct + '%;background:#0ea5e9;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:#fff;flex-shrink:0" title="Approved by 2029: ' + _planned2029.toLocaleString() + ' MWe">' + _planned2029.toLocaleString() + '</div>';
     ch += '<div style="width:' + _unplanPct + '%;background:#814DB1;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:#fff;flex-shrink:0" title="Unplanned potential: ' + _unplannedMWe.toLocaleString() + ' MWe">' + (_unplannedMWe > 200 ? _unplannedMWe.toLocaleString() : '') + '</div>';
     ch += '<div style="width:' + _restartPct + '%;background:#0d9488;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:#fff;flex-shrink:0" title="Restarts: ' + restartMWe.toLocaleString() + ' MWe">' + restartMWe.toLocaleString() + '</div>';
     ch += '</div>';
