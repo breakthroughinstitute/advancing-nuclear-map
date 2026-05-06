@@ -1022,13 +1022,6 @@ function initApp() {
   uM();
   buildUprateCard();
   toggleUprateCard();
-  // Set initial map view after panel is hidden
-  setTimeout(function() {
-    if (map) {
-      map.invalidateSize();
-      map.setView([38, -100], 5);
-    }
-  }, 50);
   window.addEventListener("load", function() {
     if (map) map.invalidateSize();
   });
