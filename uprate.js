@@ -158,9 +158,9 @@ function buildUprateCard() {
   if (_uc) {
     _uc.style.display = "block";
     // Chart A: stacked bar — Done | Planned-to-2029 | Unplanned | Restarts vs DOE 5 GW goal
-    // Values: done=doneMWe, planned2029=2042, unplanned=(grandMWe-2042), restarts=restartMWe
-    // DOE goal marker at done+5000 relative to total
-    const _planned2029 = 2042;
+    // "Planned to 2029" = cumulative MWe approved by end of 2029 per NEIMA review schedules
+    const _cumApprovalA = (NRC_PIPELINE && NRC_PIPELINE.cumulative_mwe_by_approval_year) || {};
+    const _planned2029 = _cumApprovalA['2029'] || 1845;
     const _unplannedMWe = Math.max(0, grandMWe - _planned2029);
     const _totalA = doneMWe + grandMWe + restartMWe; // grandMWe already includes planned2029
     const _doeX = doneMWe + 5000;
@@ -213,7 +213,7 @@ function buildUprateCard() {
     // Legend
     ch += '<div style="display:flex;flex-wrap:wrap;gap:4px 10px;margin-bottom:10px">';
     ch += '<div style="display:flex;align-items:center;gap:4px;font-size:9px;color:#475569"><div style="width:8px;height:8px;border-radius:2px;background:#94a3b8;flex-shrink:0"></div>Already done</div>';
-    ch += '<div style="display:flex;align-items:center;gap:4px;font-size:9px;color:#475569"><div style="width:8px;height:8px;border-radius:2px;background:#0ea5e9;flex-shrink:0"></div>Planned (NRC, to 2029)</div>';
+    ch += '<div style="display:flex;align-items:center;gap:4px;font-size:9px;color:#475569"><div style="width:8px;height:8px;border-radius:2px;background:#0ea5e9;flex-shrink:0"></div>Approved by 2029 (NRC pipeline)</div>';
     ch += '<div style="display:flex;align-items:center;gap:4px;font-size:9px;color:#475569"><div style="width:8px;height:8px;border-radius:2px;background:#814DB1;flex-shrink:0"></div>Unplanned potential</div>';
     ch += '<div style="display:flex;align-items:center;gap:4px;font-size:9px;color:#475569"><div style="width:8px;height:8px;border-radius:2px;background:#0d9488;flex-shrink:0"></div>Restarts</div>';
     ch += '</div>';
@@ -221,7 +221,7 @@ function buildUprateCard() {
     ch += '<div style="border-top:1px solid #f1f5f9;padding-top:8px;font-size:9px;color:#475569;line-height:1.7;margin-bottom:6px">';
     ch += '<div>&#8594; NRC planned covers only <strong style="color:#0ea5e9">' + Math.round(_planned2029 / 5000 * 100) + '%</strong> of the DOE UPRISE 5 GW goal</div>';
     ch += '</div>';
-    ch += '<div style="font-size:8px;color:#94a3b8;line-height:1.5;border-top:1px solid #f1f5f9;padding-top:6px;margin-bottom:20px">Planned (2,042 MWe) = NRC expected applications to 2029. Restarts = Palisades, Crane, Duane Arnold. MWe &asymp; MWt &divide; 3.</div>';
+    ch += '<div style="font-size:8px;color:#94a3b8;line-height:1.5;border-top:1px solid #f1f5f9;padding-top:6px;margin-bottom:20px">Approved by 2029 (' + _planned2029.toLocaleString() + ' MWe) = NRC pipeline shifted by NEIMA review period (MUR 6mo / SPU 9mo / EPU 12mo). Restarts = Palisades, Crane, Duane Arnold. MWe &asymp; MWt &divide; 3.</div>';
     // ── Chart B ──
     ch += '<div style="font-size:11px;font-weight:700;color:#1e293b;margin-bottom:2px">Uprate Timeline: Planned vs. UPRISE Goal</div>';
     ch += '<div style="font-size:9px;color:#64748b;margin-bottom:8px">Cumulative approved MWe by year (per NEIMA review schedules: MUR 6mo, SPU 9mo, EPU 12mo)</div>';
