@@ -1022,16 +1022,11 @@ function initApp() {
   uM();
   buildUprateCard();
   toggleUprateCard();
-  // Set initial map view after panel is hidden — center shifted east of legend (~260px wide)
+  // Set initial map view after panel is hidden
   setTimeout(function() {
     if (map) {
       map.invalidateSize();
-      // paddingTopLeft pushes content right of the legend panel
-      map.fitBounds([[24.5, -124.5], [49, -66.5]], {
-        paddingTopLeft: [270, 30],
-        paddingBottomRight: [20, 20],
-        maxZoom: 5
-      });
+      map.setView([38, -93], 4.5);
     }
   }, 50);
   window.addEventListener("load", function() {
