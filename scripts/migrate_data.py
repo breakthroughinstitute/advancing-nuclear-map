@@ -12,7 +12,7 @@ Safe to re-run anytime — NEVER touches manually curated files:
 Use this to recover the WISdom data files if they are lost or corrupted.
 
 Usage:
-    python3 _archive/migrate_data.py
+    python3 scripts/migrate_data.py
 
 Output files written to data/:
     plants.json           — WISdom plant siting per scenario/year (DATA.g)
@@ -31,8 +31,8 @@ import json
 import os
 import re
 
-ARCHIVE_DIR = os.path.dirname(os.path.abspath(__file__))
-REPO_ROOT   = os.path.dirname(ARCHIVE_DIR)
+REPO_ROOT   = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+ARCHIVE_DIR = os.path.join(REPO_ROOT, "_archive")
 DATA_DIR    = os.path.join(REPO_ROOT, "data")
 os.makedirs(DATA_DIR, exist_ok=True)
 
