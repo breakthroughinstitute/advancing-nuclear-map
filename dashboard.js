@@ -1033,7 +1033,7 @@ function initApp() {
       });
       map.zoomIn(0.6);
       // Pan slightly west so the west coast clears the legend panel
-      map.panBy([-80, 0], {animate: false});
+      map.panBy([-180, 0], {animate: false});
     }
   }, 50);
   window.addEventListener("load", function() {
