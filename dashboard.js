@@ -949,10 +949,13 @@ function swT(t) {
   const _ml = document.getElementById("legend");
   if (_ml) _ml.style.display = t === "uprate" ? "none" : "";
   if (_mv) {
-    setTimeout(() => {
-      map.invalidateSize({pan: false, animate: false});
-      if (t === "uprate") map.setView([38, -96], 4.5, {animate: false});
-    }, 100);
+    if (t === "uprate") {
+      map.once("resize", function() {
+        map.setView([38, -96], 4.5, {animate: false});
+      });
+    } else {
+      setTimeout(() => map.invalidateSize(), 100);
+    }
     if (t === "map") {
       uM();
     } else {
