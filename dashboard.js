@@ -1027,7 +1027,7 @@ function initApp() {
     if (map) {
       map.invalidateSize();
       map.fitBounds([[24.5, -124.5], [49, -66.5]], {
-        paddingTopLeft: [20, 20],
+        paddingTopLeft: [280, 20],
         paddingBottomRight: [20, 20],
         maxZoom: 5
       });
