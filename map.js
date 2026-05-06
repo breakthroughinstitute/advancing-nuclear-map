@@ -4,7 +4,7 @@ function initMap() {
     attributionControl: false,
     maxBounds: [
       [18, -135],
-      [55, -60]
+      [55, -50]
     ],
     maxBoundsViscosity: 1.0,
     minZoom: 3,
