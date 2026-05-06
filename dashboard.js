@@ -949,7 +949,11 @@ function swT(t) {
   const _ml = document.getElementById("legend");
   if (_ml) _ml.style.display = t === "uprate" ? "none" : "";
   if (_mv) {
-    setTimeout(() => map.invalidateSize(), 100);
+    setTimeout(() => {
+      map.invalidateSize();
+      // Uprate tab has 300px right panel — zoom out slightly and shift center east
+      if (t === "uprate") map.setView([38, -96], 4.7);
+    }, 100);
     if (t === "map") {
       uM();
     } else {
