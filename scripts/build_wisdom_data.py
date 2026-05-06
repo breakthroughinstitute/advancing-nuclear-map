@@ -183,6 +183,13 @@ def clean_val(v):
         pass
     return v
 
+def parse_year(v):
+    """Convert a cell value to a 4-digit year string, or None if not a valid year."""
+    try:
+        return str(int(float(v)))
+    except (TypeError, ValueError):
+        return None
+
 def safe_float(v, default=0.0):
     v = clean_val(v)
     if v is None:
@@ -728,11 +735,8 @@ def build_national():
         header   = [str(c).strip() if c else None for c in rows_cap[1]]
         cap_by_year = {}
         for row in rows_cap[2:]:
-            year_val = clean_val(row[0])
-            if year_val is None:
-                continue
-            year = str(int(float(year_val)))
-            if year not in YEARS:
+            year = parse_year(row[0])
+            if year is None or year not in YEARS:
                 continue
             entry = {}
             for col_idx, col_name in enumerate(header):
@@ -749,11 +753,8 @@ def build_national():
         cost_header = [str(c).strip() if c else None for c in rows_costs[1]]
         cost_by_year = {}
         for row in rows_costs[2:]:
-            year_val = clean_val(row[0])
-            if year_val is None:
-                continue
-            year = str(int(float(year_val)))
-            if year not in YEARS:
+            year = parse_year(row[0])
+            if year is None or year not in YEARS:
                 continue
             entry = {}
             for col_idx, col_name in enumerate(cost_header):
@@ -771,11 +772,8 @@ def build_national():
         em_header = [str(c).strip() if c else None for c in rows_em[1]]
         em_by_year = {}
         for row in rows_em[2:]:
-            year_val = clean_val(row[0])
-            if year_val is None:
-                continue
-            year = str(int(float(year_val)))
-            if year not in YEARS:
+            year = parse_year(row[0])
+            if year is None or year not in YEARS:
                 continue
             entry = {}
             for col_idx, col_name in enumerate(em_header):
@@ -834,11 +832,8 @@ def build_national():
         NAT_JOBS[scenario] = {year: 0.0 for year in YEARS}
 
     for row in rows_data[1:]:
-        year_val = clean_val(row[col_year])
-        if year_val is None:
-            continue
-        year = str(int(float(str(year_val))))
-        if year not in YEARS:
+        year = parse_year(row[col_year])
+        if year is None or year not in YEARS:
             continue
         tech = str(row[col_tech]).strip() if row[col_tech] else ""
         if tech not in adv_techs:
