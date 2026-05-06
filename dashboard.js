@@ -952,7 +952,7 @@ function swT(t) {
     setTimeout(() => {
       map.invalidateSize();
       // Uprate tab has 300px right panel — zoom out slightly and shift center east
-      if (t === "uprate") map.setView([38, -96], 4.8);
+      if (t === "uprate") map.setView([38, -96], 4.7);
     }, 100);
     if (t === "map") {
       uM();
