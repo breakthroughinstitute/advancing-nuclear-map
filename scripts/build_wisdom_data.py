@@ -738,6 +738,8 @@ def build_national():
             year = parse_year(row[0])
             if year is None or year not in YEARS:
                 continue
+            if year in cap_by_year:
+                continue  # first section only — skip Percentage Change and Generation sections
             entry = {}
             for col_idx, col_name in enumerate(header):
                 if col_name in CAP_TECH_MAP and col_idx < len(row):
@@ -775,6 +777,8 @@ def build_national():
             year = parse_year(row[0])
             if year is None or year not in YEARS:
                 continue
+            if year in em_by_year:
+                continue  # first section only — skip Percentage Change section
             entry = {}
             for col_idx, col_name in enumerate(em_header):
                 if col_name in EMISS_COLS and col_idx < len(row):
