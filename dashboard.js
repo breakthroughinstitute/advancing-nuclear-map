@@ -951,7 +951,7 @@ function swT(t) {
   if (_mv) {
     if (t === "uprate") {
       requestAnimationFrame(() => requestAnimationFrame(() => {
-        map.setView([40, -75], 4.7, {animate: false});
+        map.setView([40, -70], 4.7, {animate: false});
       }));
     } else {
       setTimeout(() => map.invalidateSize(), 100);
