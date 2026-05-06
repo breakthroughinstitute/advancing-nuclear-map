@@ -1027,11 +1027,13 @@ function initApp() {
     if (map) {
       map.invalidateSize();
       map.fitBounds([[24.5, -124.5], [49, -66.5]], {
-        paddingTopLeft: [280, 20],
+        paddingTopLeft: [20, 20],
         paddingBottomRight: [20, 20],
         maxZoom: 5
       });
       map.zoomIn(0.6);
+      // Pan slightly west so the west coast clears the legend panel
+      map.panBy([-80, 0], {animate: false});
     }
   }, 50);
   window.addEventListener("load", function() {
