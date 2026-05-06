@@ -205,8 +205,9 @@ def main():
             retrieved = str(date.today())
         except Exception as e:
             print(f"  Failed: {e}")
+            print(f"\nExisting {OUT_PATH} left unchanged.")
             print_manual_instructions()
-            sys.exit(1)
+            sys.exit(0)
 
     if len(tables) < 2:
         print(f"ERROR: expected 2 tables, found {len(tables)}. Page structure may have changed.")
