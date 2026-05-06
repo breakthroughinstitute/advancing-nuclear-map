@@ -1031,7 +1031,7 @@ function initApp() {
         paddingBottomRight: [20, 20],
         maxZoom: 5
       });
-      map.zoomIn(0.7);
+      map.zoomIn(0.6);
     }
   }, 50);
   window.addEventListener("load", function() {
