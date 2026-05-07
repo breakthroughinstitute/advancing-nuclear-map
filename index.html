@@ -37,9 +37,12 @@
     <p>The modeling was performed using the <strong>WIS:dom-P</strong> (Weather-Informed energy Systems: for design, operations and markets) optimization model developed by Vibrant Clean Energy (VCE). The model designs a future net-zero CO&#8322; power sector that meets electricity demand at minimal cost, deploying generation capacity across the continental US at county-level resolution.</p>
 
     <h3>What This Map Shows</h3>
-    <p>Each circle on the map represents a power plant location. Circle <strong>size</strong> corresponds to installed capacity (MW), and <strong>color</strong> indicates the dominant generation technology. Use the year slider to see how the power grid evolves from 2020 to 2050, and switch between scenarios to compare outcomes under different assumptions.</p>
-    <p><strong>Conversion sites</strong> (shown as teal diamond markers) represent existing fossil fuel plant sites that the model converts to advanced nuclear reactors. This conversion reuses existing transmission, cooling, and balance-of-plant infrastructure, supporting cost savings and a just transition for local communities. The model deploys advanced reactors at 146 to 254 existing plant sites nationwide across scenarios.</p>
-    <p><strong>Hover over any state</strong> to see a summary of advanced nuclear reactor counts, capital investment, and jobs. <strong>Double-click any state</strong> on the map to jump to the Dashboard with that state's full profile, including combined advanced nuclear statistics on reactors, jobs, revenue, and ROI.</p>
+    <p>The tool has three tabs:</p>
+    <ul>
+      <li><strong>Map</strong> &mdash; Each circle represents a power plant location. Circle <strong>size</strong> corresponds to installed capacity (MW) and <strong>color</strong> indicates the dominant generation technology. Use the year slider (2020&ndash;2050) and scenario tabs to explore how the grid evolves under different assumptions. <strong>Conversion sites</strong> (teal diamond markers) are existing fossil fuel plant sites the model converts to advanced nuclear, reusing transmission, cooling, and balance-of-plant infrastructure. <strong>Hover over any state</strong> for a summary; <strong>double-click</strong> to jump to that state's Dashboard profile.</li>
+      <li><strong>Uprate</strong> &mdash; A static 2025 snapshot of the existing US conventional nuclear fleet showing uprate potential, planned applications, and restart plants. Dashed amber rings indicate remaining thermal uprate headroom; dashed green rings indicate EPU applications expected at the NRC; teal dots are plants with announced restart plans (Palisades, Crane/TMI, Duane Arnold). Click any ring or dot for plant-level details. The right panel shows national totals and a timeline of cumulative NRC approvals vs. the DOE UPRISE goal.</li>
+      <li><strong>Dashboard</strong> &mdash; State and national summary charts. See below.</li>
+    </ul>
 
     <h3>The Four Scenarios</h3>
     <p>The study uses a bounding analysis with four scenarios that vary two key uncertainties about advanced nuclear technology:</p>
@@ -78,7 +81,8 @@
       <div class="g-item"><span class="g-label" style="color:#98DF8A">Offshore</span> Offshore wind turbines</div>
       <div class="g-item"><span class="g-label" style="color:#FF7F0E">DPV</span> Distributed (rooftop) solar PV</div>
       <div class="g-item"><span class="g-label" style="color:#FFDE20">UPV</span> Utility-scale solar PV</div>
-      <div class="g-item"><span class="g-label" style="color:#E82269">Storage</span> Battery energy storage</div>
+      <div class="g-item"><span class="g-label" style="color:#FDFD4D">CSP</span> Concentrating solar power</div>
+      <div class="g-item"><span class="g-label" style="color:#E82269">Storage</span> Utility-scale battery storage</div>
       <div class="g-item"><span class="g-label" style="color:#8C564B">Geo/Bio</span> Geothermal and biomass</div>
     </div>
 
@@ -102,9 +106,9 @@
     <p>Two optional overlays provide policy and market context for each state:</p>
     <p><strong>Policy Climate</strong> indicates whether a state has active legislation restricting new nuclear construction:</p>
     <ul>
-      <li><span style="color:#16a34a;font-weight:700">Clear</span> &mdash; No statutory restrictions on new nuclear power plant construction.</li>
+      <li><span style="color:#16a34a;font-weight:700">Permissive</span> &mdash; No statutory restrictions on new nuclear power plant construction.</li>
       <li><span style="color:#ca8a04;font-weight:700">Mixed</span> &mdash; Some conditions or partial restrictions apply (e.g. voter approval requirements or waste storage conditions).</li>
-      <li><span style="color:#dc2626;font-weight:700">Moratorium</span> &mdash; State law prohibits approval or construction of new nuclear power plants until specific conditions are met (e.g. federal waste disposal solution). Source: <a href="https://www.ncsl.org/environment-and-natural-resources/states-restrictions-on-new-nuclear-power-facility-construction" target="_blank" style="color:#0d9488">National Conference of State Legislatures (NCSL)</a>.</li>
+      <li><span style="color:#dc2626;font-weight:700">Restricted</span> &mdash; State law prohibits approval or construction of new nuclear power plants until specific conditions are met (e.g. federal waste disposal solution). Source: <a href="https://www.ncsl.org/environment-and-natural-resources/states-restrictions-on-new-nuclear-power-facility-construction" target="_blank" style="color:#0d9488">National Conference of State Legislatures (NCSL)</a>.</li>
     </ul>
     <p><strong>Electricity Market Structure</strong> indicates how power generators recover their costs:</p>
     <ul>
