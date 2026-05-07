@@ -32,7 +32,7 @@
 .size-label{font-size:9px;color:#94a3b8;text-align:center}
 .info-popup .leaflet-popup-content-wrapper{border-radius:8px;box-shadow:0 4px 16px rgba(0,0,0,.15)}
 .popup-content h4{font-size:14px;color:#1e293b;margin-bottom:4px}.popup-content table{font-size:11px;width:100%}.popup-content td{padding:2px 4px}.popup-content .mw{font-weight:600;text-align:right}
-.state-tip{background:rgba(255,255,255,.97)!important;border:none!important;border-radius:10px!important;padding:0!important;box-shadow:0 4px 20px rgba(0,0,0,.18)!important;pointer-events:none!important}
+.state-tip{background:rgba(255,255,255,.97)!important;border:none!important;border-radius:10px!important;padding:0!important;box-shadow:0 4px 20px rgba(0,0,0,.18)!important;pointer-events:none!important;max-height:80vh!important;overflow-y:auto!important}
 .state-tip::before,.state-tip::after{display:none!important}
 .stt{padding:12px 14px;min-width:200px}.stt h4{font-size:15px;color:#1e293b;margin:0 0 8px}
 .stt-section{margin-bottom:8px}.stt-label{font-size:10px;color:#94a3b8;text-transform:uppercase;letter-spacing:.5px;margin-bottom:3px}

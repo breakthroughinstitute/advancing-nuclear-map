@@ -44,7 +44,7 @@ function initMap() {
         className: "state-tip",
         sticky: true,
         opacity: 1,
-        direction: "top",
+        direction: "auto",
         offset: [0, -12]
       });
       l.on("mouseover", function() {
