@@ -203,7 +203,7 @@ function buildUprateCard() {
     // Stacked bar
     ch += '<div style="display:flex;height:30px;border-radius:4px;overflow:hidden;width:100%">';
     ch += '<div style="width:' + _donePct + '%;background:#94a3b8;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:#fff;flex-shrink:0" title="Already done: ' + doneMWe.toLocaleString() + ' MWe">' + doneMWe.toLocaleString() + '</div>';
-    ch += '<div style="width:' + _plan2029Pct + '%;background:#0ea5e9;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:#fff;flex-shrink:0" title="Approved by 2029: ' + _planned2029.toLocaleString() + ' MWe">' + _planned2029.toLocaleString() + '</div>';
+    ch += '<div style="width:' + _plan2029Pct + '%;background:#0ea5e9;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:#fff;flex-shrink:0" title="NRC pipeline (by 2029): ' + _planned2029.toLocaleString() + ' MWe">' + _planned2029.toLocaleString() + '</div>';
     ch += '<div style="width:' + _unplanPct + '%;background:#814DB1;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:#fff;flex-shrink:0" title="Unplanned potential: ' + _unplannedMWe.toLocaleString() + ' MWe">' + (_unplannedMWe > 200 ? _unplannedMWe.toLocaleString() : '') + '</div>';
     ch += '<div style="width:' + _restartPct + '%;background:#0d9488;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:#fff;flex-shrink:0" title="Restarts: ' + restartMWe.toLocaleString() + ' MWe">' + restartMWe.toLocaleString() + '</div>';
     ch += '</div>';
@@ -213,18 +213,18 @@ function buildUprateCard() {
     // Legend
     ch += '<div style="display:flex;flex-wrap:wrap;gap:4px 10px;margin-bottom:10px">';
     ch += '<div style="display:flex;align-items:center;gap:4px;font-size:9px;color:#475569"><div style="width:8px;height:8px;border-radius:2px;background:#94a3b8;flex-shrink:0"></div>Already done</div>';
-    ch += '<div style="display:flex;align-items:center;gap:4px;font-size:9px;color:#475569"><div style="width:8px;height:8px;border-radius:2px;background:#0ea5e9;flex-shrink:0"></div>Approved by 2029 (NRC pipeline)</div>';
+    ch += '<div style="display:flex;align-items:center;gap:4px;font-size:9px;color:#475569"><div style="width:8px;height:8px;border-radius:2px;background:#0ea5e9;flex-shrink:0"></div>NRC pipeline (by 2029)</div>';
     ch += '<div style="display:flex;align-items:center;gap:4px;font-size:9px;color:#475569"><div style="width:8px;height:8px;border-radius:2px;background:#814DB1;flex-shrink:0"></div>Unplanned potential</div>';
     ch += '<div style="display:flex;align-items:center;gap:4px;font-size:9px;color:#475569"><div style="width:8px;height:8px;border-radius:2px;background:#0d9488;flex-shrink:0"></div>Restarts</div>';
     ch += '</div>';
     // Analysis
     ch += '<div style="border-top:1px solid #f1f5f9;padding-top:8px;font-size:9px;color:#475569;line-height:1.7;margin-bottom:6px">';
-    ch += '<div>&#8594; NRC planned covers only <strong style="color:#0ea5e9">' + Math.round(_planned2029 / 5000 * 100) + '%</strong> of the DOE UPRISE 5 GW goal</div>';
+    ch += '<div>&#8594; NRC pipeline covers only <strong style="color:#0ea5e9">' + Math.round(_planned2029 / 5000 * 100) + '%</strong> of the UPRISE 5 GW capacity addition target</div>';
     ch += '</div>';
-    ch += '<div style="font-size:8px;color:#94a3b8;line-height:1.5;border-top:1px solid #f1f5f9;padding-top:6px;margin-bottom:20px">Approved by 2029 (' + _planned2029.toLocaleString() + ' MWe) = NRC pipeline shifted by NEIMA review period (MUR 6mo / SPU 9mo / EPU 12mo). Restarts = Palisades, Crane, Duane Arnold. MWe &asymp; MWt &divide; 3.</div>';
+    ch += '<div style="font-size:8px;color:#94a3b8;line-height:1.5;border-top:1px solid #f1f5f9;padding-top:6px;margin-bottom:20px">NRC pipeline (' + _planned2029.toLocaleString() + ' MWe) = expected applications shifted by NEIMA review period (MUR 6mo / SPU 9mo / EPU 12mo) to estimate approval year. UPRISE goals are for capacity additions, not approvals. Restarts = Palisades, Crane, Duane Arnold. MWe &asymp; MWt &divide; 3.</div>';
     // ── Chart B ──
     ch += '<div style="font-size:11px;font-weight:700;color:#1e293b;margin-bottom:2px">Uprate Timeline: Planned vs. UPRISE Goal</div>';
-    ch += '<div style="font-size:9px;color:#64748b;margin-bottom:8px">Cumulative approved MWe by year (per NEIMA review schedules: MUR 6mo, SPU 9mo, EPU 12mo)</div>';
+    ch += '<div style="font-size:9px;color:#64748b;margin-bottom:8px">Cumulative NRC-approved uprate capacity by year vs. UPRISE capacity addition targets (NRC approvals are a leading indicator; actual additions follow)</div>';
     ch += '<div style="display:flex;gap:6px">';
     // Y-axis labels
     ch += '<div style="display:flex;flex-direction:column;justify-content:space-between;align-items:flex-end;padding-right:2px;height:150px">';
@@ -261,8 +261,8 @@ function buildUprateCard() {
     var _short2029 = Math.round((1 - _mwe2029 / 5000) * 100);
     var _retrieved = (NRC_PIPELINE && NRC_PIPELINE._meta && NRC_PIPELINE._meta.retrieved) || '';
     ch += '<div style="border-top:1px solid #f1f5f9;padding-top:8px;margin-top:2px;font-size:9px;color:#475569;line-height:1.7">';
-    ch += '<div>&#8594; Approved by end of 2027: <strong style="color:#0ea5e9">' + _mwe2027.toLocaleString() + ' MWe</strong> — falls <strong style="color:#fb923c">' + _short2027 + '% short</strong> of the 2.5 GW UPRISE goal</div>';
-    ch += '<div>&#8594; Approved by end of 2029: <strong style="color:#0ea5e9">' + _mwe2029.toLocaleString() + ' MWe</strong> — falls <strong style="color:#f97316">' + _short2029 + '% short</strong> of the 5 GW UPRISE goal</div>';
+    ch += '<div>&#8594; NRC-approved capacity by end of 2027: <strong style="color:#0ea5e9">' + _mwe2027.toLocaleString() + ' MWe</strong> — <strong style="color:#fb923c">' + _short2027 + '% short</strong> of UPRISE&rsquo;s 2.5 GW capacity addition target</div>';
+    ch += '<div>&#8594; NRC-approved capacity by end of 2029: <strong style="color:#0ea5e9">' + _mwe2029.toLocaleString() + ' MWe</strong> — <strong style="color:#f97316">' + _short2029 + '% short</strong> of UPRISE&rsquo;s 5 GW capacity addition target</div>';
     ch += '</div>';
     ch += '<div style="font-size:8px;color:#94a3b8;margin-top:8px;line-height:1.5;border-top:1px solid #f1f5f9;padding-top:6px">Timeline shifts submission dates by NEIMA review period (MUR 6mo / SPU 9mo / EPU 12mo). Source: NRC Expected Applications for Power Uprates' + (_retrieved ? ' (retrieved ' + _retrieved + ')' : '') + '.</div>';
     // Click hint
