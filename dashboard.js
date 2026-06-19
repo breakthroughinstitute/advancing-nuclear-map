@@ -379,7 +379,7 @@ function initDash() {
           },
           ticks: {
             callback: function(v) {
-              return v >= 1000 ? (v / 1000).toFixed(0) + "K" : v;
+              return v >= 1000 ? (v / 1000).toFixed(0) + "K" : Math.round(v);
             }
           }
         }
@@ -675,7 +675,7 @@ function uDash() {
         label: scenLabels[i],
         borderColor: scenColors[i],
         backgroundColor: "transparent",
-        data: YEARS.map(y => NAT_JOBS[s] ? NAT_JOBS[s][y] || 0 : 0),
+        data: YEARS.map(y => Math.round(NAT_JOBS[s] ? NAT_JOBS[s][y] || 0 : 0)),
         pointRadius: 3,
         borderWidth: s === cS ? 3 : 1.5,
         tension: .3,
@@ -804,7 +804,7 @@ function uSD() {
   const advRoi = advRv > 0 ? _roiW / advRv : 0;
   let h = '<div class="stat-grid">';
   h += '<div class="stat-item"><span class="stat-label">Reactors</span><span class="stat-value"><span class="stat-dot"></span>' + tR + '</span></div>';
-  h += '<div class="stat-item"><span class="stat-label">Jobs</span><span class="stat-value">' + (tJ ? tJ.toLocaleString() : "\u2014") + '</span></div>';
+  h += '<div class="stat-item"><span class="stat-label">Jobs</span><span class="stat-value">' + (tJ ? Math.round(tJ).toLocaleString() : "\u2014") + '</span></div>';
   h += '<div class="stat-item"><span class="stat-label">Revenue</span><span class="stat-value">' + fD(tRv) + '</span></div>';
   h += '<div class="stat-item"><span class="stat-label">ROI</span><span class="stat-value">' + (advRoi ? advRoi.toFixed(1) + "%" : "\u2014") + '</span></div>';
   h += '</div>';
@@ -838,7 +838,7 @@ function uSD() {
   // Line 1: deployment facts
   var sm1 = '<strong>' + cSt + '</strong> in <strong>' + cY + '</strong>: ';
   if (tR > 0) {
-    sm1 += 'deploys <strong>' + tR + ' advanced nuclear reactors</strong>, creating <strong>' + tJ.toLocaleString() + ' nuclear power plant jobs</strong>. ';
+    sm1 += 'deploys <strong>' + tR + ' advanced nuclear reactors</strong>, creating <strong>' + Math.round(tJ).toLocaleString() + ' nuclear power plant jobs</strong>. ';
     sm1 += 'Nuclear provides <strong>' + nukePct + '%</strong> of installed capacity and <strong>' + nukeEnergyPct + '%</strong> of total electricity generation. ';
   } else {
     sm1 += 'no advanced nuclear deployment yet. ';
