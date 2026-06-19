@@ -207,8 +207,7 @@ function bST(a, stateName) {
     h += '<div class="stt-row"><span class="k"><span class="stt-dot" style="background:#0DC3A8"></span>Advanced Nuclear</span><span class="v">' + rt + "</span></div>";
   } else h += '<div style="font-size:11px;color:#94a3b8">None</div>';
   h += '</div><div class="stt-divider"></div><div class="stt-section"><div class="stt-label">Capital Investment</div>';
-  h += '<div class="stt-row"><span class="k">Adv Nuclear</span><span class="v">' + fD(d.capNuke) + '</span></div>';
-  h += '<div class="stt-row"><span class="k">All Energy</span><span class="v">' + fD(d.capTotal) + '</span></div></div>';
+  h += '<div class="stt-row"><span class="k">Adv Nuclear</span><span class="v">' + fD(d.capNuke) + '</span></div></div>';
   h += '<div class="stt-divider"></div><div class="stt-section"><div class="stt-label">Energy Jobs</div>';
   h += '<div class="stt-row"><span class="k">Adv Nuclear</span><span class="v">' + Math.round(d.jobsNuke || 0).toLocaleString() + '</span></div>';
   h += '<div class="stt-row"><span class="k">All Energy</span><span class="v">' + Math.round(d.jobsTotal || 0).toLocaleString() + "</span></div></div>";
