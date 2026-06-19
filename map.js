@@ -210,8 +210,8 @@ function bST(a, stateName) {
   h += '<div class="stt-row"><span class="k">Adv Nuclear</span><span class="v">' + fD(d.capNuke) + '</span></div>';
   h += '<div class="stt-row"><span class="k">All Energy</span><span class="v">' + fD(d.capTotal) + '</span></div></div>';
   h += '<div class="stt-divider"></div><div class="stt-section"><div class="stt-label">Energy Jobs</div>';
-  h += '<div class="stt-row"><span class="k">Adv Nuclear</span><span class="v">' + (d.jobsNuke || 0).toLocaleString() + '</span></div>';
-  h += '<div class="stt-row"><span class="k">All Energy</span><span class="v">' + (d.jobsTotal || 0).toLocaleString() + "</span></div></div>";
+  h += '<div class="stt-row"><span class="k">Adv Nuclear</span><span class="v">' + Math.round(d.jobsNuke || 0).toLocaleString() + '</span></div>';
+  h += '<div class="stt-row"><span class="k">All Energy</span><span class="v">' + Math.round(d.jobsTotal || 0).toLocaleString() + "</span></div></div>";
   var _sr = SR[stateName] || SR[a];
   if (_sr) {
     var _ec = _sr.env === "Clear" ? "#4ade80" : _sr.env === "Mixed" ? "#fbbf24" : "#f87171";
