@@ -536,10 +536,7 @@
       }
     ],
     "doneMWt": 111,
-    "nrcUrl": [
-      "https://www.nrc.gov/info-finder/reactors/cook1.html",
-      "https://www.nrc.gov/info-finder/reactors/cook2.html"
-    ]
+    "nrcUrl": "https://www.nrc.gov/reactors/operating/licensing/power-uprates/pwr-mur/dc-cook1-pu"
   },
   "41.977,-83.260": {
     "d": "GE BWR/4",
