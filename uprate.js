@@ -35,22 +35,20 @@ function showUprateDetail(ur, pNm, stateName) {
     tLeft = 0;
   _units.forEach(function(u, i) {
     var uD = u.d || siteD;
+    var _isAP1000 = (uD || '').includes('AP1000');
     var cap = getCapPct(uD);
     var max = u.mwt + u.add;
-    var ref = (cap !== null && cap > 0) ? Math.round(max / (1 + cap)) : u.mwt;
+    var ref = (_isAP1000 || cap === null || cap === 0) ? u.mwt : Math.round(max / (1 + cap));
     var done = u.mwt - ref;
     var donePct = ref > 0 ? Math.round(done / ref * 1000) / 10 : 0;
     var remPct = ref > 0 ? Math.round(u.add / ref * 1000) / 10 : 0;
-    tRef += ref;
-    tDone += done;
-    tNow += u.mwt;
-    tLeft += u.add;
+    if (!_isAP1000) { tRef += ref; tDone += done; tNow += u.mwt; tLeft += u.add; }
     h += '<tr style="border-bottom:1px solid #f1f5f9">';
     h += '<td style="padding:2px 3px;color:#334155">' + (u.name || "Unit " + (i + 1)) + '</td>';
     h += '<td style="text-align:right;padding:2px 3px;color:#64748b">' + ref.toLocaleString() + '</td>';
     h += '<td style="text-align:right;padding:2px 3px;color:#94a3b8">' + (done > 0 ? '+' + done.toLocaleString() + ' <span style="font-size:9px">(' + donePct + '%)</span>' : '—') + '</td>';
     h += '<td style="text-align:right;padding:2px 3px;font-weight:600">' + u.mwt.toLocaleString() + '</td>';
-    if (!_isRestart) h += '<td style="text-align:right;padding:2px 3px">' + (u.add > 0 ? '<span style="color:#4ade80">+' + u.add.toLocaleString() + ' <span style="font-size:9px">(' + remPct + '%)</span></span>' : '<span style="color:#f87171">maxed</span>') + '</td>';
+    if (!_isRestart) h += '<td style="text-align:right;padding:2px 3px">' + (u.add > 0 ? '<span style="color:#4ade80">+' + u.add.toLocaleString() + ' <span style="font-size:9px">(' + remPct + '%)</span></span>' : (_isAP1000 ? '<span style="color:#94a3b8;font-style:italic">N/A</span>' : '<span style="color:#f87171">maxed</span>')) + '</td>';
     h += '</tr>';
   });
   var tDonePct = tRef > 0 ? Math.round(tDone / tRef * 1000) / 10 : 0;
@@ -63,7 +61,16 @@ function showUprateDetail(ur, pNm, stateName) {
   if (!_isRestart) h += '<td style="text-align:right;padding:3px 3px;color:#4ade80">+' + tLeft.toLocaleString() + ' <span style="font-size:9px">(' + tRemPct + '%)</span></td>';
   h += '</tr></table>';
   if (ur.note) h += '<div style="font-size:10px;color:#fbbf24;margin-top:3px">' + ur.note + '</div>';
-  h += '<div class="uc-note">Plant-level headroom in MWt (thermal). MWe headline = MWt &divide; 3 (assumes ~33% thermal efficiency, per DOE/INL methodology).<br>Source: FAI State Permitting Playbook (Nov 2025) &bull; INL/EXT-24-78810 &bull; NRC</div>';
+  var _hasAP1000 = (_units || []).some(function(u) { return (u.d || '').includes('AP1000'); });
+  if (_hasAP1000) h += '<div style="font-size:10px;color:#94a3b8;margin-top:5px;line-height:1.5;border-top:1px solid #f1f5f9;padding-top:5px">Units 3 &amp; 4 are new AP-1000 reactors (commercial operation 2023&ndash;2024). Uprate potential for AP-1000s is time-dependent: est. ~2% after ~20 years of operation, ~5% after ~40 years. Source: <a href="https://web.mit.edu/kshirvan/www/research/ANP201%20TR%20CANES.pdf" target="_blank" style="color:#94a3b8">MIT CANES ANP-201 TR</a>.</div>';
+  if (ur.nrcUrl) {
+    var _nrcUrls = Array.isArray(ur.nrcUrl) ? ur.nrcUrl : [ur.nrcUrl];
+    var _nrcLinks = _nrcUrls.map(function(u, i) {
+      return '<a href="' + u + '" target="_blank" style="color:#1e293b;font-weight:600">NRC uprate history' + (_nrcUrls.length > 1 ? ' ' + (i+1) : '') + ' &rarr;</a>';
+    }).join(' &bull; ');
+    h += '<div style="font-size:10px;margin-top:6px;padding-top:6px;border-top:1px solid #f1f5f9">' + _nrcLinks + '</div>';
+  }
+  h += '<div class="uc-note">Plant-level headroom in MWt (thermal). MWe headline = MWt &divide; 3 (assumes ~33% thermal efficiency, per DOE/INL methodology).<br>Source: FAI State Permitting Playbook (Nov 2025) &bull; <a href="https://www.osti.gov/biblio/2405118" target="_blank" style="color:#94a3b8">INL/RPT-24-78810</a> &bull; <a href="https://www.nrc.gov/reactors/operating/licensing/power-uprates/status-power-apps/approved-applications" target="_blank" style="color:#94a3b8">NRC approved uprate applications</a></div>';
   document.getElementById("uprate-card-content").innerHTML = h;
 }
 
@@ -125,7 +132,7 @@ function buildUprateCard() {
   sb += '<div class="usb-stat"><div class="usb-val" style="color:#818cf8">~8,000 MWe<sup style="font-size:8px;font-weight:400">*</sup></div><div class="usb-lbl">NEI 2025 Survey</div></div>';
   sb += '<div class="usb-stat"><div class="usb-val" style="color:#fb923c">5,000 MWe</div><div class="usb-lbl">DOE UPRISE Target</div></div>';
   sb += '</div></div>';
-  sb += '<div style="margin-left:auto;align-self:center;font-size:8px;color:#94a3b8;text-align:right;line-height:1.5">Plant-level headroom in MWt (thermal). MWe = MWt &divide; 3 (~33% thermal efficiency, per DOE/INL).<br>Source: FAI State Permitting Playbook (Nov 2025) &bull; INL/EXT-24-78810 &bull; NRC &bull; NRC Expected Uprate Applications &bull; Double-click state &rarr; Dashboard<br><sup>*</sup>NEI 2025 survey covers uprates, restarts, <em>and</em> fuel-cycle extensions; this map shows uprates and restarts only.</div>';
+  sb += '<div style="margin-left:auto;align-self:center;font-size:8px;color:#94a3b8;text-align:right;line-height:1.5">Plant-level headroom in MWt (thermal). MWe = MWt &divide; 3 (~33% thermal efficiency, per DOE/INL).<br>Source: FAI State Permitting Playbook (Nov 2025) &bull; <a href="https://www.osti.gov/biblio/2405118" target="_blank" style="color:#94a3b8">INL/RPT-24-78810</a> &bull; <a href="https://www.nrc.gov/reactors/operating/licensing/power-uprates/status-power-apps/approved-applications" target="_blank" style="color:#94a3b8">NRC approved uprate applications</a> &bull; <a href="https://www.nrc.gov/reactors/operating/licensing/power-uprates/status-power-apps/expected-applications.html" target="_blank" style="color:#94a3b8">NRC Expected Uprate Applications</a><br>Double-click state &rarr; Dashboard<br><sup>*</sup>NEI 2025 survey covers uprates, restarts, <em>and</em> fuel-cycle extensions; this map shows uprates and restarts only.</div>';
   sb += '</div>';
   // Legend row
   sb += '<div class="usb-legend">';
@@ -264,7 +271,8 @@ function buildUprateCard() {
     ch += '<div>&#8594; NRC-approved capacity by end of 2027: <strong style="color:#0ea5e9">' + _mwe2027.toLocaleString() + ' MWe</strong> — <strong style="color:#fb923c">' + _short2027 + '% short</strong> of UPRISE&rsquo;s 2.5 GW capacity addition target</div>';
     ch += '<div>&#8594; NRC-approved capacity by end of 2029: <strong style="color:#0ea5e9">' + _mwe2029.toLocaleString() + ' MWe</strong> — <strong style="color:#f97316">' + _short2029 + '% short</strong> of UPRISE&rsquo;s 5 GW capacity addition target</div>';
     ch += '</div>';
-    ch += '<div style="font-size:8px;color:#94a3b8;margin-top:8px;line-height:1.5;border-top:1px solid #f1f5f9;padding-top:6px">Timeline shifts submission dates by NEIMA review period (MUR 6mo / SPU 9mo / EPU 12mo). Source: NRC Expected Applications for Power Uprates' + (_retrieved ? ' (retrieved ' + _retrieved + ')' : '') + '.</div>';
+    var _nrcUrl = (NRC_PIPELINE && NRC_PIPELINE._meta && NRC_PIPELINE._meta.url) || 'https://www.nrc.gov/reactors/operating/licensing/power-uprates/status-power-apps/expected-applications.html';
+    ch += '<div style="font-size:8px;color:#94a3b8;margin-top:8px;line-height:1.5;border-top:1px solid #f1f5f9;padding-top:6px">Timeline shifts submission dates by NEIMA review period (MUR 6mo / SPU 9mo / EPU 12mo). Source: <a href="' + _nrcUrl + '" target="_blank" style="color:#94a3b8">NRC Expected Applications for Power Uprates</a>' + (_retrieved ? ' (retrieved ' + _retrieved + ')' : '') + '.</div>';
     // Click hint
     ch += '<div style="color:#94a3b8;font-size:10px;text-align:center;padding:16px 12px 4px;line-height:1.8">&#8679; Click any dashed ring on the map for plant-level details</div>';
     _uc.innerHTML = ch;

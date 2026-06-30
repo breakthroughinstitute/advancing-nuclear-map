@@ -13,9 +13,8 @@
 </style>
 </head><body>
 <div id="loadingOverlay"><div><div class="loading-spinner"></div><div class="loading-text">Loading data…</div></div></div>
-<div class="header"><div style="display:flex;align-items:center"><div><h1>Advancing Nuclear Energy</h1><div class="subtitle">The Breakthrough Institute</div></div>
-<div class="main-tabs"><button class="main-tab active" data-tab="map">Map</button><button class="main-tab" data-tab="dashboard">Dashboard</button><button class="main-tab" data-tab="uprate">Uprate</button></div></div>
-<div style="display:flex;align-items:center;gap:8px"><div class="scenario-tabs" id="scenarioTabs">
+<div class="header"><div style="display:flex;flex-direction:row;align-items:center;gap:0"><div style="display:flex;align-items:center;padding-right:18px;border-right:1px solid rgba(255,255,255,0.25)"><img src="bti-logo-stacked.svg" alt="Breakthrough Institute" style="height:46px;width:auto;display:block;filter:brightness(0) invert(1)"></div><div style="padding-left:18px"><div style="font-size:14px;font-weight:700;color:#fff;line-height:1.2">Mapping America's Nuclear Potential</div><div style="font-size:11px;color:rgba(255,255,255,0.6);margin-top:2px">Evaluating Deployment, Investment, and Impact in America's Clean Energy Future</div></div></div>
+<div style="display:flex;align-items:center;gap:8px"><div class="main-tabs"><button class="main-tab active" data-tab="map">Map</button><button class="main-tab" data-tab="dashboard">Dashboard</button><button class="main-tab" data-tab="uprate">Uprate</button></div><div class="scenario-tabs" id="scenarioTabs">
 <button class="scenario-tab active" data-scen="LowCost LowLR">Low Cost / Low LR</button><button class="scenario-tab" data-scen="LowCost HighLR">Low Cost / High LR</button>
 <button class="scenario-tab" data-scen="HighCost LowLR">High Cost / Low LR</button><button class="scenario-tab" data-scen="HighCost HighLR">High Cost / High LR</button></div>
 <button class="about-btn" onclick="document.getElementById('aboutOverlay').classList.add('active')">About</button></div></div>
@@ -31,6 +30,7 @@
     <div class="about-sub">Evaluating Deployment, Investment, and Impact in America's Clean Energy Future</div>
 
     <p>This interactive tool from <strong>The Breakthrough Institute</strong> brings together two distinct analyses of nuclear energy in the United States. The <strong>Map</strong> and <strong>Dashboard</strong> tabs visualize results from a 2022 modeling study of advanced nuclear deployment through 2050. The <strong>Uprate</strong> tab is a separate, independently-sourced analysis of the existing US nuclear fleet's near-term uprate and restart potential, built from current NRC and industry data.</p>
+    <p style="font-size:11px;color:#64748b;margin-top:-6px"><strong>Geographic scope:</strong> This tool covers the contiguous 48 states only. Alaska and Hawaii are not shown — neither state has operating or historical nuclear power plants, and both were outside the scope of the underlying modeling study.</p>
 
     <h2 style="font-size:16px;border-top:2px solid #814DB1;padding-top:14px;color:#814DB1">Part 1 &mdash; Modeling Scenarios (Map &amp; Dashboard)</h2>
 
@@ -49,30 +49,39 @@
     </ul>
     <p>Across all four scenarios, the model independently chooses to deploy large amounts of advanced nuclear, indicating these technologies provide high value to the electricity system even under conservative assumptions.</p>
 
-    <h3>Advanced Nuclear Technologies</h3>
+    <h3>Technologies on the Map</h3>
 
-    <div class="tech-card" style="border-color:#0D4459">
-      <h4 style="color:#0D4459">SMR &mdash; Small Modular Reactor</h4>
-      <p>Next-generation light-water fission reactors with a template capacity of ~150 MWe per unit. SMRs are designed for factory manufacturing and modular deployment, reducing construction time and enabling flexible siting. Their smaller size facilitates passive safety cooling and standardized production in a "hub and spoke" model.</p>
-    </div>
-
-    <div class="tech-card" style="border-color:#56A9D5">
-      <h4 style="color:#56A9D5">HTGR &mdash; High Temperature Gas-Cooled Reactor</h4>
-      <p>Advanced reactors that use gas (typically helium) as a coolant and can produce very high outlet temperatures (~80 MWe per unit). HTGRs can supply high-quality industrial heat for applications like hydrogen production, petrochemical manufacturing, and desalination, making them uniquely versatile beyond electricity generation.</p>
+    <p style="font-size:12px;color:#64748b;font-weight:600;text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px">Nuclear</p>
+    <div class="tech-card" style="border-color:#814DB1">
+      <h4 style="color:#814DB1">Conventional Nuclear</h4>
+      <p>Large light-water reactors comprising the existing U.S. fleet, built primarily in the 1970s&ndash;90s. In the model, these plants operate until license expiry and are not replaced in kind &mdash; new capacity is supplied by advanced nuclear technologies. Includes recent Gen III+ builds such as Vogtle Units 3 &amp; 4.</p>
     </div>
 
     <div class="tech-card" style="border-color:#0DC3A8">
-      <h4 style="color:#0DC3A8">ARTES &mdash; Advanced Reactor with Thermal Energy Storage</h4>
-      <p>Reactors with characteristics similar to liquid-metal or molten-salt fast reactors, coupled with integrated thermal energy storage (~345 MWe base capacity, can ramp to 500 MWe for ~5.6 hours). ARTES can store energy as heat and dispatch it later, enabling effective load-following to balance variable wind and solar generation while maintaining very high reactor capacity factors.</p>
+      <h4 style="color:#0DC3A8">Advanced Nuclear</h4>
+      <p>Next-generation reactor designs modeled as new deployments starting in the early 2030s. The study models three technology categories. <em style="color:#64748b">Unit capacities below are modeling assumptions used in the WIS:dom-P study — they reflect one representative design point, not a fixed specification for the technology class.</em></p>
+      <div style="margin-top:10px;display:flex;flex-direction:column;gap:8px">
+        <div style="border-left:3px solid #0DC3A8;padding-left:10px">
+          <strong style="color:#0DC3A8;font-size:13px">SMR &mdash; Small Modular Reactor</strong>
+          <p style="margin-top:3px;font-size:12px">Next-generation light-water fission reactors, modeled at 150 MWe per unit. Factory-built and modularly deployed, with passive safety cooling and a "hub and spoke" siting model.</p>
+        </div>
+        <div style="border-left:3px solid #0DC3A8;padding-left:10px">
+          <strong style="color:#0DC3A8;font-size:13px">HTGR &mdash; High Temperature Gas-Cooled Reactor</strong>
+          <p style="margin-top:3px;font-size:12px">Gas-cooled reactors modeled at 80 MWe per unit, capable of very high outlet temperatures enabling industrial heat applications such as hydrogen production, petrochemicals, and desalination. Real-world HTGR designs vary widely in size.</p>
+        </div>
+        <div style="border-left:3px solid #0DC3A8;padding-left:10px">
+          <strong style="color:#0DC3A8;font-size:13px">ARTES &mdash; Advanced Reactor with Thermal Energy Storage</strong>
+          <p style="margin-top:3px;font-size:12px">Fast or molten-salt-type reactors with integrated thermal storage, modeled at a base capacity of 345 MWe per unit (ramping to 500 MWe for ~5.6 hours), enabling load-following to complement variable wind and solar.</p>
+        </div>
+      </div>
     </div>
 
-    <h3>Other Technologies on the Map</h3>
+    <p style="font-size:12px;color:#64748b;font-weight:600;text-transform:uppercase;letter-spacing:.06em;margin:14px 0 6px">Other Technologies</p>
     <div class="glossary-grid">
       <div class="g-item"><span class="g-label" style="color:#252A2B">Coal</span> Coal-fired power plants</div>
       <div class="g-item"><span class="g-label" style="color:#6D7374">NGCC</span> Natural gas combined cycle</div>
       <div class="g-item"><span class="g-label" style="color:#C0C6C8">NGCT</span> Natural gas combustion turbine</div>
-      <div class="g-item"><span class="g-label" style="color:#D62728">CCS</span> Carbon capture and storage</div>
-      <div class="g-item"><span class="g-label" style="color:#814DB1">Nuclear</span> Conventional nuclear reactors</div>
+      <div class="g-item"><span class="g-label" style="color:#D62728">CCS</span> Natural gas w/ carbon capture</div>
       <div class="g-item"><span class="g-label" style="color:#003FFD">Hydro</span> Hydroelectric power</div>
       <div class="g-item"><span class="g-label" style="color:#2CA02C">Wind</span> Onshore wind turbines</div>
       <div class="g-item"><span class="g-label" style="color:#98DF8A">Offshore</span> Offshore wind turbines</div>
@@ -117,6 +126,22 @@
 
     <p>The Uprate tab is based on current industry and regulatory data.</p>
 
+    <h3>History of Nuclear Power Uprates</h3>
+    <p>Power uprates &mdash; NRC-approved increases to a reactor&rsquo;s licensed thermal output &mdash; have added approximately <strong>7,540 MWe</strong> to the U.S. nuclear fleet since the 1970s, equivalent to roughly seven large reactors built at a fraction of the cost and time. The NRC recognizes three categories:</p>
+    <ul>
+      <li><strong>Measurement Uncertainty Recapture (MUR)</strong> &mdash; typically &lt;2%; uses improved flow instrumentation to recover conservatism already built into the license. ~6-month NRC review.</li>
+      <li><strong>Stretch Power Uprate (SPU)</strong> &mdash; 2&ndash;7%; operates within existing safety margins without major hardware changes. ~9-month review.</li>
+      <li><strong>Extended Power Uprate (EPU)</strong> &mdash; up to ~20%; requires feedwater, turbine, and/or safety system modifications. ~12-month review.</li>
+    </ul>
+    <ul style="list-style:none;padding-left:0;border-left:3px solid #e2e8f0;margin-left:4px">
+      <li style="padding:4px 0 4px 12px"><strong>1977&ndash;1990s</strong> &mdash; Early uprates were primarily instrumentation improvements (proto-MUR); total additions modest.</li>
+      <li style="padding:4px 0 4px 12px"><strong>1998&ndash;2012</strong> &mdash; Major EPU wave: the NRC approved uprates at more than 50 reactors, adding roughly 6,000 MWe. GE BWRs &mdash; which have up to 20% headroom &mdash; led adoption; Westinghouse PWRs followed with tighter margins (~9%). All historical NRC approvals are documented in the <a href="https://www.nrc.gov/reactors/operating/licensing/power-uprates/status-power-apps/approved-applications" target="_blank" style="color:#0d9488">NRC approved uprate applications database</a>.</li>
+      <li style="padding:4px 0 4px 12px"><strong>2012&ndash;2021</strong> &mdash; Slowdown. Low natural gas prices compressed wholesale electricity prices, reducing the return on capital-intensive uprate investments. Few new EPU applications were filed.</li>
+      <li style="padding:4px 0 4px 12px"><strong>2022</strong> &mdash; The Inflation Reduction Act established a nuclear production tax credit (~$15/MWh), restoring the economics of existing-fleet investments including uprates.</li>
+      <li style="padding:4px 0 4px 12px"><strong>2023&ndash;2024</strong> &mdash; DOE launches the <a href="https://www.energy.gov/ne/utility-power-reactor-incremental-scaling-effort-uprise" target="_blank" style="color:#0d9488">UPRISE initiative</a> (Uprate and Restart Initiative Supporting the Existing fleet), funding feasibility studies at nine sites. Target: 2,500 MWe by 2027 and 5,000 MWe by 2029.</li>
+      <li style="padding:4px 0 4px 12px"><strong>2025&ndash;2032</strong> &mdash; The <a href="https://www.nrc.gov/reactors/operating/licensing/power-uprates/status-power-apps/expected-applications.html" target="_blank" style="color:#0d9488">NRC&rsquo;s published pipeline</a> includes 32 applications through 2032, totaling ~2,422 MWe of expected approvals. The broader industry target extends to ~8,000 MWe per a 2025 NEI survey (which includes restarts and fuel-cycle extensions in addition to thermal uprates).</li>
+    </ul>
+
     <h3>What the Uprate Tab Shows</h3>
     <p>A static 2025 snapshot of all operating US nuclear plant sites, showing three types of potential capacity additions:</p>
     <ul>
@@ -128,18 +153,18 @@
 
     <h3>Data Sources (Uprate Tab)</h3>
     <ul>
-      <li><strong>Uprate headroom:</strong> FAI State Permitting Playbook (Nov 2025), cross-verified with NRC approved uprate applications and INL/EXT-24-78810 (June 2024).</li>
-      <li><strong>NRC pipeline:</strong> NRC Expected Applications for Power Uprates (retrieved May 2026).</li>
-      <li><strong>Restart plants:</strong> NRC reactor status records and publicly announced restart timelines.</li>
+      <li><strong>Uprate headroom:</strong> FAI State Permitting Playbook (Nov 2025), cross-verified with <a href="https://www.nrc.gov/reactors/operating/licensing/power-uprates/status-power-apps/approved-applications" target="_blank" style="color:#0d9488">NRC approved uprate applications</a> and <a href="https://www.osti.gov/biblio/2405118" target="_blank" style="color:#0d9488">INL/RPT-24-78810</a> (June 2024).</li>
+      <li><strong>NRC pipeline:</strong> <a href="https://www.nrc.gov/reactors/operating/licensing/power-uprates/status-power-apps/expected-applications.html" target="_blank" style="color:#0d9488">NRC Expected Applications for Power Uprates</a> (retrieved May 2026).</li>
+      <li><strong>Restart plants:</strong> <a href="https://www.nrc.gov/info-finder/reactors/" target="_blank" style="color:#0d9488">NRC reactor status records</a> and publicly announced restart timelines.</li>
     </ul>
-    <p>Uprate potential is expressed in MWe (electrical) estimated as MWt &divide; 3, assuming ~33% thermal efficiency per DOE/INL methodology. The DOE UPRISE initiative aims to achieve 2,500 MWe of additional nuclear capacity by 2027 and 5,000 MWe of total additional nuclear capacity by 2029.</p>
+    <p>Uprate potential is expressed in MWe (electrical) estimated as MWt &divide; 3, assuming ~33% thermal efficiency per DOE/INL methodology. The <a href="https://www.energy.gov/ne/utility-power-reactor-incremental-scaling-effort-uprise" target="_blank" style="color:#0d9488">DOE UPRISE initiative</a> aims to achieve 2,500 MWe of additional nuclear capacity by 2027 and 5,000 MWe of total additional nuclear capacity by 2029.</p>
 
     <p style="font-size:11px;color:#94a3b8;margin-top:20px;padding-top:12px;border-top:1px solid #e2e8f0">
       <strong>Citation:</strong> Stein, A., Messinger, J., Wang, S., Lloyd, J., McBride, J., Franovich, R. (2022). <em>Advancing Nuclear Energy: Evaluating Deployment, Investment, and Impact in America's Clean Energy Future.</em> The Breakthrough Institute.
       <br>Modeling by Vibrant Clean Energy (VCE) using WIS:dom-P&reg;.
       <br>Regulatory climate data: National Conference of State Legislatures (NCSL).
       <br>Electricity market structure: Electric Choice.
-      <br>Nuclear uprate data: FAI State Permitting Playbook (Nov 2025); INL/EXT-24-78810 (June 2024); NRC approved uprate applications; NRC Expected Applications for Power Uprates (May 2026).
+      <br>Nuclear uprate data: FAI State Permitting Playbook (Nov 2025); <a href="https://www.osti.gov/biblio/2405118" target="_blank" style="color:#94a3b8">INL/RPT-24-78810</a> (June 2024); <a href="https://www.nrc.gov/reactors/operating/licensing/power-uprates/status-power-apps/approved-applications" target="_blank" style="color:#94a3b8">NRC approved uprate applications</a>; <a href="https://www.nrc.gov/reactors/operating/licensing/power-uprates/status-power-apps/expected-applications.html" target="_blank" style="color:#94a3b8">NRC Expected Applications for Power Uprates</a> (May 2026); <a href="https://www.energy.gov/ne/utility-power-reactor-incremental-scaling-effort-uprise" target="_blank" style="color:#94a3b8">DOE UPRISE initiative</a>.
       <br><br><strong>Nuclear Share of Total Energy chart &mdash; capacity factor assumptions:</strong> The WIS:dom-P model reports installed capacity (MW) rather than annual generation (GWh). Energy shares are estimated as capacity &times; capacity factor &times; 8,760 hr/yr. Assumed capacity factors: Nuclear / SMR / ARTES / HTGR 90%; Natural Gas CC 50%; CCS 50%; Coal 40%; Hydro 40%; Geo/Bio 80%; Offshore Wind 45%; Onshore Wind 35%; Utility-Scale Solar 22%; Rooftop Solar 15%; Storage 0% (storage is excluded as it does not represent net generation).
     </p>
   </div>

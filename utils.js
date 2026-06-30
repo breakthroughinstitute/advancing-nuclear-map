@@ -43,9 +43,10 @@ function findUR(lat, lon) {
 
 function getCapPct(d) {
   if (!d) return null;
-  if (d.includes("AP1000")) return 0.0;
+  if (d.includes("AP1000")) return 0.09;
   if (d.includes("System 80")) return 0.05;
-  if (/B&W/.test(d)) return 0.016;
+  if (/B&W RLP/.test(d)) return 0.02;  // Davis-Besse: 2% per Larsen 2023 Table 2
+  if (/B&W/.test(d)) return 0.016;     // Oconee (LLP): 1.6%
   if (/GE|BWR/.test(d)) return 0.20;
   if (/W 4-Loop/.test(d)) return 0.09;
   if (/W 3-Loop/.test(d)) return 0.20;

@@ -1,5 +1,6 @@
 const STK = ["Coal", "NG CC", "NG GT", "CCS", "Nuclear", "Advanced Nuclear", "Wind", "Offshore", "Hydro", "UPV", "DPV", "Geo/Bio", "UtilStorage"];
 const SKC = ["#252A2B", "#6D7374", "#C0C6C8", "#D62728", "#814DB1", "#0DC3A8", "#2CA02C", "#98DF8A", "#003FFD", "#FFDE20", "#FF7F0E", "#8C564B", "#E82269"];
+const CF = {Coal:0.45,"NG CC":0.50,"NG GT":0.15,CCS:0.85,Nuclear:0.90,"Advanced Nuclear":0.90,Wind:0.35,Offshore:0.40,Hydro:0.45,UPV:0.25,DPV:0.20,"Geo/Bio":0.80,UtilStorage:0};
 
 function initDash() {
   const sel = document.getElementById("stateSelect");
@@ -62,6 +63,28 @@ function initDash() {
       }
     }
   });
+
+  const _emCanvas = document.getElementById("chartEnergyMix");
+  window.chEM = _emCanvas ? new Chart(_emCanvas, {
+    type: "bar",
+    data: {labels: [], datasets: []},
+    options: {
+      ...lo,
+      plugins: {
+        legend: {
+          display: true, position: "bottom",
+          labels: {boxWidth: 8, font: {size: 9}, padding: 4}
+        }
+      },
+      scales: {
+        x: {stacked: true, grid: {display: false}},
+        y: {
+          stacked: true, grid: {color: "#f1f5f9"},
+          title: {display: true, text: "TWh", font: {size: 10}}
+        }
+      }
+    }
+  }) : null;
 
   ch3 = new Chart(document.getElementById("chartEmissions"), {
     type: "line",
@@ -576,6 +599,26 @@ function uDash() {
     })).filter(d => d.data.some(v => v > 0))
   };
   ch1.update();
+  if (window.chEM) {
+    window.chEM.data = {
+      labels: YEARS,
+      datasets: STK.filter(t => t !== "UtilStorage").map((t, i) => ({
+        label: t,
+        backgroundColor: SKC[STK.indexOf(t)],
+        data: YEARS.map(y => {
+          const c = nd.cap[y] || {};
+          const mw = t === "Advanced Nuclear" ? (c.SMR||0)+(c.ARTES||0)+(c.HTGR||0) : c[t]||0;
+          return Math.round(mw * (CF[t]||0) * 8.76 / 1000);
+        })
+      })).filter(ds => ds.data.some(v => v > 0))
+    };
+    window.chEM.update();
+  }
+  (function() {
+    var _em = document.getElementById("energyMixScenLabel");
+    var _sf2 = {"LowCost LowLR":"Low Cost / Low LR","LowCost HighLR":"Low Cost / High LR","HighCost LowLR":"High Cost / Low LR","HighCost HighLR":"High Cost / High LR"};
+    if (_em) _em.textContent = _sf2[cS] || cS;
+  })();
   (function() {
     var _sf = {
       "LowCost LowLR": "Low Cost / Low LR",
@@ -603,8 +646,8 @@ function uDash() {
   ch3.update();
   // Dispatch profile
   const dp = DISP[cS] || [];
-  const dTechs = ["UPV", "DPV", "Wind", "Offshore", "ARTES", "SMR", "HTGR", "Nuclear", "CCS", "Hydro", "Geo/Bio", "Storage", "NG CC", "NG GT", "Coal"];
-  const dColors = ["#FFDE20", "#FF7F0E", "#2CA02C", "#98DF8A", "#0DC3A8", "#0D4459", "#56A9D5", "#814DB1", "#D62728", "#003FFD", "#8C564B", "#E82269", "#6D7374", "#C0C6C8", "#252A2B"];
+  const dTechs = ["UPV", "DPV", "Wind", "Offshore", "Advanced Nuclear", "Nuclear", "CCS", "Hydro", "Geo/Bio", "Storage", "NG CC", "NG GT", "Coal"];
+  const dColors = ["#FFDE20", "#FF7F0E", "#2CA02C", "#98DF8A", "#0DC3A8", "#814DB1", "#D62728", "#003FFD", "#8C564B", "#E82269", "#6D7374", "#C0C6C8", "#252A2B"];
   const dLabels = dp.map((_, i) => {
     const d = Math.floor(i / 24) + 1;
     const h = i % 24;
@@ -617,7 +660,7 @@ function uDash() {
       backgroundColor: dColors[i] + "cc",
       borderColor: dColors[i],
       fill: i === 0 ? "origin" : "-1",
-      data: dp.map(h => h[t] || 0)
+      data: dp.map(h => t === "Advanced Nuclear" ? (h["SMR"] || 0) + (h["ARTES"] || 0) + (h["HTGR"] || 0) : (h[t] || 0))
     }))
   };
   ch6.update();
