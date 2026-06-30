@@ -442,16 +442,22 @@ function uM() {
   cL.clearLayers();
   const sd = DATA.g[cS];
   if (!sd) return;
-  // Build set of C2N-converted coordinates to exclude from main dot layer
+  // Build list of converted C2N coords to suppress nearby advanced nuclear dots
   const yi = parseInt(cY);
-  const c2nKeys = new Set((DATA.c[cS] || [])
+  const c2nCoords = (DATA.c[cS] || [])
     .filter(c => parseFloat(c[9]) <= yi)
-    .map(c => c[0].toFixed(3) + ',' + c[1].toFixed(3)));
+    .map(c => [parseFloat(c[0]), parseFloat(c[1])]);
+  function nearC2N(lat, lon) {
+    for (let i = 0; i < c2nCoords.length; i++) {
+      if (Math.abs(lat - c2nCoords[i][0]) < 0.05 && Math.abs(lon - c2nCoords[i][1]) < 0.05) return true;
+    }
+    return false;
+  }
   (sd[cY] || []).forEach(p => {
     const [lat, lon, total, dom, techs] = p;
     if (!aT.has(dom)) return;
-    // Skip C2N sites — they render as diamond markers only
-    if (c2nKeys.has(lat.toFixed(3) + ',' + lon.toFixed(3))) return;
+    // Suppress advanced nuclear dots that are co-located with a C2N diamond
+    if ((dom === 'SMR' || dom === 'ARTES' || dom === 'HTGR') && nearC2N(lat, lon)) return;
     const ci = L.circleMarker([lat, lon], {
       radius: gR(total),
       fillColor: COLORS[dom],
