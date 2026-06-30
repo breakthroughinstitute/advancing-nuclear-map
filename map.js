@@ -270,7 +270,7 @@ function bTg() {
     uM();
   }, true);
   // Conversion Site — on by default
-  mkBtn(c, "C2N Site", "#0DC3A8", function() {
+  mkBtn(c, "C2N Site", "#0DC3A8", function() {  // starts inactive (showConvert=false)
     showConvert = !showConvert;
     if (showConvert) {
       this.classList.add("active");
@@ -282,7 +282,7 @@ function bTg() {
       this.style.color = "#0DC3A8"
     }
     uM();
-  }, true);
+  }, false);
   // Helper: build a sub-dropdown for a group button
   function mkSubDrop(anchorBtn, items) {
     const wrap = document.createElement("div");

@@ -20,7 +20,7 @@
 <button class="about-btn" onclick="document.getElementById('aboutOverlay').classList.add('active')">About</button></div></div>
 <div class="controls" id="mainControls"><button class="play-btn" id="playBtn" title="Animate">&#9654;</button>
 <div class="year-slider-container"><label style="font-size:13px;font-weight:600;color:#475569">Year</label>
-<input type="range" class="year-slider" id="yearSlider" min="0" max="6" step="1" value="0"><div class="year-display" id="yearDisplay">2020</div></div>
+<input type="range" class="year-slider" id="yearSlider" min="0" max="6" step="1" value="6"><div class="year-display" id="yearDisplay">2050</div></div>
 <div id="mapControls" style="display:flex;align-items:center;gap:8px"><label style="font-size:13px;font-weight:600;color:#475569">Layers</label>
 <div class="layer-toggles" id="layerToggles"></div><label class="conv-toggle" style="margin-left:6px"><input type="checkbox" id="showRegulatory" onchange="toggleRegLayer()"> Policy</label><label class="conv-toggle" style="margin-left:6px"><input type="checkbox" id="showMarket" onchange="toggleMarketLayer()"> Market Type</label></div></div>
 <div class="about-overlay" id="aboutOverlay" onclick="if(event.target===this)this.classList.remove('active')">

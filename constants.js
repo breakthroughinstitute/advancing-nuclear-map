@@ -117,14 +117,14 @@ const N2A = {
 
 const BAN_STATES = ["CA", "CT", "HI", "MA", "ME", "MN", "NJ", "OR", "RI", "VT"];
 
-let map, gL, uL, cL, sL, cY = "2020",
+let map, gL, uL, cL, sL, cY = "2050",
   cS = "LowCost LowLR",
   cT = "map",
   cSt = "California",
   aT = new Set(["Nuclear", "SMR", "ARTES", "HTGR"]),
   aI = null,
   showUprate = true,
-  showConvert = true;
+  showConvert = false;
 let ch1, ch2, ch3, ch4, ch5, ch6, ch7, ch8, chNucCap, chJobs, chNucShare, chNucEnergy, sC = "reactors",
   sA = false;
 
