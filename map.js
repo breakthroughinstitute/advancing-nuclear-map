@@ -238,51 +238,6 @@ function mkBtn(c, lbl, col, onClick, on) {
 
 function bTg() {
   const c = document.getElementById("layerToggles");
-  // Conventional Nuclear — on by default
-  mkBtn(c, "Conventional", "#814DB1", function() {
-    const aa = aT.has("Nuclear");
-    aa ? aT.delete("Nuclear") : aT.add("Nuclear");
-    if (!aa) {
-      this.classList.add("active");
-      this.style.backgroundColor = "#814DB1";
-      this.style.color = "#fff";
-    } else {
-      this.classList.remove("active");
-      this.style.backgroundColor = "#fff";
-      this.style.color = "#814DB1";
-    }
-    uM();
-  }, true);
-  // Advanced Nuclear — on by default
-  mkBtn(c, "Advanced Nuclear", "#0DC3A8", function() {
-    const ts = ["SMR", "ARTES", "HTGR"],
-      aa = ts.every(t => aT.has(t));
-    ts.forEach(t => aa ? aT.delete(t) : aT.add(t));
-    if (!aa) {
-      this.classList.add("active");
-      this.style.backgroundColor = "#0DC3A8";
-      this.style.color = "#fff";
-    } else {
-      this.classList.remove("active");
-      this.style.backgroundColor = "#fff";
-      this.style.color = "#0DC3A8";
-    }
-    uM();
-  }, true);
-  // Conversion Site — on by default
-  mkBtn(c, "C2N Site", "#0DC3A8", function() {  // starts inactive (showConvert=false)
-    showConvert = !showConvert;
-    if (showConvert) {
-      this.classList.add("active");
-      this.style.backgroundColor = "#0DC3A8";
-      this.style.color = "#fff"
-    } else {
-      this.classList.remove("active");
-      this.style.backgroundColor = "#fff";
-      this.style.color = "#0DC3A8"
-    }
-    uM();
-  }, false);
   // Helper: build a sub-dropdown for a group button
   function mkSubDrop(anchorBtn, items) {
     const wrap = document.createElement("div");
@@ -317,6 +272,75 @@ function bTg() {
     anchorBtn._panel = panel;
     return wrap;
   }
+  // Nuclear dropdown
+  const nBtnEl = document.createElement("button");
+  nBtnEl.className = "layer-btn active";
+  nBtnEl.textContent = "Nuclear";
+  nBtnEl.style.cssText = "border-color:#814DB1;background:#814DB1;color:#fff";
+  const nPanel = document.createElement("div");
+  nPanel.style.cssText = "display:none;position:absolute;top:100%;left:0;margin-top:3px;background:#fff;border:1.5px solid #e2e8f0;border-radius:8px;padding:6px 4px;z-index:2000;min-width:145px;box-shadow:0 4px 12px rgba(0,0,0,.12)";
+
+  // Helper to build a nuclear sub-row
+  function mkNRow(label, color, diamond, checked, onChange) {
+    const row = document.createElement("label");
+    row.style.cssText = "display:flex;align-items:center;gap:7px;padding:4px 8px;cursor:pointer;border-radius:5px;font-size:11px;font-weight:600;color:#334155;white-space:nowrap";
+    row.onmouseenter = () => row.style.background = "#f1f5f9";
+    row.onmouseleave = () => row.style.background = "";
+    const cb = document.createElement("input");
+    cb.type = "checkbox"; cb.checked = checked;
+    cb.style.cssText = "accent-color:" + color + ";width:13px;height:13px;cursor:pointer";
+    cb.addEventListener("change", onChange);
+    const icon = document.createElement("span");
+    if (diamond) {
+      icon.style.cssText = "width:9px;height:9px;transform:rotate(45deg);background:" + color + ";flex-shrink:0;border:1px solid #64748b";
+    } else {
+      icon.style.cssText = "width:9px;height:9px;border-radius:50%;background:" + color + ";flex-shrink:0;border:1px solid #64748b";
+    }
+    row.appendChild(cb); row.appendChild(icon); row.appendChild(document.createTextNode(label));
+    nPanel.appendChild(row);
+    return cb;
+  }
+
+  const cbConv = mkNRow("Conventional", "#814DB1", false, true, function() {
+    this.checked ? aT.add("Nuclear") : aT.delete("Nuclear"); uM();
+  });
+  const cbAdv = mkNRow("Advanced Nuclear", "#0DC3A8", false, true, function() {
+    ["SMR","ARTES","HTGR"].forEach(t => this.checked ? aT.add(t) : aT.delete(t)); uM();
+  });
+  const cbC2N = mkNRow("C2N Site", "#0DC3A8", true, false, function() {
+    showConvert = this.checked; uM();
+  });
+
+  nBtnEl.addEventListener("click", function(e) {
+    e.stopPropagation();
+    const open = nPanel.style.display === "block";
+    const allOn = cbConv.checked && cbAdv.checked && cbC2N.checked;
+    if (allOn) {
+      // Turn all off
+      cbConv.checked = false; aT.delete("Nuclear");
+      cbAdv.checked = false; ["SMR","ARTES","HTGR"].forEach(t => aT.delete(t));
+      cbC2N.checked = false; showConvert = false;
+      nPanel.style.display = "none";
+      this.classList.remove("active");
+      this.style.backgroundColor = "#fff"; this.style.color = "#814DB1";
+    } else {
+      // Turn all on
+      cbConv.checked = true; aT.add("Nuclear");
+      cbAdv.checked = true; ["SMR","ARTES","HTGR"].forEach(t => aT.add(t));
+      cbC2N.checked = true; showConvert = true;
+      nPanel.style.display = open ? "none" : "block";
+      this.classList.add("active");
+      this.style.backgroundColor = "#814DB1"; this.style.color = "#fff";
+    }
+    uM();
+  });
+
+  const nWrap = document.createElement("div");
+  nWrap.style.cssText = "position:relative;display:inline-block";
+  nWrap.appendChild(nBtnEl); nWrap.appendChild(nPanel);
+  document.addEventListener("click", function(e) { if (!nWrap.contains(e.target)) nPanel.style.display = "none"; });
+  c.appendChild(nWrap);
+
   // Fossil
   const fItems = [{
     l: "Coal",
