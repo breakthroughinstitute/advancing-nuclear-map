@@ -238,20 +238,34 @@ function mkBtn(c, lbl, col, onClick, on) {
 
 function bTg() {
   const c = document.getElementById("layerToggles");
-  // Nuclear — on by default
-  mkBtn(c, "Nuclear", "#814DB1", function() {
-    const ts = ["Nuclear", "SMR", "ARTES", "HTGR"],
-      cl = "#814DB1",
+  // Conventional Nuclear — on by default
+  mkBtn(c, "Conventional", "#814DB1", function() {
+    const aa = aT.has("Nuclear");
+    aa ? aT.delete("Nuclear") : aT.add("Nuclear");
+    if (!aa) {
+      this.classList.add("active");
+      this.style.backgroundColor = "#814DB1";
+      this.style.color = "#fff";
+    } else {
+      this.classList.remove("active");
+      this.style.backgroundColor = "#fff";
+      this.style.color = "#814DB1";
+    }
+    uM();
+  }, true);
+  // Advanced Nuclear — on by default
+  mkBtn(c, "Advanced Nuclear", "#0DC3A8", function() {
+    const ts = ["SMR", "ARTES", "HTGR"],
       aa = ts.every(t => aT.has(t));
     ts.forEach(t => aa ? aT.delete(t) : aT.add(t));
     if (!aa) {
       this.classList.add("active");
-      this.style.backgroundColor = cl;
-      this.style.color = "#fff"
+      this.style.backgroundColor = "#0DC3A8";
+      this.style.color = "#fff";
     } else {
       this.classList.remove("active");
       this.style.backgroundColor = "#fff";
-      this.style.color = cl
+      this.style.color = "#0DC3A8";
     }
     uM();
   }, true);
