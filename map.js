@@ -537,7 +537,7 @@ function bLg() {
   h += grp('Nuclear', '#814DB1', [
     ['#814DB1', 'Conventional Nuclear'],
     ['#0DC3A8', 'Advanced Nuclear'],
-    ['#0DC3A8', 'C2N Site (Coal to Nuclear Conversion)', false, 'diamond']
+    ['#0DC3A8', 'Conversion Site (Coal to Nuclear)', false, 'diamond']
   ]);
   h += grp('Fossil', '#252A2B', [
     ['#252A2B', 'Coal'],
