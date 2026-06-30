@@ -255,7 +255,7 @@ function bTg() {
     }
     uM();
   }, true);
-  // Conversion — on by default
+  // Conversion Site — on by default
   mkBtn(c, "Conversion", "#0DC3A8", function() {
     showConvert = !showConvert;
     if (showConvert) {
@@ -526,12 +526,18 @@ function bLg() {
 
   function grp(label, col, rows) {
     return '<div class="legend-section"><div style="font-size:10px;font-weight:700;color:' + col + ';text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px">' + label + '</div>' +
-      '<div class="legend-grid">' + rows.map(([c, lbl, dark]) => '<div class="legend-item">' + sw(c, dark) + ' ' + lbl + '</div>').join('') + '</div></div>';
+      '<div class="legend-grid">' + rows.map(([c, lbl, dark, shape]) => {
+        const icon = shape === 'diamond'
+          ? '<span style="display:inline-block;width:10px;height:10px;transform:rotate(45deg);background:' + c + ';border:1px solid rgba(255,255,255,.8);flex-shrink:0"></span>'
+          : sw(c, dark);
+        return '<div class="legend-item">' + icon + ' ' + lbl + '</div>';
+      }).join('') + '</div></div>';
   }
   let h = '';
   h += grp('Nuclear', '#814DB1', [
     ['#814DB1', 'Conventional Nuclear'],
-    ['#0DC3A8', 'Advanced Nuclear']
+    ['#0DC3A8', 'Advanced Nuclear'],
+    ['#0DC3A8', 'C2N Site (Coal to Nuclear Conversion)', false, 'diamond']
   ]);
   h += grp('Fossil', '#252A2B', [
     ['#252A2B', 'Coal'],
@@ -571,7 +577,6 @@ function bLg() {
     h += '<div style="text-align:center"><div class="size-circle" style="width:' + s.r * 2 + 'px;height:' + s.r * 2 + 'px;margin:0 auto"></div><div class="size-label">' + s.m + '</div></div>';
   });
   h += '</div></div>';
-  h += '<div class="legend-section"><div style="font-size:11px;color:#475569;display:flex;align-items:center;gap:7px"><span style="display:inline-block;width:13px;height:13px;transform:rotate(45deg);background:#0DC3A8;border:2px solid rgba(255,255,255,.9)"></span>Conversion site (coal→nuclear)</div></div>';
   h += '<div class="legend-section" style="font-size:10px;color:#94a3b8">Double-click state → Dashboard</div>';
   h += '<div id="overlayLegend"></div>';
   p.innerHTML = h;
