@@ -377,7 +377,8 @@
     "note": "Restarting (Crane Clean Energy Center)",
     "restart": true,
     "retYear": 2020,
-    "restartYear": 2030
+    "restartYear": 2030,
+    "nrcUrl": "https://www.nrc.gov/info-finder/reactors/ccec"
   },
   "40.164,-88.825": {
     "d": "GE BWR/6",
@@ -534,7 +535,11 @@
         "add": 250.0
       }
     ],
-    "doneMWt": 111
+    "doneMWt": 111,
+    "nrcUrl": [
+      "https://www.nrc.gov/info-finder/reactors/cook1.html",
+      "https://www.nrc.gov/info-finder/reactors/cook2.html"
+    ]
   },
   "41.977,-83.260": {
     "d": "GE BWR/4",
@@ -563,7 +568,8 @@
     "note": "Restarting (Holtec / Palisades)",
     "restart": true,
     "retYear": 2025,
-    "restartYear": 2030
+    "restartYear": 2030,
+    "nrcUrl": "https://www.nrc.gov/info-finder/reactors/pali"
   },
   "42.894,-70.850": {
     "d": "W 4-Loop PWR",

@@ -65,8 +65,9 @@ function showUprateDetail(ur, pNm, stateName) {
   if (_hasAP1000) h += '<div style="font-size:10px;color:#94a3b8;margin-top:5px;line-height:1.5;border-top:1px solid #f1f5f9;padding-top:5px">Units 3 &amp; 4 are new AP-1000 reactors (commercial operation 2023&ndash;2024). Uprate potential for AP-1000s is time-dependent: est. ~2% after ~20 years of operation, ~5% after ~40 years. Source: <a href="https://web.mit.edu/kshirvan/www/research/ANP201%20TR%20CANES.pdf" target="_blank" style="color:#94a3b8">MIT CANES ANP-201 TR</a>.</div>';
   if (ur.nrcUrl) {
     var _nrcUrls = Array.isArray(ur.nrcUrl) ? ur.nrcUrl : [ur.nrcUrl];
+    var _nrcLabel = ur.restart ? 'NRC reactor page' : 'NRC uprate history';
     var _nrcLinks = _nrcUrls.map(function(u, i) {
-      return '<a href="' + u + '" target="_blank" style="color:#1e293b;font-weight:600">NRC uprate history' + (_nrcUrls.length > 1 ? ' ' + (i+1) : '') + ' &rarr;</a>';
+      return '<a href="' + u + '" target="_blank" style="color:#1e293b;font-weight:600">' + _nrcLabel + (_nrcUrls.length > 1 ? ' ' + (i+1) : '') + ' &rarr;</a>';
     }).join(' &bull; ');
     h += '<div style="font-size:10px;margin-top:6px;padding-top:6px;border-top:1px solid #f1f5f9">' + _nrcLinks + '</div>';
   }
