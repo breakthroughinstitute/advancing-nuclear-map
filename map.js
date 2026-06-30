@@ -494,7 +494,7 @@ function uM() {
     const yi = parseInt(cY);
     (DATA.c[cS] || []).forEach(c => {
       const [lat, lon, name, state, origCap, newCap, origTech, newTech, decom, conv] = c;
-      if (!aT.has(newTech) || parseFloat(conv) > yi) return;
+      if (parseFloat(conv) > yi) return;
       const col = "#0DC3A8";
       const dispNew = (["SMR", "ARTES", "HTGR"].indexOf(newTech) >= 0) ? "Advanced Nuclear" : newTech;
       const sz = Math.max(10, Math.min(22, gR(newCap) * 2));
