@@ -111,9 +111,11 @@ SCENARIO_FILE_KEY = {
 # Scenario name mapping used in AS-9.30.v1 xlsx (Costs × Learning)
 AS930_SCENARIO_MAP = {
     ("Lower", "Low"):    "LowCost LowLR",
+    ("Lower", "Lower"):  "LowCost LowLR",    # alternate spelling in some rows
     ("Lower", "High"):   "LowCost HighLR",
     ("Lower", "Higher"): "LowCost HighLR",   # "Higher" = HighLR
     ("Upper", "Low"):    "HighCost LowLR",
+    ("Upper", "Lower"):  "HighCost LowLR",   # alternate spelling in some rows
     ("Upper", "High"):   "HighCost HighLR",
     ("Upper", "Higher"): "HighCost HighLR",
 }
@@ -913,7 +915,7 @@ def build_state_investment():
         state_full = clean_val(row[col_state])
         if state_full is None:
             break  # end of data
-        state_full = str(state_full).strip()
+        state_full = normalize_state_name(str(state_full).strip())
         abbrev = STATE_ABBREV.get(state_full)
         if abbrev is None:
             continue
