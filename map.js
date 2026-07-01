@@ -2,6 +2,7 @@ function initMap() {
   map = L.map("map", {
     zoomControl: true,
     attributionControl: false,
+    doubleClickZoom: false,
     maxBounds: [
       [18, -135],
       [55, -50]
@@ -61,9 +62,10 @@ function initMap() {
       l.on("mouseout", function() {
         this.setStyle(getStateOverlayStyle(f))
       });
-      l.on("dblclick", function() {
+      l.on("dblclick", function(e) {
+        L.DomEvent.stopPropagation(e);
         var sn = f.properties.name;
-        if (sn && SC[cS] && SC[cS][sn]) {
+        if (sn) {
           cSt = sn;
           document.getElementById("stateSelect").value = sn;
           document.querySelectorAll(".main-tab").forEach(function(x) {
