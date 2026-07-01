@@ -172,6 +172,11 @@ STATE_ABBREV = {
 # Helpers
 # ─────────────────────────────────────────────────────────────────────────────
 
+# Map misspellings found in WISdom xlsx files to canonical state names
+STATE_NAME_FIXES = {
+    "Louisianna": "Louisiana",
+}
+
 def clean_val(v):
     if v is None:
         return None
@@ -182,6 +187,10 @@ def clean_val(v):
     except (TypeError, ValueError):
         pass
     return v
+
+def normalize_state_name(name):
+    """Fix known misspellings from WISdom xlsx source files."""
+    return STATE_NAME_FIXES.get(name, name)
 
 def parse_year(v):
     """Convert a cell value to a 4-digit year string, or None if not a valid year."""
@@ -234,7 +243,7 @@ def parse_sub_table(ws_rows, start_col, years=YEARS):
         state = clean_val(state)
         if state is None:
             continue
-        state = str(state).strip()
+        state = normalize_state_name(str(state).strip())
         state_data = {}
         for col_offset, year in enumerate(years, start=1):
             idx = start_col + col_offset
@@ -391,7 +400,7 @@ def build_state_capacity():
                 state = clean_val(row[0])
                 if state is None:
                     continue
-                state = str(state).strip()
+                state = normalize_state_name(str(state).strip())
                 state_cap.setdefault(state, {})[year] = {}
                 for col_idx, tech in headers.items():
                     val = clean_val(row[col_idx]) if col_idx < len(row) else None
@@ -432,7 +441,7 @@ def build_state_capacity():
                 state = clean_val(row[0])
                 if state is None:
                     continue
-                state = str(state).strip()
+                state = normalize_state_name(str(state).strip())
                 cap_by_state.setdefault(state, {})
                 for col_offset, year in enumerate(YEARS, start=1):
                     val = row[col_offset] if col_offset < len(row) else None
@@ -511,7 +520,7 @@ def build_state_scenarios():
                 state = clean_val(row[0])
                 if state is None:
                     continue
-                state = str(state).strip()
+                state = normalize_state_name(str(state).strip())
                 cap_nuke.setdefault(state, {})
                 for col_offset, year in enumerate(YEARS, start=1):
                     val = row[col_offset] if col_offset < len(row) else None
